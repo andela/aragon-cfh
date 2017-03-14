@@ -1,0 +1,21 @@
+{
+  "name": "aragon-cfh",
+  "description": "Creates configuration file for PR staging",
+  "scripts": {
+  },
+  "env": {
+    "MONGOHQ_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
