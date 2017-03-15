@@ -46,7 +46,8 @@ gulp.task('nodemon', () => {
 gulp.task('serve', ['nodemon'], () => {
   browserSync({
     proxy: 'localhost:3000',
-    port: 5000
+    port: 5000,
+    open: false,
   });
 });
 
@@ -64,6 +65,6 @@ gulp.task('bower', () => {
 
 gulp.task('test', ['mochaTest']);
 
-gulp.task('default', ['eslint', 'serve', 'watch', 'sass']);
+gulp.task('default', ['eslint', 'nodemon', 'serve', 'watch', 'sass']);
 
 gulp.task('install', ['bower']);
