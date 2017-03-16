@@ -4,5 +4,7 @@ node_js:
 before_script:
   - npm install -g gulp
 script: gulp
+env: 
+  - "MONGOHQ_URL= mongodb://faith:faith@ds131320.mlab.com:31320/aragon-cfh"
 services:
   - mongodb
