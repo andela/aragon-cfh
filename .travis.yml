@@ -1,9 +1,7 @@
 language: node_js
 node_js:
 - "stable"
-before_script:
-  - npm install -g gulp
-script: gulp
+- 6
 env: 
   - "MONGOHQ_URL= mongodb://faith:faith@ds131320.mlab.com:31320/aragon-cfh"
 services:
