@@ -428,6 +428,22 @@ body{
     width:70%
 }
 
+#popupModal {
+    .modal-dialog {
+        width:35%;
+        .modal-content {
+            .modal-body {
+                padding:10px;
+                @include gradient-bg;
+                .card.black {
+                    width:100%;
+                    height:100%;
+                    font-size:14px;
+                }
+            }
+        }
+    }
+}
 
 #main-container{
     height: 100%;

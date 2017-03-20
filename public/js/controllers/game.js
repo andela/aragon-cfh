@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog) {
+.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope) {
     $scope.hasPickedCards = false;
     $scope.winningCardPicked = false;
     $scope.showTable = false;
@@ -121,7 +121,12 @@ angular.module('mean.system')
     };
 
     $scope.startGame = function() {
-      game.startGame();
+      if (game.players.length < game.playerMinLimit) {
+        $rootScope.popupMessage = 'Sorry, you need a minimum of 3 people to play Cards for Humanity';
+        $('#popupModal').modal('show');
+      } else {
+        game.startGame();
+      }
     };
 
     $scope.abandonGame = function() {
