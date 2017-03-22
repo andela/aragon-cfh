@@ -14,13 +14,12 @@ require('dotenv').load();
  */
 // Load configurations
 // if test env, load example file
-const env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
-  config = require('./config/config'),
+const config = require('./config/config'),
   auth = require('./config/middlewares/authorization'),
   mongoose = require('mongoose');
 
 // Bootstrap db connection
-const db = mongoose.connect(process.env.MONGOHQ_URL);
+mongoose.connect(process.env.MONGOHQ_URL);
 
 // Bootstrap models
 const modelsPath = path.join(__dirname, '/app/models');
