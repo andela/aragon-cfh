@@ -1,9 +1,9 @@
-const jwt    = require('jsonwebtoken');
-const mongoose = require('mongoose');
-const expiryDate = 86400; //24hours
-const secret =  'ilovescotchyscotch';
-const User = mongoose.model('User');
-//routing process to authenticate users and generate token
+const jwt = require('jsonwebtoken'),
+  mongoose = require('mongoose'),
+  expiryDate = 86400, // 24hours
+  secret = 'ilovescotchyscotch',
+  User = mongoose.model('User');
+// routing process to authenticate users and generate token
 exports.authToken = (req, res) => {
   // find the user
   User.findOne({
@@ -14,7 +14,7 @@ exports.authToken = (req, res) => {
     }
     if (!existingUser) {
       return res.redirect('/#!/signup?error=notanexistinguser');
-    } else if (existingUser){
+    } else if (existingUser) {
       if (!existingUser.authenticate(req.body.password)) {
         return res.redirect('/#!/signup?error=notanexistinguser');
       }
@@ -23,7 +23,7 @@ exports.authToken = (req, res) => {
         if (err) {
           throw err;
         }
-        let token = jwt.sign(existingUser, secret, {
+        const token = jwt.sign(existingUser, secret, {
           expiresIn: expiryDate
         });
         // return the token as JSON
@@ -36,29 +36,27 @@ exports.authToken = (req, res) => {
 
 
 // Routing process of the middleware to verify a user token
-  exports.checkToken = (req, res, next) => {
+exports.checkToken = (req, res, next) => {
     // checking header or url parameters or post parameters for token
-    let token = req.body.token || req.query.token ||
+  const token = req.body.token || req.query.token ||
       req.headers['x-access-token'];
     // decoding the token
-    if(token){
-      // verifies secret and checks 
-      jwt.verify(token, secret, (error, decoded) => {
-        if (error) {
-          return res.status(403).json({
-            message: 'Failed to authenticate token.' });
-        } else {
-          // if the authentication process was succesful, save to request for use in other routes
-          req.decoded = decoded;
-          next();
-        }
-      });
-    }
-    else{
+  if (token) {
+      // verifies secret and checks
+    jwt.verify(token, secret, (error, decoded) => {
+      if (error) {
+        return res.status(403).json({
+          message: 'Failed to authenticate token.' });
+      }
+      // if the authentication process was succesful, save to request for use in other routes
+      req.decoded = decoded;
+      next();
+    });
+  } else {
       // if there is no token available
       // return an error
-      return res.status(403).send({
-        message: 'No token returned.'
-      });
-    }
-  };
+    return res.status(403).send({
+      message: 'No token returned.'
+    });
+  }
+};
