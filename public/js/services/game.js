@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$timeout', function (socket, $timeout) {
+  .factory('game', ['socket', '$rootScope', '$location', '$timeout', function (socket, $rootScope, $location, $timeout) {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -174,6 +174,13 @@ angular.module('mean.system')
 
     socket.on('notification', (data) => {
       addToNotificationQueue(data.notification);
+    });
+
+    socket.on('alert', (data) => {
+      $location.url('/');
+      $rootScope.popupMessage = data;
+      console.log($rootScope.popupMessage);
+      $('#popupModal').modal('show');
     });
 
     game.joinGame = function (mode, room, createPrivate) {

@@ -6,7 +6,7 @@
       <div id="loading-gif"></div>
     </div>
     <div id="start-game-container">
-      <div id = 'start-game-button'> 
+      <div id = 'start-game-button' ng-show="(game.playerIndex === 0 && game.players.length > 1)"> 
         Start Game with {{game.players.length}} players
       </div>
     </div>   
