@@ -1,9 +1,12 @@
-var path = require('path'),
-rootPath = path.normalize(__dirname + '/../..');
-var keys = rootPath + '/keys.txt';
+const path = require('path');
+
+const rootPath = path.normalize(path.join(__dirname, '/../..'));
+const keys = path.join(rootPath, '/keys.txt');
+
 
 module.exports = {
-	root: rootPath,
-	port: process.env.PORT || 3000,
-    db: process.env.MONGOHQ_URL
+  root: rootPath,
+  port: process.env.PORT || 3000,
+  db: process.env.MONGOHQ_URL,
+  secret: process.env.JWTSECRET
 };
