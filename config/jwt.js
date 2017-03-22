@@ -1,36 +1,40 @@
 const jwt    = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const expiryDate = '1440m';//24hours
+const expiryDate = 86400; //24hours
 const secret =  'ilovescotchyscotch';
 const User = mongoose.model('User');
- //routing process to authenticate users and generate token
- exports.authToken = (req, res) => {
-    // find the user
-    User.findOne({
-        email: req.body.email
-    },(error, existingUser)=>{
-    if (error) throw error;
-    if (!existingUser){
-        res.status(403).json({
-          message: 'User not found.',
-          email: req.body.email });
-      } else if (existingUser){
-
-        if(!existingUser.authenticate(req.body.password)) {
-            return res.status(403).json({
-                message: 'Invalid Password'
-            });
+//routing process to authenticate users and generate token
+exports.authToken = (req, res) => {
+  // find the user
+  User.findOne({
+    email: req.body.email
+  }, (error, existingUser) => {
+    if (error) {
+      throw error;
+    }
+    if (!existingUser) {
+      return res.redirect('/#!/signup?error=notanexistinguser');
+    } else if (existingUser){
+      if (!existingUser.authenticate(req.body.password)) {
+        return res.redirect('/#!/signup?error=notanexistinguser');
+      }
+      // Create the token
+      req.logIn(existingUser, (err) => {
+        if (err) {
+          throw err;
         }
-        // Create the token
         let token = jwt.sign(existingUser, secret, {
+          expiresIn: expiryDate
         });
         // return the token as JSON
-        res.status(200).json({
-          token: token
-        });
-      }
-    });
-  };
+        res.set('x-access-token', token);
+        return res.redirect('/#!/');
+      });
+    }
+  });
+};
+
+
 // Routing process of the middleware to verify a user token
   exports.checkToken = (req, res, next) => {
     // checking header or url parameters or post parameters for token
