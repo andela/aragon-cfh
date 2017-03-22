@@ -34,7 +34,7 @@ module.exports = (app) => {
               expiresIn: 86400
             });
             res.set('Authorization', 'JWT '.concat(token));
-            return res.redirect('/#!/');
+            return res.redirect('/');
           });
         });
       } else {
