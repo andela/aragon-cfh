@@ -5,7 +5,9 @@
       "import"
   ],
   "globals": {
-    "angular": false
+    "angular": false,
+    "$": false,
+    "_": false
   },
   "env": {
     "node": true,

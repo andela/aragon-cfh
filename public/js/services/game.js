@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$rootScope', '$location', '$timeout', function (socket, $rootScope, $location, $timeout) {
+  .factory('game', ['socket', '$rootScope', '$location', '$timeout', function gameService(socket, $rootScope, $location, $timeout) {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -24,10 +24,9 @@ angular.module('mean.system')
 
     const notificationQueue = [];
     let timeout = false;
-    const self = this;
     let joinOverrideTimeout = 0;
 
-    const setNotification = function () {
+    const setNotification = function setNotification() {
       if (notificationQueue.length === 0) { // If notificationQueue is empty, stop
         clearInterval(timeout);
         timeout = false;
@@ -39,7 +38,7 @@ angular.module('mean.system')
       }
     };
 
-    const addToNotificationQueue = function (msg) {
+    const addToNotificationQueue = function addToNotificationQueue(msg) {
       notificationQueue.push(msg);
       if (!timeout) { // Start a cycle if there isn't one
         setNotification();
@@ -47,7 +46,7 @@ angular.module('mean.system')
     };
 
     let timeSetViaUpdate = false;
-    const decrementTime = function () {
+    const decrementTime = function decrementTime() {
       if (game.time > 0 && !timeSetViaUpdate) {
         game.time -= 1;
       } else {
@@ -179,11 +178,10 @@ angular.module('mean.system')
     socket.on('alert', (data) => {
       $location.url('/');
       $rootScope.popupMessage = data;
-      console.log($rootScope.popupMessage);
       $('#popupModal').modal('show');
     });
 
-    game.joinGame = function (mode, room, createPrivate) {
+    game.joinGame = function joinGame(mode, room, createPrivate) {
       mode = mode || 'joinGame';
       room = room || '';
       createPrivate = createPrivate || false;
@@ -191,21 +189,21 @@ angular.module('mean.system')
       socket.emit(mode, { userID, room, createPrivate });
     };
 
-    game.startGame = function () {
+    game.startGame = function startGame() {
       socket.emit('startGame');
     };
 
-    game.leaveGame = function () {
+    game.leaveGame = function leaveGame() {
       game.players = [];
       game.time = 0;
       socket.emit('leaveGame');
     };
 
-    game.pickCards = function (cards) {
+    game.pickCards = function pickCards(cards) {
       socket.emit('pickCards', { cards });
     };
 
-    game.pickWinning = function (card) {
+    game.pickWinning = function pickWinning(card) {
       socket.emit('pickWinning', { card: card.id });
     };
 
