@@ -123,7 +123,7 @@ angular.module('mean.system')
     $scope.startGame = function() {
       if (game.players.length < game.playerMinLimit) {
         $rootScope.popupMessage = 'Sorry, you need a minimum of 3 people to play Cards for Humanity';
-        $('#popupModal').modal('show');
+        $('#popup-modal').modal('show');
       } else {
         game.startGame();
       }

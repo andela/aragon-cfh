@@ -103,11 +103,11 @@ body {
   margin-top: 50px;
   width: 70%; }
 
-#popupModal {
+#popup-modal {
   padding-top: 10%; }
-  #popupModal .modal-dialog {
+  #popup-modal .modal-dialog {
     width: 35%; }
-    #popupModal .modal-dialog .modal-body {
+    #popup-modal .modal-dialog .modal-body {
       /* IE10 Consumer Preview */
       background-image: -ms-linear-gradient(top left, #0B394E 0%, #ABCE8D 100%);
       /* Mozilla Firefox */
@@ -121,7 +121,7 @@ body {
       /* W3C Markup, IE10 Release Preview */
       background-image: linear-gradient(to bottom right, #0B394E 0%, #ABCE8D 100%);
       padding: 10px; }
-      #popupModal .modal-dialog .modal-body .card.black {
+      #popup-modal .modal-dialog .modal-body .card.black {
         font-size: 14px;
         height: 100%;
         width: 100%; }

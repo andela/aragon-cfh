@@ -178,7 +178,7 @@ angular.module('mean.system')
     socket.on('alert', (data) => {
       $location.url('/');
       $rootScope.popupMessage = data;
-      $('#popupModal').modal('show');
+      $('#popup-modal').modal('show');
     });
 
     game.joinGame = function joinGame(mode, room, createPrivate) {
