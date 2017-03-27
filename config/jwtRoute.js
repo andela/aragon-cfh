@@ -21,7 +21,7 @@ module.exports = (app) => {
         const user = new User(req.body);
         user.avatar = avatars[user.avatar];
         user.provider = 'jwt';
-        alert('User Created');
+        // alert('User Created');
         user.save((err) => {
           if (err) {
             return res.render('/#!/signup?error=unknown', {
