@@ -20,6 +20,7 @@ exports.user = {
     }
 };
 
+
 /**
  * Article authorizations routing middleware
  */
