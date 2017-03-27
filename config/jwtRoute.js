@@ -21,6 +21,7 @@ module.exports = (app) => {
         const user = new User(req.body);
         user.avatar = avatars[user.avatar];
         user.provider = 'jwt';
+        alert('User Created');
         user.save((err) => {
           if (err) {
             return res.render('/#!/signup?error=unknown', {
@@ -34,7 +35,7 @@ module.exports = (app) => {
               expiresIn: 86400
             });
             res.set('Authorization', 'JWT '.concat(token));
-            return res.redirect('/');
+            return res.redirect('/#!/');
           });
         });
       } else {
