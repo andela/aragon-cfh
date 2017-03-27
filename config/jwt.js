@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken'),
   mongoose = require('mongoose'),
   expiryDate = 86400, // 24hours
-  secret = 'ilovescotchyscotch',
+  secret = process.env.SECRET,
   User = mongoose.model('User');
 // routing process to authenticate users and generate token
 exports.authToken = (req, res) => {
