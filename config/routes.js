@@ -1,8 +1,12 @@
-module.exports = (app, passport) => {
-    // User Routes
-  const users = require('../app/controllers/users'),
-    jwt = require('./jwt');
+// User Routes
+const users = require('../app/controllers/users'),
+  jwt = require('./jwt'),
+  answers = require('../app/controllers/answers'),
+  questions = require('../app/controllers/questions'),
+  avatars = require('../app/controllers/avatars'),
+  index = require('../app/controllers/index');
 
+module.exports = (app, passport) => {
   app.get('/signin', users.signin);
   app.get('/signup', users.signup);
   app.get('/chooseavatars', users.checkAvatar);
@@ -68,29 +72,25 @@ module.exports = (app, passport) => {
   app.param('userId', users.user);
 
     // Answer Routes
-  const answers = require('../app/controllers/answers');
   app.get('/answers', answers.all);
   app.get('/answers/:answerId', answers.show);
     // Finish with setting up the answerId param
   app.param('answerId', answers.answer);
 
     // Question Routes
-  const questions = require('../app/controllers/questions');
   app.get('/questions', questions.all);
   app.get('/questions/:questionId', questions.show);
     // Finish with setting up the questionId param
   app.param('questionId', questions.question);
 
     // Avatar Routes
-  const avatars = require('../app/controllers/avatars');
   app.get('/avatars', avatars.allJSON);
 
     // Home route
-  const index = require('../app/controllers/index');
   app.get('/play', index.play);
   app.get('/', index.render);
 
     // JWT API endpoint
   app.post('/api/auth/login', jwt.authToken);
-  app.post('/api/auth/signup', jwt.authToken);
+  app.post('/api/auth/signup', jwt.create);
 };

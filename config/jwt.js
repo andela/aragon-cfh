@@ -2,7 +2,9 @@ const jwt = require('jsonwebtoken'),
   mongoose = require('mongoose'),
   expiryDate = 86400, // 24hours
   secret = process.env.SECRET,
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  avatars = require('../app/controllers/avatars').all();
+
 // routing process to authenticate users and generate token
 exports.authToken = (req, res) => {
   // find the user
@@ -60,3 +62,40 @@ exports.checkToken = (req, res, next) => {
     });
   }
 };
+
+exports.create = (req, res) => {
+  if (!req.body.name || !req.body.email || !req.body.password) {
+    return res.redirect('/#!/signup?error=incomplete');
+  }
+  User.findOne({
+    email: req.body.email
+  }).exec((err, existingUser) => {
+    if (err) throw err;
+    if (!existingUser) {
+      const user = new User(req.body);
+      user.avatar = avatars[user.avatar];
+      user.provider = 'jwt';
+
+      user.save((err) => {
+        if (err) {
+          return res.render('/#!/signup?error=unknown', {
+            errors: err.errors,
+            userDetails: user
+          });
+        }
+
+        req.logIn(user, (err) => {
+          if (err) return err;
+          const token = jwt.sign(user, secret, {
+            expiresIn: 86400
+          });
+          res.set('x-access-token', token);
+          return res.redirect('/#!/');
+        });
+      });
+    } else {
+      return res.redirect('/#!/signup?error=existinguser');
+    }
+  });
+};
+
