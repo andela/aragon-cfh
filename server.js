@@ -6,6 +6,7 @@ const express = require('express'),
   passport = require('passport'),
   logger = require('mean-logger'),
   io = require('socket.io'),
+  need = require,
   path = require('path');
 require('dotenv').load();
 /**
@@ -19,6 +20,7 @@ const config = require('./config/config'),
   mongoose = require('mongoose');
 
 // Bootstrap db connection
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGOHQ_URL);
 
 // Bootstrap models
@@ -29,7 +31,7 @@ const walk = (pathway) => {
     const stat = fs.statSync(newPath);
     if (stat.isFile()) {
       if (/(.*)\.(js|coffee)/.test(file)) {
-        require(newPath);
+        need(newPath);
       }
     } else if (stat.isDirectory()) {
       walk(newPath);
@@ -46,9 +48,6 @@ app.use((req, res, next) => {
 });
 // express settings
 require('./config/express')(app, passport, mongoose);
-
-// JWT route
-require('./config/jwtRoute')(app);
 
 // Bootstrap routes
 require('./config/routes')(app, passport, auth);
