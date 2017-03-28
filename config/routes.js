@@ -90,4 +90,9 @@ module.exports = function(app, passport, auth) {
     app.get('/play', index.play);
     app.get('/', index.render);
 
+    // APIs
+    const searchUsers = require('../app/controllers/search-users');
+    const inviteUsers = require('../app/controllers/send-invite.js');
+    app.get('/api/search/users', searchUsers);
+    app.post('/api/invite', inviteUsers);
 };

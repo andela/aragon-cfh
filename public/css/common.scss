@@ -428,22 +428,34 @@ body{
     width:70%
 }
 
-#popup-modal {
+.app-modal {
   padding-top: 10%;
   .modal-dialog {
-    width: 35%;
+    width: 45%;
     .modal-body {
-      @include gradient-bg;
-      padding: 10px;
-      .card.black {
+      background: #FED136;
+      border-radius: 8px;
+      padding: 2%;
+      .card {
+        background: white;
+        border-color: #333333;
+        color: #333333;
         font-size: 14px;
         height: 100%;
+        margin: 0;
         width: 100%;
       }
     }
   }
 }
 
+.padding-10 {
+    padding: 10px;
+}
+
+.btn-default {
+    background: #FED136;
+}
 
 #main-container{
     height: 100%;
