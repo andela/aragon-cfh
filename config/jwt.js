@@ -15,10 +15,12 @@ exports.authToken = (req, res) => {
       throw error;
     }
     if (!existingUser) {
-      return res.redirect('/#!/signup?error=notanexistinguser');
+      return res.json({ success: false,
+        message: '' });
     } else if (existingUser) {
       if (!existingUser.authenticate(req.body.password)) {
-        return res.redirect('/#!/signup?error=notanexistinguser');
+        return res.json({ success: false,
+          message: '' });
       }
       // Create the token
       req.logIn(existingUser, (err) => {
@@ -29,8 +31,7 @@ exports.authToken = (req, res) => {
           expiresIn: expiryDate
         });
         // return the token as JSON
-        res.set('x-access-token', token);
-        return res.redirect('/#!/');
+        return res.json({ success: true, message: 'Signed up', token });
       });
     }
   });
@@ -65,7 +66,7 @@ exports.checkToken = (req, res, next) => {
 
 exports.create = (req, res) => {
   if (!req.body.name || !req.body.email || !req.body.password) {
-    return res.redirect('/#!/signup?error=incomplete');
+    return res.json({ success: false, message: 'Incomplete user details' });
   }
   User.findOne({
     email: req.body.email
@@ -77,24 +78,19 @@ exports.create = (req, res) => {
       user.provider = 'jwt';
 
       user.save((err) => {
-        if (err) {
-          return res.render('/#!/signup?error=unknown', {
-            errors: err.errors,
-            userDetails: user
-          });
-        }
+        if (err) return res.json({ success: false, message: 'Unable to save' });
 
         req.logIn(user, (err) => {
           if (err) return err;
           const token = jwt.sign(user, secret, {
             expiresIn: 86400
           });
-          res.set('x-access-token', token);
-          return res.redirect('/#!/');
+          return res.json({ success: true, message: 'Signed up', token });
         });
       });
     } else {
-      return res.redirect('/#!/signup?error=existinguser');
+      return res.json({ success: false,
+        message: 'Existing user cannot sign up again. Please sign in' });
     }
   });
 };
