@@ -15,7 +15,8 @@ require('dotenv').load();
  */
 // Load configurations
 // if test env, load example file
-const config = require('./config/config'),
+const env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
+  config = require('./config/config'),
   auth = require('./config/middlewares/authorization'),
   mongoose = require('mongoose');
 
