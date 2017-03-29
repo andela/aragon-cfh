@@ -6,6 +6,12 @@ angular.module('mean.system')
     $scope.global = Global;
     $scope.errorMsg = '';
 
+    if ($window.localStorage.getItem('token')) {
+      $scope.global.authenticated = true;
+    } else {
+      $scope.global.authenticated = false;
+    }
+
     $scope.signup = () => {
       const newUser = {
         name: $scope.fullname,
@@ -16,7 +22,8 @@ angular.module('mean.system')
         if (!response.data.success) {
           $scope.errorMsg = response.data.message;
         } else {
-          $window.location = '/';
+          $window.localStorage.setItem('token', response.data.token);
+          $location.path('/');
         }
       }, (err) => {
         $scope.errorMsg = err.status.concat(': An error occured!!!');
@@ -24,19 +31,24 @@ angular.module('mean.system')
     };
 
     $scope.login = () => {
-      const newUser = {
+      const user = {
         email: $scope.email,
         password: $scope.password
       };
-      $http.post('api/auth/login', newUser).then((response) => {
+      $http.post('api/auth/login', user).then((response) => {
         if (!response.data.success) {
           $scope.showError = () => 'invalid';
         } else {
-          $window.location = '/';
+          $window.localStorage.setItem('token', response.data.token);
+          $location.path('/');
         }
       }, (err) => {
         $scope.errorMsg = err.status.concat(': An error occured!!!');
       });
+    };
+
+    $scope.logout = () => {
+      $window.localStorage.removeItem('token');
     };
 
     $scope.playAsGuest = () => {
