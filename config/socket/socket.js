@@ -132,10 +132,11 @@ module.exports = function(io) {
         game.sendNotification(player.username+' has joined the game!');
         if (game.players.length >= game.playerMaxLimit) {
           gamesNeedingPlayers.shift();
-          game.prepareGame();
+          game.state = 'waiting to start';
         }
       } else {
-        // TODO: Send an error message back to this user saying the game has already started
+        io.to(player.socket.id).emit('alert',
+          `Sorry, game ${game.gameID} already has ${game.playerMaxLimit} players.`);
       }
     } else {
       // Put players into the general queue
@@ -178,7 +179,7 @@ module.exports = function(io) {
       game.sendNotification(player.username+' has joined the game!');
       if (game.players.length >= game.playerMaxLimit) {
         gamesNeedingPlayers.shift();
-        game.prepareGame();
+        game.state = 'waiting to start';
       }
     }
   };
@@ -217,6 +218,9 @@ module.exports = function(io) {
       if (game.state === 'awaiting players' ||
         game.players.length-1 >= game.playerMinLimit) {
         game.removePlayer(socket.id);
+        if (game.state === 'waiting to start') {
+          game.state = 'awaiting players';
+        }
       } else {
         game.stateDissolveGame();
         for (var j = 0; j < game.players.length; j++) {

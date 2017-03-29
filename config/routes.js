@@ -90,7 +90,13 @@ module.exports = (app, passport) => {
   app.get('/play', index.play);
   app.get('/', index.render);
 
-    // JWT API endpoint
+  // JWT API endpoint
   app.post('/api/auth/login', jwt.authToken);
   app.post('/api/auth/signup', jwt.create);
+  
+  // APIs
+  const searchUsers = require('../app/controllers/search-users');
+  const inviteUsers = require('../app/controllers/send-invite.js');
+  app.get('/api/search/users', searchUsers);
+  app.post('/api/invite', inviteUsers);
 };

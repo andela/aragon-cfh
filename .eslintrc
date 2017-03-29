@@ -4,6 +4,11 @@
   "plugins": [
       "import"
   ],
+  "globals": {
+    "angular": false,
+    "$": false,
+    "_": false
+  },
   "env": {
     "node": true,
     "es6": true,
