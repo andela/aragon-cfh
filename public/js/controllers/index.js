@@ -26,7 +26,7 @@ angular.module('mean.system')
           $location.path('/');
         }
       }, (err) => {
-        $scope.errorMsg = err.status.concat(': An error occured!!!');
+        $scope.errorMsg = 'An error occured!!! '.concat(err.status);
       });
     };
 
