@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog) {
+.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
     $scope.hasPickedCards = false;
     $scope.winningCardPicked = false;
     $scope.showTable = false;
@@ -121,12 +121,49 @@ angular.module('mean.system')
     };
 
     $scope.startGame = function() {
-      game.startGame();
+      if (game.players.length < game.playerMinLimit) {
+        $rootScope.popupMessage = 'Sorry, you need a minimum of 3 people to play Cards for Humanity';
+        $('#popup-modal').modal('show');
+      } else {
+        game.startGame();
+      }
     };
 
     $scope.abandonGame = function() {
       game.leaveGame();
       $location.path('/');
+    };
+
+    $scope.searchUsers = () => {
+      $http.get(`/api/search/users?name=${$scope.searchName}`)
+        .then((res) => {
+          if (res.status === 200) {
+            $scope.userSearchResults = res.data;
+          }
+        }, (err) => {
+          console.log(err);
+        });
+    };
+
+    $scope.inviteUser = () => {
+      $scope.inviteSent = null;
+      if ($scope.invitee.name && $scope.invitee.email) {
+        $http.post('/api/invite', {
+          gameURL: document.URL,
+          inviteeEmail: $scope.invitee.email,
+          inviteeName: $scope.invitee.name,
+          inviterName: window.user.name || 'Guest'
+        }).then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            $timeout(() => {
+              $scope.inviteSent = res.data.message;
+            }, 200);
+          }
+        }, (err) => {
+          console.log(err);
+        });
+      }
     };
 
     // Catches changes to round to update when no players pick card
@@ -165,6 +202,7 @@ angular.module('mean.system')
               var txt = 'Give the following link to your friends so they can join your game: ';
               $('#lobby-how-to-play').text(txt);
               $('#oh-el').css({'text-align': 'center', 'font-size':'22px', 'background': 'white', 'color': 'black'}).text(link);
+              $('#inner-info').append('<a class="btn btn-default" data-toggle="modal" data-target="#invite-modal">Invite Users</a>');
             }, 200);
             $scope.modalShown = true;
           }

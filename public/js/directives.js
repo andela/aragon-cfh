@@ -71,7 +71,7 @@ angular.module('mean.directives', [])
       link: function(scope, elem, attr) {
         scope.showOptions = true;
 
-        if (scope.$$childHead.global.authenticated === true) {
+        if (scope.global.authenticated === true) {
           scope.showOptions = false;
         }
       }

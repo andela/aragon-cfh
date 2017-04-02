@@ -6,6 +6,10 @@
 body {
   overflow-x: hidden;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+html {
+  /*background-image: none !important;*/
 }
 .text-muted {
   color: #777777;
@@ -199,7 +203,7 @@ fieldset[disabled] .btn-xl.active {
 }
 @media (min-width: 768px) {
   .navbar-custom {
-    background-color: transparent;
+    background-color: #222222;
     padding: 25px 0;
     -webkit-transition: padding 0.3s;
     -moz-transition: padding 0.3s;
@@ -226,7 +230,7 @@ fieldset[disabled] .btn-xl.active {
   }
 }
 header {
-  background-image: url('../img/background-header.jpg');
+  background-image:url('../img/donate.jpg');
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -284,7 +288,8 @@ header .intro-text .intro-heading {
   color: #fed136;
 }
 #charity {
-  background-image: url('../img/donate.jpg');
+  background-color: #222222;
+  /*url('../img/charity-photo.png');*/
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
