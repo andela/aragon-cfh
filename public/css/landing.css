@@ -281,6 +281,9 @@ header .intro-text .intro-heading {
     margin-bottom: 50px;
   }
 }
+.howto-caption {
+  height: 200px;
+}
 #charity, .charity {
   color: white;
 }

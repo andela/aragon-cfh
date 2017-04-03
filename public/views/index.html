@@ -33,13 +33,13 @@ $(document).ready(function() {
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#what">What?</a>
+                        <a class="page-scroll" onclick="scroll_to_what()" id="what-btn" href="#!what">What?</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#!howto">How to play</a>
+                        <a class="page-scroll" onclick="scroll_to_howto()" id="howto-btn" href="#!howto">How to play</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#!charity">Charity</a>
+                        <a class="page-scroll" onclick="scroll_to_charity()" id="charity-btn" href="#!charity">Charity</a>
                     </li>
                     <li ng-show="showOptions">
                         <a href="#!/signup">Sign Up</a>
@@ -109,25 +109,21 @@ $(document).ready(function() {
             </div>
             <div class="row">
                 <div class="col-md-3 col-sm-6 howto-item">
-                    <img src="img/howto/1.png" class="img-responsive howto" alt="">
                     <div class="howto-caption">
                         <p class="text-muted">Each player begins with, and will always have, 10 white answer cards.</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 howto-item">
-                    <img src="img/howto/2.png" class="img-responsive howto" alt="">
                     <div class="howto-caption">
                         <p class="text-muted">For each round, one player is randomly chosen as the Card Czar.</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 howto-item">
-                    <img src="img/howto/3.png" class="img-responsive howto" alt="">
                     <div class="howto-caption">
                         <p class="text-muted">Everyone else answers the black question card by clicking on the answer card they want to use.</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 howto-item">
-                    <img src="img/howto/4.png" class="img-responsive howto" alt="">
                     <div class="howto-caption">
                         <p class="text-muted">The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</p>
                     </div>
