@@ -1,6 +1,5 @@
 /**
-   * trim, remove special characters, white spaces and special characters
-   * remove word duplicates
+   * scroll to what section in the landing page
    * @function
    * @returns {event} click
   */
@@ -14,13 +13,12 @@ const scrollToWhat = () => {
 };
 
 /**
-   * trim, remove special characters, white spaces and special characters
-   * remove word duplicates
+   * tscroll to howTo section in the landing page
    * @function
    * @returns {event} click
   */
 const scrollToHowto = () => {
-  $('#howto-btn').click(function(){
+  $('#howto-btn').click(() => {
     $('html, body').animate({
       scrollTop: $('#howto').position().top },
         1000
@@ -29,8 +27,7 @@ const scrollToHowto = () => {
 };
 
 /**
-   * trim, remove special characters, white spaces and special characters
-   * remove word duplicates
+   * scroll to charity section in the landing page
    * @function
    * @returns {event} click
   */
