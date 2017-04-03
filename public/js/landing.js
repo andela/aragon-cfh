@@ -1,33 +1,41 @@
-// Agency Theme JavaScript
+/**
+   * scroll to what section in the landing page
+   * @function
+   * @returns {event} click
+  */
+const scrollToWhat = () => {
+  $('#what-btn').click(() => {
+    $('html, body').animate({
+      scrollTop: $('#what').position().top },
+        1000
+    );
+  });
+};
 
-(function($) {
-    "use strict"; // Start of use strict
+/**
+   * tscroll to howTo section in the landing page
+   * @function
+   * @returns {event} click
+  */
+const scrollToHowto = () => {
+  $('#howto-btn').click(() => {
+    $('html, body').animate({
+      scrollTop: $('#howto').position().top },
+        1000
+    );
+  });
+};
 
-    // jQuery for page scrolling feature - requires jQuery Easing plugin
-    $('a.page-scroll').bind('click', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: ($($anchor.attr('href')).offset().top - 50)
-        }, 1250, 'easeInOutExpo');
-        event.preventDefault();
-    });
-
-    // Highlight the top nav as scrolling occurs
-    $('body').scrollspy({
-        target: '.navbar-fixed-top',
-        offset: 51
-    });
-
-    // Closes the Responsive Menu on Menu Item Click
-    $('.navbar-collapse ul li a').click(function(){ 
-            $('.navbar-toggle:visible').click();
-    });
-
-    // Offset for Main Navigation
-    $('#mainNav').affix({
-        offset: {
-            top: 100
-        }
-    })
-
-})(jQuery); // End of use strict
+/**
+   * scroll to charity section in the landing page
+   * @function
+   * @returns {event} click
+  */
+const scrollToCharity = () => {
+  $('#charity-btn').click(() => {
+    $('html, body').animate({
+      scrollTop: $('#charity').position().top },
+        1000
+    );
+  });
+};
