@@ -1,25 +1,44 @@
-// scroll functions
-function scroll_to_what() {
-    $('#what-btn').click(function(){
+/**
+   * trim, remove special characters, white spaces and special characters
+   * remove word duplicates
+   * @function
+   * @returns {event} click
+  */
+const scrollToWhat = () => {
+  $('#what-btn').click(() => {
     $('html, body').animate({
-        scrollTop: $('#what').position().top },
+      scrollTop: $('#what').position().top },
         1000
     );
-});
-}
-function scroll_to_howto() {
-    $('#howto-btn').click(function(){
+  });
+};
+
+/**
+   * trim, remove special characters, white spaces and special characters
+   * remove word duplicates
+   * @function
+   * @returns {event} click
+  */
+const scrollToHowto = () => {
+  $('#howto-btn').click(function(){
     $('html, body').animate({
-        scrollTop: $('#howto').position().top },
+      scrollTop: $('#howto').position().top },
         1000
     );
-});
-}
-function scroll_to_charity() {
-    $('#charity-btn').click(function(){
+  });
+};
+
+/**
+   * trim, remove special characters, white spaces and special characters
+   * remove word duplicates
+   * @function
+   * @returns {event} click
+  */
+const scrollToCharity = () => {
+  $('#charity-btn').click(() => {
     $('html, body').animate({
-        scrollTop: $('#charity').position().top },
+      scrollTop: $('#charity').position().top },
         1000
     );
-});
-}
+  });
+};
