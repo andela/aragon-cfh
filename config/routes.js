@@ -93,10 +93,16 @@ module.exports = (app, passport) => {
   // JWT API endpoint
   app.post('/api/auth/login', jwt.authToken);
   app.post('/api/auth/signup', jwt.create);
-  
+
   // APIs
   const searchUsers = require('../app/controllers/search-users');
   const inviteUsers = require('../app/controllers/send-invite.js');
   app.get('/api/search/users', searchUsers);
   app.post('/api/invite', inviteUsers);
+
+  // End point route
+  const startGame = require('../app/controllers/start-game');
+  app.get('/api/games/:id', startGame.getGameRecords);
+  app.post('/api/games/:id/start', startGame.saveRecords);
+  app.post('/api/games/:id/end', startGame.updateRecords);
 };

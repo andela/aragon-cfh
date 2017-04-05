@@ -190,6 +190,7 @@ angular.module('mean.system')
     };
 
     game.startGame = function startGame() {
+      console.log('we are here as well');
       socket.emit('startGame');
     };
 
