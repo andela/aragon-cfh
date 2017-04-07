@@ -76,4 +76,10 @@ angular.module('mean.directives', [])
         }
       }
     };
+  })
+  .directive('tour', function() {
+    return {
+      restrict: 'EA',
+      templateUrl: '/views/tour.html',
+    };
   });

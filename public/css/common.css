@@ -96,12 +96,12 @@ body {
   .app-modal .modal-dialog {
     width: 45%; }
     .app-modal .modal-dialog .modal-body {
-      background: #FED136;
+      background: #333333;
       border-radius: 8px;
       padding: 2%; }
       .app-modal .modal-dialog .modal-body .card {
         background: white;
-        border-color: #333333;
+        border-color: #FED136;
         color: #333333;
         font-size: 14px;
         height: 100%;
@@ -112,7 +112,8 @@ body {
   padding: 10px; }
 
 .btn-default {
-  background: #FED136; }
+  background: #FED136;
+  color: white; }
 
 #main-container {
   height: 100%; }
