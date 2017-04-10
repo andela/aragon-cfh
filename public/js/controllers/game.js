@@ -96,9 +96,7 @@ angular.module('mean.system')
     }
   };
 
-  $scope.winnerPicked = () => {
-    return game.winningCard !== -1;
-  };
+  $scope.winnerPicked = () => game.winningCard !== -1;
 
   $scope.startGame = () => {
     if (game.players.length < game.playerMinLimit) {

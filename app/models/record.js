@@ -10,7 +10,6 @@ const Schema = mongoose.Schema;
 const RecordSchema = new Schema({
   gameID: String,
   players: [],
-  completed: Boolean,
   rounds: Number,
   winner: String
 });
