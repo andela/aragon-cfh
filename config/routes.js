@@ -6,6 +6,9 @@ const users = require('../app/controllers/users'),
   avatars = require('../app/controllers/avatars'),
   index = require('../app/controllers/index');
 
+const startGame = require('../app/controllers/start-game');
+const middleware = require('./middlewares/authorization');
+
 module.exports = (app, passport) => {
   app.get('/signin', users.signin);
   app.get('/signup', users.signup);
@@ -93,10 +96,13 @@ module.exports = (app, passport) => {
   // JWT API endpoint
   app.post('/api/auth/login', jwt.authToken);
   app.post('/api/auth/signup', jwt.create);
-  
+
   // APIs
   const searchUsers = require('../app/controllers/search-users');
   const inviteUsers = require('../app/controllers/send-invite.js');
   app.get('/api/search/users', searchUsers);
   app.post('/api/invite', inviteUsers);
+
+  // End point route
+  app.post('/api/games/:id/start', middleware.requiresLogin, startGame.saveRecords);
 };

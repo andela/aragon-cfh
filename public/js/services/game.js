@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$rootScope', '$location', '$timeout', function gameService(socket, $rootScope, $location, $timeout) {
+  .factory('game', ['socket', '$rootScope', '$location', '$timeout', '$http', '$window', function gameService(socket, $rootScope, $location, $timeout, $http, $window) {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -168,6 +168,18 @@ angular.module('mean.system')
       } else if (data.state === 'game dissolved' || data.state === 'game ended') {
         game.players[game.playerIndex].hand = [];
         game.time = 0;
+        const userid = $window.localStorage.id;
+        const players = [];
+        game.players.forEach((player) => {
+          players.push(player.username);
+        });
+        const dataNo = {
+          winner: game.players[game.gameWinner].username,
+          rounds: game.round,
+          gameID: game.gameID,
+          players
+        };
+        $http.post(`/api/games/${userid}/start`, dataNo);
       }
     });
 
