@@ -18,12 +18,9 @@ exports.saveRecords = (req) => {
     rounds,
     winner
   });
-  record.save(
-    {
-      winner,
-      rounds,
-      players,
-      gameID
-    });
+  record.save((err) => {
+    if (err) return (err);
+  }
+  );
 };
 

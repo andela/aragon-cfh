@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
+.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) => {
   $scope.hasPickedCards = false;
   $scope.winningCardPicked = false;
   $scope.showTable = false;
@@ -9,7 +9,7 @@ angular.module('mean.system')
   let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
   $scope.makeAWishFact = makeAWishFacts.pop();
 
-  $scope.pickCard = function (card) {
+  $scope.pickCard = (card) => {
     if (!$scope.hasPickedCards) {
       if ($scope.pickedCards.indexOf(card.id) < 0) {
         $scope.pickedCards.push(card.id);
@@ -19,102 +19,88 @@ angular.module('mean.system')
         } else if (game.curQuestion.numAnswers === 2 &&
             $scope.pickedCards.length === 2) {
             // delay and send
-            $scope.hasPickedCards = true;
-            $timeout($scope.sendPickedCards, 300);
-          }
+          $scope.hasPickedCards = true;
+          $timeout($scope.sendPickedCards, 300);
+        }
       } else {
         $scope.pickedCards.pop();
       }
     }
   };
 
-  $scope.pointerCursorStyle = function () {
+  $scope.pointerCursorStyle = () => {
     if ($scope.isCzar() && $scope.game.state === 'waiting for czar to decide') {
       return { cursor: 'pointer' };
     }
     return {};
   };
 
-  $scope.sendPickedCards = function () {
+  $scope.sendPickedCards = () => {
     game.pickCards($scope.pickedCards);
     $scope.showTable = true;
   };
 
-  $scope.cardIsFirstSelected = function (card) {
+  $scope.cardIsFirstSelected = (card) => {
     if (game.curQuestion.numAnswers > 1) {
       return card === $scope.pickedCards[0];
     }
     return false;
   };
 
-  $scope.cardIsSecondSelected = function (card) {
+  $scope.cardIsSecondSelected = (card) => {
     if (game.curQuestion.numAnswers > 1) {
       return card === $scope.pickedCards[1];
     }
     return false;
   };
 
-  $scope.firstAnswer = function ($index) {
+  $scope.firstAnswer = ($index) => {
     if ($index % 2 === 0 && game.curQuestion.numAnswers > 1) {
       return true;
     }
     return false;
   };
 
-  $scope.secondAnswer = function ($index) {
+  $scope.secondAnswer = ($index) => {
     if ($index % 2 === 1 && game.curQuestion.numAnswers > 1) {
       return true;
     }
     return false;
   };
 
-  $scope.showFirst = function (card) {
-    return game.curQuestion.numAnswers > 1 && $scope.pickedCards[0] === card.id;
-  };
+  $scope.showFirst = card => game.curQuestion.numAnswers > 1 && $scope.pickedCards[0] === card.id;
 
-  $scope.showSecond = function (card) {
-    return game.curQuestion.numAnswers > 1 && $scope.pickedCards[1] === card.id;
-  };
+  $scope.showSecond = card => game.curQuestion.numAnswers > 1 && $scope.pickedCards[1] === card.id;
 
-  $scope.isCzar = function () {
-    return game.czar === game.playerIndex;
-  };
+  $scope.isCzar = () => game.czar === game.playerIndex;
 
-  $scope.isPlayer = function ($index) {
-    return $index === game.playerIndex;
-  };
+  $scope.isPlayer = $index => $index === game.playerIndex;
 
-  $scope.isCustomGame = function () {
-    return !(/^\d+$/).test(game.gameID) && game.state === 'awaiting players';
-  };
+  $scope.isCustomGame = () => !(/^\d+$/).test(game.gameID) && game.state === 'awaiting players';
 
-  $scope.isPremium = function ($index) {
-    return game.players[$index].premium;
-  };
+  $scope.isPremium = $index => game.players[$index].premium;
 
-  $scope.currentCzar = function ($index) {
-    return $index === game.czar;
-  };
+  $scope.currentCzar = $index => $index === game.czar;
 
-  $scope.winningColor = function ($index) {
+  $scope.winningColor = ($index) => {
     if (game.winningCardPlayer !== -1 && $index === game.winningCard) {
       return $scope.colors[game.players[game.winningCardPlayer].color];
     }
     return '#f9f9f9';
   };
 
-  $scope.pickWinning = function (winningSet) {
+  $scope.pickWinning = (winningSet) => {
     if ($scope.isCzar()) {
       game.pickWinning(winningSet.card[0]);
       $scope.winningCardPicked = true;
     }
   };
 
-  $scope.winnerPicked = function () {
+  $scope.winnerPicked = () => {
     return game.winningCard !== -1;
   };
 
-  $scope.startGame = function () {
+  $scope.startGame = () => {
     if (game.players.length < game.playerMinLimit) {
       $rootScope.popupMessage = 'Sorry, you need a minimum of 3 people to play Cards for Humanity';
       $('#popup-modal').modal('show');
@@ -123,12 +109,12 @@ angular.module('mean.system')
     }
   };
 
-  $scope.modalContinue = function () {
+  $scope.modalContinue = () => {
     game.startGame();
     angular.element('#modalShow').modal('hide');
   };
 
-  $scope.abandonGame = function () {
+  $scope.abandonGame = () => {
     game.leaveGame();
     $location.path('/');
   };
@@ -155,13 +141,13 @@ angular.module('mean.system')
       }).then((res) => {
         console.log(res);
         if (res.status === 200) {
-            $timeout(() => {
-              $scope.inviteSent = res.data.message;
-            }, 200);
-          }
+          $timeout(() => {
+            $scope.inviteSent = res.data.message;
+          }, 200);
+        }
       }, (err) => {
-          console.log(err);
-        });
+        console.log(err);
+      });
     }
   };
 
@@ -196,15 +182,15 @@ angular.module('mean.system')
           // where the link is meant to be shared.
         $location.search({ game: game.gameID });
         if (!$scope.modalShown) {
-            setTimeout(() => {
-              const link = document.URL;
-              const txt = 'Give the following link to your friends so they can join your game: ';
-              $('#lobby-how-to-play').text(txt);
-              $('#oh-el').css({ 'text-align': 'center', 'font-size': '22px', background: 'white', color: 'black' }).text(link);
-              $('#inner-info').append('<a class="btn btn-default" data-toggle="modal" data-target="#invite-modal">Invite Users</a>');
-            }, 200);
-            $scope.modalShown = true;
-          }
+          setTimeout(() => {
+            const link = document.URL;
+            const txt = 'Give the following link to your friends so they can join your game: ';
+            $('#lobby-how-to-play').text(txt);
+            $('#oh-el').css({ 'text-align': 'center', 'font-size': '22px', background: 'white', color: 'black' }).text(link);
+            $('#inner-info').append('<a class="btn btn-default" data-toggle="modal" data-target="#invite-modal">Invite Users</a>');
+          }, 200);
+          $scope.modalShown = true;
+        }
       }
     }
   });
