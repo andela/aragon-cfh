@@ -6,6 +6,11 @@ const nodemon = require('gulp-nodemon');
 const mocha = require('gulp-mocha');
 const browserSync = require('browser-sync');
 
+// add travis ci task
+gulp.task('travis', ['mochaTest'], () => {
+  process.exit(0);
+});
+
 gulp.task('watch', () => {
   gulp.watch('app/views/**', browserSync.reload());
   gulp.watch('public/views/**', browserSync.reload());
@@ -22,7 +27,6 @@ gulp.task('sass', () => {
 
 gulp.task('eslint', () => {
   gulp.src([
-    'gruntfile.js',
     'public/js/**/*.js',
     'test/**/*.js',
     'app/**/*.js'
@@ -46,6 +50,7 @@ gulp.task('nodemon', () => {
 gulp.task('serve', ['nodemon'], () => {
   browserSync({
     proxy: 'localhost:3000',
+    files: ['public/**/*.*'],
     port: 5000,
     open: false,
   });

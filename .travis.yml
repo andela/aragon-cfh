@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+- "stable"
+- 6
+env: 
+  - "MONGOHQ_URL= mongodb://faith:faith@ds131320.mlab.com:31320/aragon-cfh"
+services:
+  - mongodb

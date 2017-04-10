@@ -1,3 +1,10 @@
+div.modal.fade.app-modal#popup-modal(role="dialog")
+      div.modal-dialog.modal-sm
+            div.modal-content
+                  div.modal-body
+                        div.card
+                              {{ popupMessage }}
+
 script.
       var _gaq=[['_setAccount','UA-44959535-1'],['_trackPageview']];
       (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
@@ -8,6 +15,9 @@ script(type='text/javascript', src='/lib/underscore/underscore-min.js')
 
 //Bootstrap
 script(type='text/javascript', src='/lib/bootstrap/dist/js/bootstrap.js')
+
+// custom
+script(type='text/javascript', src='/js/landing.js')
 
 //AngularJS
 script(type='text/javascript', src='https://code.angularjs.org/1.1.5/angular.js')

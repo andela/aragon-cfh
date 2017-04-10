@@ -1,66 +1,93 @@
-<div id="main-bod">
+<!DOCTYPE html>
+  <head>
+    <title>Welcome to signin page</title>
+    
+    <script src="https://use.fontawesome.com/ec7068bdae.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script><link rel = "stylesheet" type = 'text/css' href = "/css/styles.css">
+  </head> 
+     <body>
+  <div id="main-bod" ng-controller="IndexController">
   <!-- Fixed Logo & Menu Bar Start -->
-  <div id="top-part">
-    <div class="wpb-top-bar">
-      <div class="mod-contain" id="navver">
-        <div class="row">
-          <!-- Logo -->
-          <div class="wpb-logo-container">
-            <div id="landing-logo"> 
-              <span id="first-word">Cards</span>
-              <span id="second-word"> for</span> 
-              <span id="third-word">Humanity</span> 
-            </div> 
-            <div class="col-md-9 wpb-menu-container">
-              <ul class="wpb-main-menu">
-                <li><a href="/">Home</a></li>
-              </ul>
-            </div>
-          </div>      
+  <!-- Navigation -->
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">Cards 4 humanity</a>
         </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="hidden">
+                <a href="#page-top"></a>
+            </li>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="#!/signin">Sign In</a>
+            </li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
       </div>
-    </div>
-  </div>
-<!-- Fixed Logo & Menu Bar End -->
+      <!-- /.container-fluid -->
+  </nav>
 
 <!-- Landing Start -->
-<div class="wpb-teaser parallax-background" id="homer">
-  <div class="background-opacity"></div> 
-  <div class="modified-container">
-    <div class="row" id="main-text"> 
-    <!-- Teaser Text Start -->
-    <div id="landing-logo">
-      <h2 id="slogan">Sign Up with:</h2>
+<div class="wpb-teaser parallax-background" ng-controller="IndexController" id="homer">
+    <div class = centers>
+     <div class = aaa>
+      <h2 id="slogan">Sign up with:</h2>
       <div id="login-buttons">
-        <a href="/auth/facebook"><img class="login-item" src="/img/icons/facebook.png"></a>
-        <a href="/auth/github"><img class="login-item" src="/img/icons/github.png"></a>
-        <a href="/auth/twitter"><img class="login-item" src="/img/icons/twitter.png"></a>
-        <a href="/auth/google"><img class="login-item" src="/img/icons/google.png"></a>
+         <div class="social-login">
+      <a href="#">
+        <i class="fa fa-facebook fa-lg"></i>
+        Login in with facebook
+      </a>
+      <a href="#" class="twitter-button">
+        <i class="fa fa-twitter fa-lg"></i>
+        Login in with twitter
+      </a>
+      <a href="#" class="github">
+         <i class="fa fa-github fa-lg"></i>
+        Login in with github
+      </a>  
+      <a href="#">
+        <i class="fa fa-google-plus fa-lg"></i>
+        log in with Google
+      </a>  
       </div>
       <p id="create">Or create a username/password and select an avatar:</p>
 
       <div class="sign-body">
         <div class="more-sign">
-          <form class="signup form-horizontal" action="/users" method="post">
+          <form class="signup form-horizontal"  method="post">
             <div class="control-group">
+              <br>
+              <p style="color: darkred">{{errorMsg}}</p>
               <label for="name" class="control-label"></label>
               <div class="controls">
-                <input class="input-info" id="name" type="text" name="name" placeholder="Full name" required novalidate />
+                <input class="input-info" id="name" type="text" name="name" placeholder="Full name" ng-model="fullname" required novalidate />
               </div>
             </div>
             <div class="control-group">
               <label for="email" class="control-label"></label>
               <div class="controls">
-                <input class="input-info" id="email" type="email" name="email" placeholder="Email" required novalidate />
+                <input class="input-info" id="email" type="email" name="email" placeholder="Email" ng-model="email" required novalidate />
               </div>
             </div>
             <div class="control-group">
               <label for="password" class="control-label"></label>
               <div class="controls">
-                <input class="input-info" id="password" type="password" name="password" placeholder="Password" required novalidate />
+                <input class="input-info" id="password" type="password" name="password" placeholder="Password" ng-model="password" required novalidate />
               </div>
             </div>
-            <div id="contain-avatars">
+            
+             <div id="contain-avatars">
               <ul ng-controller="IndexController" class="avatar-list">
                 <li ng-repeat="avatar in avatars" class="avatars ng-scope">
                   <input name="avatar" type='radio' value="{{$index}}">
@@ -70,16 +97,14 @@
               </ul>
             </div>
             <div class="form-actions">
-              <button id="sign-up-btn-other" type='submit'>Sign Up</button>
+              <button id="sign-up-btn-other" type='submit' ng-click="signup()">Sign Up</button>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
-    </div>
-    </div>
-  </div>
+           </div>
+      </div>
+    </div>
+    </div>
+  </div>
 </div>
-
-
-
+</body>     
+</html>
