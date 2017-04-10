@@ -6,6 +6,9 @@ const users = require('../app/controllers/users'),
   avatars = require('../app/controllers/avatars'),
   index = require('../app/controllers/index');
 
+const startGame = require('../app/controllers/start-game');
+const middleware = require('./middlewares/authorization');
+
 module.exports = (app, passport) => {
   app.get('/signin', users.signin);
   app.get('/signup', users.signup);
@@ -101,8 +104,5 @@ module.exports = (app, passport) => {
   app.post('/api/invite', inviteUsers);
 
   // End point route
-  const startGame = require('../app/controllers/start-game');
-  app.get('/api/games/:id', startGame.getGameRecords);
-  app.post('/api/games/:id/start', startGame.saveRecords);
-  app.post('/api/games/:id/end', startGame.updateRecords);
+  app.post('/api/games/:id/start', middleware.requiresLogin, startGame.saveRecords);
 };

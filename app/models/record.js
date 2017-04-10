@@ -15,4 +15,4 @@ const RecordSchema = new Schema({
   winner: String
 });
 
-module.exports = mongoose.model('Records', RecordSchema);
+module.exports = mongoose.model('Record', RecordSchema);
