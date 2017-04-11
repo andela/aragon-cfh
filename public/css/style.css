@@ -139,7 +139,7 @@
 
  a:hover {
    text-decoration: none;
-   color: #2ecc71;
+   color: #fed136;
    border-radius:0px !important;
  }
 
@@ -148,7 +148,7 @@
  }
 
  p a:hover {
-   color: #2ecc71;
+   color: #fed136;
  }
 
 
@@ -167,9 +167,9 @@
    margin: 5px 0 5px 0px;
    font-size: 28px;
    font-family: 'Lobster', cursive;
-   border-radius: 8px;
+   border-radius: 28px;
    background: #252525;
-   padding: 5px 5px 5px 13px;
+   padding: 5px 5px 5px 13px;  
 }
 
 #first-word {
@@ -183,7 +183,12 @@
 #third-word {
    color: #FC575E;
 }
-
+#fourth-word {
+   color:white;   
+}
+#fifth-word {
+  color:  #fed136
+}
 #warning-word {
    color: #FC575E;
 }
@@ -407,9 +412,9 @@
    font-size: 1.35em;
    font-weight: 400;
    text-align: center;
-   color: white;
-   background: #C54141;
-   margin-top: 3px;
+   color: black;
+   background: lightgoldenrodyellow;
+   margin-top: 23px;
    margin-bottom: 3px;
    margin-right: 10px;
    padding: 0.1em 35px;
@@ -659,9 +664,6 @@
    -o-transition:  background-color 0.5s ease;
    transition:  background-color 0.5s ease;
  }
-
-
-
  /**** Team List ****/
  .wpb-team-list .wpb-team-item {
    margin-left: 0px;

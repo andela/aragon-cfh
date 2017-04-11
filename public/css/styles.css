@@ -1,0 +1,136 @@
+ body{
+      background-image:url('/views/donate.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: fixed;
+      min-height: 100%;
+    }
+    .clearfix{
+      clear: both !important;
+    }
+    .aa{
+      margin: 100px auto;
+      position: relative;
+      width: 550px;
+      height:520px;
+      background-color:rgba(0,0,0,0.4);
+      box-shadow: inset -4px -4px rgba(0,0,0,0.5);
+    }
+     .aaa{
+      margin: 80px auto;
+      position: relative;
+      width: 550px;
+      height: 720px;
+      background-color:rgba(0,0,0,0.4);
+      box-shadow: inset -4px -4px rgba(0,0,0,0.5);
+    }
+    .aa input[type = "text"]{
+      width: 200px;
+      height: 40px;
+      border: 0;
+    }
+    .aaa input[type = "text"]{
+      width: 200px;
+      height: 40px;
+      border: 0;
+    }
+    
+    .aa input[type = "password"]{
+      width: 200px;
+      height: 40px;
+      border: 0;
+    }
+    .aaa input[type = "password"]{
+      width: 200px;
+      height: 40px;
+      border: 0;
+    }
+    .aa input[type = "submit"]{
+      width: 100px;
+      height: 40px;
+      border: 0;
+      background-color: beige;
+      font-weight: bolder;
+    }
+    .aaa input[type = "submit"]{
+      width: 100px;
+      height: 40px;
+      border: 0;
+      background-color: beige;
+      font-weight: bolder;
+    }
+    .aaa input[type = "email"]{
+      width: 200px;
+      height: 40px;
+      border: 0;
+    }
+    .centered {
+    position: relative;
+    width: 100%;
+    padding-top: 100px;
+    /* prefixes defined */
+    
+  }
+  .centers {
+    position: relative;
+    width: 100%;
+    padding-bottom: 120px;
+    /* prefixes defined */
+    
+  }
+  .sign-body{
+    position: relative;
+    margin: 10px auto;
+    padding-bottom: 50px;
+  }
+  .social-login{
+  position:relative;
+  float: left;
+  width: 100%;
+  height:auto;
+  padding: 10px 0 15px 0;
+  border-bottom: 1px solid #eee;
+}
+.social-login a{
+  position:relative;
+  float: left;
+  width:calc(40% - 8px);
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid rgba(0,0,0,0.05);
+  padding: 12px;
+  border-radius: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin: 0 3%;
+  text-align:center;
+  margin-bottom: 20px;
+  margin-right:45px;
+}
+.social-login a i{
+  position: relative;
+  float: left;
+  width: 20px;
+  top: 2px;
+}
+.social-login a:first-child{
+  background-color: #49639F;
+}
+
+.social-login a.github {
+  background: purple;
+  display:inline-block;
+}
+.social-login .twitter-button {
+  background-color: #55acee;
+}
+.social-login a:last-child{
+  background-color: #DF4A32;
+}  
+.facebook-div{
+  background-color: #49639F;
+}
+.p {
+  text-align: right;
+}
+
