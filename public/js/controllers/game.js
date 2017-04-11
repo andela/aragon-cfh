@@ -9,8 +9,8 @@ angular.module('mean.system')
   let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
   $scope.makeAWishFact = makeAWishFacts.pop();
 
-  $scope.goToGame = () => {
-    return new Promise((resolve) => {
+  $scope.goToGame = () => (
+    new Promise((resolve) => {
       if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
         console.log('joining custom game');
         resolve(game.joinGame('joinGame', $location.search().game));
@@ -19,8 +19,8 @@ angular.module('mean.system')
       } else {
         resolve(game.joinGame());
       }
-    });
-  };
+    })
+  );
 
   if (window.user) {
     if (window.user.hideTour) {
@@ -34,7 +34,7 @@ angular.module('mean.system')
     }, 200);
   }
 
-  $scope.pickCard = function(card) {
+  $scope.pickCard = (card) => {
     if (!$scope.hasPickedCards) {
       if ($scope.pickedCards.indexOf(card.id) < 0) {
         $scope.pickedCards.push(card.id);
@@ -162,7 +162,6 @@ angular.module('mean.system')
         inviteeName: $scope.invitee.name,
         inviterName: window.user.name || 'Guest'
       }).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           $timeout(() => {
             $scope.inviteSent = res.data.message;
@@ -211,7 +210,7 @@ angular.module('mean.system')
             $('#lobby-how-to-play').text(txt);
             $('#oh-el').css({ 'text-align': 'center', 'font-size': '22px', background: 'white', color: 'black' }).text(link);
             $('#inner-info').append('<a class="btn btn-default" data-toggle="modal" data-target="#invite-modal">Invite Users</a>');
-          }, 200);
+          }, 400);
           $scope.modalShown = true;
         }
       }
