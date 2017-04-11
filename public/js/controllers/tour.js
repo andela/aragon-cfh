@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('TourController', function tourCtrl($scope, game, $rootScope, $timeout, $location) {
+.controller('TourController', function tourCtrl($scope, $timeout, $location, $http) {
   $scope.showStartGame = true;
   $scope.question = 'What am I giving up for Lent?';
   $scope.showQuestion = false;
@@ -10,12 +10,37 @@ angular.module('mean.system')
   $scope.timeLeft = 0;
   $scope.gameEnded = false;
   $scope.gameWon = false;
+
+  $scope.endTour = () => {
+    $('#tour').remove();
+    $('#game-loading').css({ display: 'block' });
+    if (window.user) {
+      $http.post('/api/disabletour', {
+        _id: window.user._id
+      }).then((res) => {
+        if (res.status === 200) {
+          window.user.hideTour = true;
+          $scope.$parent.goToGame().then(() => {
+            $('#game-loading').remove();
+          });
+        }
+      }, (err) => {
+        console.log(err);
+      });
+    } else {
+      $scope.$parent.hideTour = true;
+      $scope.$parent.goToGame().then(() => {
+        $('#game-loading').remove();
+      });
+    }
+  };
+
   $scope.tour = new Tour({
     name: 'gameTour',
     backdrop: true,
     delay: 300,
     onEnd: () => {
-      $scope.goToGame();
+      $scope.endTour();
     },
     steps: [
       {
@@ -198,7 +223,7 @@ angular.module('mean.system')
       }
     ]
   });
-  if (!$rootScope.hideTour) {
+  if (!$scope.$parent.hideTour) {
     $scope.tour.init();
     $scope.tour.start(true);
     $scope.tour.goTo(0);
@@ -271,16 +296,4 @@ angular.module('mean.system')
       czar: false
     }
   ];
-
-  $scope.goToGame = () => {
-    $rootScope.hideTour = true;
-    if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
-      console.log('joining custom game');
-      game.joinGame('joinGame', $location.search().game);
-    } else if ($location.search().custom) {
-      game.joinGame('joinGame', null, true);
-    } else {
-      game.joinGame();
-    }
-  };
 });

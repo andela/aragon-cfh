@@ -458,6 +458,14 @@ body{
     color: white;
 }
 
+#game-loading {
+    width:100%;
+    margin-left:48%;
+    margin-right:48%;
+    padding-top:25%;
+    display:none;
+}
+
 #main-container{
     height: 100%;
     #app-container {

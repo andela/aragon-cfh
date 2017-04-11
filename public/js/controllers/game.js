@@ -9,6 +9,31 @@ angular.module('mean.system')
     var makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
     $scope.makeAWishFact = makeAWishFacts.pop();
 
+    $scope.goToGame = () => {
+      return new Promise((resolve) => {
+        if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
+          console.log('joining custom game');
+          resolve(game.joinGame('joinGame', $location.search().game));
+        } else if ($location.search().custom) {
+          resolve(game.joinGame('joinGame', null, true));
+        } else {
+          resolve(game.joinGame());
+        }
+      });
+    };
+
+    if (window.user) {
+      if (window.user.hideTour) {
+        $scope.hideTour = true;
+      }
+    }
+    if ($scope.hideTour) {
+      $scope.goToGame();
+      $timeout(() => {
+        $('#tour').remove();
+      }, 200);
+    }
+
     $scope.pickCard = function(card) {
       if (!$scope.hasPickedCards) {
         if ($scope.pickedCards.indexOf(card.id) < 0) {
