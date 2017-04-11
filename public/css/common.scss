@@ -433,12 +433,12 @@ body{
   .modal-dialog {
     width: 45%;
     .modal-body {
-      background: #FED136;
+      background: #333333;
       border-radius: 8px;
       padding: 2%;
       .card {
         background: white;
-        border-color: #333333;
+        border-color: #FED136;
         color: #333333;
         font-size: 14px;
         height: 100%;
@@ -455,6 +455,15 @@ body{
 
 .btn-default {
     background: #FED136;
+    color: white;
+}
+
+#game-loading {
+    width:100%;
+    margin-left:48%;
+    margin-right:48%;
+    padding-top:25%;
+    display:none;
 }
 
 #main-container{

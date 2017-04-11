@@ -1,0 +1,141 @@
+<div id="gameplay-container" ng-controller="TourController">  
+  <div id="upper-gameplay-container">
+    <div id="menu-timeremaining-container">
+      <div id="menu-container">
+        <span id="menu-button">Menu</span>
+      </div>
+      <div id="timer-container">
+        <div id = "inner-timer-container">
+          <span id="timer-status-round"> Time Remaining</span>
+          <div id="time">{{ timeLeft }}</div>
+        </div>
+      </div>
+    </div>
+    <div id="question-container-outer">
+      <div id="question-container-inner">
+        <div class="card longBlack">
+          <div id="startGame" ng-show="showStartGame">
+            <div id="finding-players">Finding Players</div>
+            <div id="player-count-container">
+              <div id="player-count">{{ players.length }} / 12 </div>
+              <div id="the-word-players"> Players </div>
+            </div>
+            <div id="loading-container">
+              <div id="loading-gif"><img ng-src="../img/loader.gif"/></div>
+            </div>
+          </div>
+
+          <span id="tour-question" ng-show="showQuestion">{{ question }}</span>
+          
+          <div id="game-end-info">
+            <div id="people-left-game-top" ng-show="gameEnded">
+              <div class="game-end-headline">What the!? The game ended because too many people left! </div>
+              Our sincere apologies.
+            </div>
+            <div ng-show="gameWon">
+              <div class="game-end-headline">Congratulations! You won the game, Insulated Mustard!</div>
+              We hope you feel special. If you'd like to share that special feeling with the world, consider donating to charity. Or just horde it all for youself.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-cloak id="cards-container">
+    <div id="social-bar-container">
+      <div ng-repeat="player in players" id="player-{{$index}}">
+        <div id="player-container" style="background-color:{{ colors[player.color] }}">
+          <div id ="above-czar-container">
+            <div id="avatar_">
+              <img ng-src="{{ player.avatar }}"/>
+            </div>
+            <div id="player-container-inner">
+              <div id="player-name"><h4>{{ player.name }}</h4></div>
+              <div id="player-score"><h2>{{ player.score }}/5</h2></div>
+            </div>
+          </div>
+          <div id="czar-container" ng-show="player.czar">
+            <span id='the-czar'>CZAR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="cards" class='hand'>
+      <div id="white-card-container">
+        <div id="tour-answers-container">
+          <div ng-show="showAnswers">
+            <div class="card smallest" ng-style="pointerCursorStyle()" id='table'
+              ng-repeat="card in answers" ng-animate="{enter:'animated bounceInLeft'}" style="background-color:#f9f9f9;">
+                <span ng-bind-html-unsafe="card.text"></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="tour-cards-container">
+          <div ng-show="showCards">
+            <div ng-style="{'cursor':'pointer'}" class="card smallest" id='answers' ng-repeat="card in cards">
+                <span ng-bind-html-unsafe="card.text"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="info-container" ng-show="showInfo">
+    <div id="inner-info">
+      <div id="lobby-how-to-play">How To Play</div>
+      <ol id="oh-el">
+        <li>Each player begins with, and will always have, 10 white answer cards.</li>
+        <li>For each round, one player is randomly chosen as the Card Czar.</li>
+        <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
+        <li>The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</li>
+        <li>*Want to adorn your avatar with a glorious crown? Donate to charity after the game!</li>
+      </ol>
+    </div>
+  </div>
+  <div id="game-end">
+    <div id="game-end-container" ng-show="gameWon || gameEnded">
+      <div id="inner-info-exit">
+        <div class="game-end-answer-text">
+          <h2>What would you like to do now?</h2>
+          You might consider donating to charity to atone for the horrifying answers you've submitted. Donating will also place a lovely crown on your avatar's head.
+        </div>
+        <div id='inner-text-container'>
+          <a>
+            <div id="join-new-game">
+              Join a New Game
+            </div>
+          </a>
+          <a>
+            <div id="exit-match">
+              Return to Lobby
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div id="charity-widget-container">
+          <a href="http://www.crowdrise.com" id="crowdriseStaticLink-fundraiser-121142" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a>
+          <script type="text/javascript" src="https://www.crowdrise.com/widgets/donate/fundraiser/121142/?callback=userDonationCb"></script>
+      </div>
+    </div>
+  </div>
+  <div id="czar-blank-container" ng-show="isCzar">
+    <div id="czar-blank-inner">
+      You are the Card Czar. <br>
+      <span id="smaller-text">Players are choosing their answers. Prepare to select a winner.</span>
+    </div>
+    <div id='charity-fact-container'>
+      <div id='charity-fact-tagline'>Did you know?</div>
+
+      <div id='charity-fact'>
+        {{ makeAWishFact }}
+      </div>
+
+      <div id='charity-logo-container'>
+        <img src='/img/make-a-wish-logo.png'/>
+      </div>
+
+    </div>
+  </div>
+</div>
