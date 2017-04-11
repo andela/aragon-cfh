@@ -173,13 +173,13 @@ angular.module('mean.system')
         game.players.forEach((player) => {
           players.push(player.username);
         });
-        const dataNo = {
+        const gameData = {
           winner: game.players[game.gameWinner].username,
           rounds: game.round,
           gameID: game.gameID,
           players
         };
-        $http.post(`/api/games/${userid}/start`, dataNo);
+        $http.post(`/api/games/${userid}/start`, gameData);
       }
     });
 
