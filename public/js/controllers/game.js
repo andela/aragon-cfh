@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) => {
+.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
   $scope.hasPickedCards = false;
   $scope.winningCardPicked = false;
   $scope.showTable = false;
@@ -9,7 +9,33 @@ angular.module('mean.system')
   let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
   $scope.makeAWishFact = makeAWishFacts.pop();
 
-  $scope.pickCard = (card) => {
+  $scope.goToGame = () => {
+    return new Promise((resolve) => {
+      if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
+        console.log('joining custom game');
+        resolve(game.joinGame('joinGame', $location.search().game));
+      } else if ($location.search().custom) {
+        resolve(game.joinGame('joinGame', null, true));
+      } else {
+        resolve(game.joinGame());
+      }
+    });
+  };
+
+  if (window.user) {
+    console.log(window.user);
+    if (window.user.hideTour) {
+      $scope.hideTour = true;
+    }
+  }
+  if ($scope.hideTour) {
+    $scope.goToGame();
+    $timeout(() => {
+      $('#tour').remove();
+    }, 200);
+  }
+
+  $scope.pickCard = function(card) {
     if (!$scope.hasPickedCards) {
       if ($scope.pickedCards.indexOf(card.id) < 0) {
         $scope.pickedCards.push(card.id);
@@ -17,8 +43,8 @@ angular.module('mean.system')
           $scope.sendPickedCards();
           $scope.hasPickedCards = true;
         } else if (game.curQuestion.numAnswers === 2 &&
-            $scope.pickedCards.length === 2) {
-            // delay and send
+          $scope.pickedCards.length === 2) {
+          // delay and send
           $scope.hasPickedCards = true;
           $timeout($scope.sendPickedCards, 300);
         }
@@ -192,13 +218,4 @@ angular.module('mean.system')
       }
     }
   });
-
-  if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
-    console.log('joining custom game');
-    game.joinGame('joinGame', $location.search().game);
-  } else if ($location.search().custom) {
-    game.joinGame('joinGame', null, true);
-  } else {
-    game.joinGame();
-  }
 }]);

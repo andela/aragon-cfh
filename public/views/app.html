@@ -26,7 +26,11 @@
 </nav>
 
 <div id="app-container" ng-controller="GameController" style="margin-top: 150px">
-  <div id="gameplay-container">
+  <tour id="tour" ng-hide="hideTour"></tour>
+  <div id="game-loading">
+    <img src="../img/darkloader.gif">
+  </div>
+  <div id="gameplay-container" ng-hide="!hideTour">
     <div id="upper-gameplay-container">
       <div id="menu-timeremaining-container">
         <div id="menu-container">
