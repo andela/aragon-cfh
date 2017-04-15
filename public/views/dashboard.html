@@ -50,11 +50,15 @@
             </tr>
           </thead>
           <tbody gamelog>
-            <tr>
-              <td>1reyu</td>
-              <td>12</td>
-              <td>Omokaro Faith</td>
-              <td>Wunmi</td>
+            <tr ng-repeat="log in logs">
+              <td>{{log.gameID}}</td>
+              <td>{{log.rounds}}</td>
+              <td>{{log.winner}}</td>
+              <td>
+                <ul>
+                  <li ng-repeat="player in log.players">{{player}}</li>
+                </ul>
+              </td>
             </tr>
           </tbody>
         </table>
