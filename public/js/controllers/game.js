@@ -8,6 +8,7 @@ angular.module('mean.system')
   $scope.pickedCards = [];
   let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
   $scope.makeAWishFact = makeAWishFacts.pop();
+  $scope.logs = [];
 
   $scope.goToGame = () => (
     new Promise((resolve) => {
@@ -33,6 +34,16 @@ angular.module('mean.system')
       $('#tour').remove();
     }, 200);
   }
+
+
+  $scope.getGameLogs = () => {
+    $http.get('/api/games/history').success((response) => {
+      console.log(response);
+      $scope.logs = response;
+    }, err => console.log(err));
+  };
+  $scope.getGameLogs();
+
 
   $scope.pickCard = (card) => {
     if (!$scope.hasPickedCards) {
