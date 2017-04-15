@@ -49,7 +49,7 @@
               <th>Players</th>
             </tr>
           </thead>
-          <tbody gamelog>
+          <tbody>
             <tr ng-repeat="log in logs">
               <td>{{log.gameID}}</td>
               <td>{{log.rounds}}</td>
@@ -68,16 +68,16 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Serial no</th>
+              <th>GameID</th>
               <th>Player Name</th>
               <th>Total </th>
             </tr>
           </thead>
           <tbody leaderboard>
-            <tr>
-              <td>1</td>
-              <td>Omokaro faith</td>
-              <td>12</td>
+            <tr ng-repeat="log in logs">
+              <td>{{log.gameID}}</td>
+              <td>{{log.winner}}</td>
+              <td>{{log.rounds}}</td>
             </tr>
           </tbody>
         </table>
