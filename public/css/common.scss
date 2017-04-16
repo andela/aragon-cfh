@@ -431,30 +431,84 @@ body{
   padding-top: 10%;
   .modal-dialog {
     width: 45%;
-    .modal-body {
+    .modal-content {
       background: #333333;
-      border-radius: 8px;
-      padding: 2%;
-      .card {
-        background: white;
-        border-color: #FED136;
-        color: #333333;
-        font-size: 14px;
-        height: 100%;
-        margin: 0;
-        width: 100%;
+      .modal-body {
+        border-radius: 8px;
+        padding: 2%;
+        .card {
+          background: white;
+          border-color: #FED136;
+          color: #333333;
+          font-size: 14px;
+          height: 100%;
+          margin: 0;
+          width: 100%;
+        }
       }
     }
   }
 }
 
 .padding-10 {
-    padding: 10px;
+  padding: 10px;
 }
 
-.btn-default {
-    background: #FED136;
-    color: white;
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.btn-m{
+  border-radius: 8px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  font-size: 20px;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: white;
+  background: #fed136;
+  padding: 0.65em 20px;
+  margin: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+
+  @include tablet-portrait-only{
+    padding: 0.65em 2px;
+    font-size: 1.1rem;
+  }
+
+  @include mobile-only{
+    padding: 0.65em 1px;
+    font-size: 1rem;
+  }
+}
+
+.btn-m:hover{
+  background:#fec503;
+}
+
+.input-group-addon {
+  background: #fed136;
+  color: white;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.width-65 {
+  width: 65%;
+}
+
+.nav-tabs {
+  text-align: center;
+  li {
+    float: none;
+    display: inline-block;
+  }
 }
 
 #game-loading {
@@ -973,35 +1027,6 @@ body{
 
                                 #start-game-container{
                                     color: #333;
-
-                                    #start-game-button{
-                                        border-radius: 8px;
-                                        -moz-border-radius: 5px;
-                                        -webkit-border-radius: 5px;
-                                        font-size: 20px;
-                                        font-size: 1.25rem;
-                                        font-weight: 400;
-                                        color: white;
-                                        background: #1F959C;
-                                        padding: 0.65em 20px;
-                                        margin: 10px;
-                                        width: 65%;
-                                        cursor: pointer;
-
-                                        @include tablet-portrait-only{
-                                            padding: 0.65em 2px;
-                                            font-size: 1.1rem;
-                                        }
-
-                                        @include mobile-only{
-                                            padding: 0.65em 1px;
-                                            font-size: 1rem;
-                                        }
-                                    }
-
-                                    #start-game-button:hover{
-                                       background:#41C2CA;
-                                    }
                                 }
                             }
 

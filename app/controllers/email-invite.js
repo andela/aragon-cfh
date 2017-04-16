@@ -27,7 +27,7 @@ module.exports = (req, res) => {
     } else {
       console.log('Message sent: ' + info.response);
       res.status(200).send({
-        message: `Invite sent to ${mailOptions.to}!`,
+        message: `Email sent to ${mailOptions.to}!`,
       });
     }
   });
