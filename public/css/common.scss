@@ -1,5 +1,5 @@
-$main-font: "helvetica neue", helvetica, sans-serif;
-
+$main-font: "Roboto Slab", "Helvetica Neue", Helvetica;
+// former font "helvetica neue", helvetica, sans-serif;
 $mq-mobile-portrait : 320px !default;
 $mq-mobile-landscape : 520px !default;
 $mq-tablet-portrait : 768px !default;
@@ -128,10 +128,11 @@ background-image: linear-gradient(to bottom right, #0B394E 0%, #ABCE8D 100%);
     }
 }
 
+// changed mixin boder-radius: 8px to 0;
 @mixin br{
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }
 
 @mixin br-bottom {
@@ -303,8 +304,6 @@ background-image: linear-gradient(to bottom right, #0B394E 0%, #ABCE8D 100%);
 
     background-color: #fff;
 
-    border-radius: 8px;
-
     color: #252525;
     font-family: Arial;
     font-size: 20px;
@@ -433,12 +432,12 @@ body{
   .modal-dialog {
     width: 45%;
     .modal-body {
-      background: #FED136;
+      background: #333333;
       border-radius: 8px;
       padding: 2%;
       .card {
         background: white;
-        border-color: #333333;
+        border-color: #FED136;
         color: #333333;
         font-size: 14px;
         height: 100%;
@@ -455,6 +454,15 @@ body{
 
 .btn-default {
     background: #FED136;
+    color: white;
+}
+
+#game-loading {
+    width:100%;
+    margin-left:48%;
+    margin-right:48%;
+    padding-top:25%;
+    display:none;
 }
 
 #main-container{
@@ -570,7 +578,7 @@ body{
             height: 63%;
             position: absolute;
             right: 0;
-            top: 60px;
+            top: 0;
 
             @include mobile-only{
                 top: auto;
@@ -682,7 +690,7 @@ body{
                         #player-name{
 
                             h4{
-                                font-family: 'Lobster', cursive;
+                                font-family: "Kaushan Script", "Helvetica Neue", Arial, sans-serif;
                                 margin-bottom: 0px;
                             }
                             h4{
@@ -700,6 +708,11 @@ body{
                             }
                         }
 
+                        #player-score h2, #player-name h4 {
+                            font-family: "Montserrat", Arial, sans-serif;
+                            font-weight: 400;
+                            text-transform: none;
+                        }
                         #player-score{
                             float: left;
 
@@ -839,6 +852,7 @@ body{
                             text-shadow: none;
                             cursor: default;
                             border: none;
+                            border-radius: 0px;
                             min-width: 85px;
                             min-height: 85px;
                             height: 100%;
@@ -862,8 +876,8 @@ body{
                             }
 
                             #time{
-                                font-family: 'Lobster', cursive;
-                                font-size: 110px;
+                                font-family: 'Raleway', sans-serif;
+                                font-size: 120px;
                                 position: absolute;
                                 bottom: 25%;
                                 left: 0;
@@ -1345,9 +1359,9 @@ body{
     width: 80% !important;
     margin-top: 8px !important;
     background: rgb(244,120,31) !important;
-    -webkit-border-radius: 8px !important;
-    -moz-border-radius: 8px !important;
-    border-radius: 8px !important;
+    // -webkit-border-radius: 8px !important;
+    // -moz-border-radius: 8px !important;
+    // border-radius: 8px !important;
     text-transform: none !important;
     .donateNow{
         border-top: 0px solid black !important;
