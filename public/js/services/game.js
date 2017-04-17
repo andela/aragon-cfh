@@ -24,7 +24,6 @@ angular.module('mean.system')
 
     const notificationQueue = [];
     let timeout = false;
-    let joinOverrideTimeout = 0;
 
     const setNotification = function setNotification() {
       if (notificationQueue.length === 0) { // If notificationQueue is empty, stop
@@ -72,6 +71,7 @@ angular.module('mean.system')
       if (game.gameID !== data.gameID) {
         game.gameID = data.gameID;
       }
+      console.log(`czar from socekt ${data.czar}`);
 
       game.joinOverride = false;
       clearTimeout(game.joinOverrideTimeout);
@@ -136,6 +136,14 @@ angular.module('mean.system')
         game.state = data.state;
       }
 
+      if (data.state === 'waiting for czar to draw cards') {
+        game.czar = data.czar;
+        if (game.czar === game.playerIndex) {
+          addToNotificationQueue('You\'re the czar. Please wait!');
+        } else {
+          addToNotificationQueue('wait for czar to shuffle');
+        }
+      } else
       if (data.state === 'waiting for players to pick') {
         game.czar = data.czar;
         game.curQuestion = data.curQuestion;
@@ -157,6 +165,12 @@ angular.module('mean.system')
           addToNotificationQueue("Everyone's done. Choose the winner!");
         } else {
           addToNotificationQueue('The czar is contemplating...');
+        }
+      } else if (data.state === 'waiting for czar to draw cards') {
+        if (game.czar === game.playerIndex) {
+          addToNotificationQueue('Click to Draw the Cards!');
+        } else {
+          addToNotificationQueue('The czar is drawing the cards...');
         }
       } else if (data.state === 'winner has been chosen' &&
                 game.curQuestion.text.indexOf('<u></u>') > -1) {
@@ -182,7 +196,6 @@ angular.module('mean.system')
         $http.post(`/api/games/${userid}/start`, gameData);
       }
     });
-
     socket.on('notification', (data) => {
       addToNotificationQueue(data.notification);
     });
@@ -217,6 +230,10 @@ angular.module('mean.system')
 
     game.pickWinning = function pickWinning(card) {
       socket.emit('pickWinning', { card: card.id });
+    };
+
+    game.drawCard = () => {
+      socket.emit('drawCard');
     };
 
     decrementTime();
