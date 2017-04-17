@@ -1256,4 +1256,13 @@
    .row {
       margin: 0 0 0 4px;
    }
+   .draw-card-icon{
+  background-image:url('../img/deck-card.png');
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:center;
+  height: 200px;
+  cursor: pointer;
+  /*background-color:deeppink;*/
+}
  }

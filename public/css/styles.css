@@ -133,4 +133,14 @@
 .p {
   text-align: right;
 }
-
+.modal-body > .img-responsive {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.modal-header{
+  background-color: indianred;
+}
+.modal-body{
+  background-color: lightgoldenrodyellow;
+}
