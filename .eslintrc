@@ -33,8 +33,8 @@
     "require-jsdoc": ["error", {
         "require": {
             "FunctionDeclaration": true,
-            "MethodDefinition": false,
-            "ClassDeclaration": false
+            "MethodDefinition": true,
+            "ClassDeclaration": true
         }
     }]
   }
