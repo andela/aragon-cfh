@@ -1,31 +1,33 @@
 </script>
 
-<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top" ng-controller="GameController" style="margin-bottom: 20px">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-            </button>
-            <a class="navbar-brand page-scroll" href="#page-top">Cards 4 humanity</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
-                <li ng-hide="showOptions"><a target="_blank" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A3000%2F&ref_src=twsrc%5Etfw&related=CFH_App&text=Cards%20for%20Humanity%3A%20A%20Game%20for%20Horrible%20People%20Desperately%20Trying%20to%20do%20Good&tw_p=tweetbutton&url=http%3A%2F%2Fcfh.io"><i class="fa fa-twitter fa-2x"></i></a>
-                </li>
-                <li id="abandon-game-button" ng-hide="showOptions"><a href="/" class="btn btn-xl" ng-click="abandonGame()">Abandon Game</a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
-
 <div id="app-container" ng-controller="GameController" style="margin-top: 150px">
+  <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+      <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header page-scroll">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+              </button>
+              <a class="navbar-brand page-scroll" href="#page-top">Cards 4 humanity</a>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                  <li class="hidden">
+                      <a href="#page-top"></a>
+                  </li>
+                  <li ng-hide="showOptions"><a href="#" class="btn btn-xl" data-toggle="modal" data-target="#invite-modal">Invite Players</a></li>
+                  <li ng-hide="showOptions">
+                    <a target="_blank" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A3000%2F&ref_src=twsrc%5Etfw&related=CFH_App&text=Cards%20for%20Humanity%3A%20A%20Game%20for%20Horrible%20People%20Desperately%20Trying%20to%20do%20Good&tw_p=tweetbutton&url=http%3A%2F%2Fcfh.io"><i class="fa fa-twitter fa-2x"></i></a>
+                  </li>
+                  <li id="abandon-game-button" ng-hide="showOptions"><a href="/" class="btn btn-xl" ng-click="abandonGame()">Abandon Game</a></li>
+              </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+  </nav>
+
   <tour id="tour" ng-hide="hideTour"></tour>
   <div id="game-loading">
     <img src="../img/loader.gif">

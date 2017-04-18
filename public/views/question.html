@@ -9,18 +9,13 @@
       <div id="player-count-container">
         <div id="player-count">{{game.players.length}} / 12 </div>
         <div id="the-word-players"> Players </div>
-        <div class="btn-m width-65 center" data-toggle="modal" data-target="#invite-modal" ng-show="showInvite">
-          <h6>Invite Friends</h6>
-        </div>
       </div>
       <div id="loading-container">
         <div id="loading-gif"><img height="65" ng-src="../img/loader.gif"/></div>
       </div>
-      <div id="start-game-container" class="center" ng-show="(game.playerIndex === 0)">
-        <div class="btn-m width-65 right" ng-click="startGame()">
-          <h6>Start Game<br />with {{game.players.length}} players</h6>
-        </div>
-      </div>
+      <li ng-show="(game.playerIndex === 0)">
+        <a class="btn btn-xl" id="start-game-btn" ng-click="startGame()">Start Game</a>
+      </li>
     </div>
     <!-- Game Over Stuff -->
     <div id="game-end-info">
@@ -42,10 +37,10 @@
       <div class="modal-content">
         <div class="modal-header" style="background-color: #FED136">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h3 class="modal-title" style="color: #000">Hi Player</h3>
+          <h3 class="modal-title" id="finding-players" style="color: #000">Hi Player</h3>
         </div>
         <div class="modal-body">
-          <h4 style="color: #000">By clicking on the start button below, you have agreed to begin a game session</h4>
+          <h4 id="finding-players" style="color: #000">By clicking on the start button below, you have agreed to begin a game session</h4>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn" ng-click="modalContinue()" style="color: #000; background: #FED136;">Start</button>

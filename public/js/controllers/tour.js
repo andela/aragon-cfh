@@ -42,6 +42,16 @@ angular.module('mean.system')
     onEnd: () => {
       $scope.endTour();
     },
+    template: `<div class='popover tour center-block'>
+      <div class='arrow'></div>
+      <h3 id='finding-players' class='popover-title'></h3>
+      <div class='popover-content'></div>
+      <div id='tour-btn'>
+        <button class='btn btn-default' data-role='prev'>« Prev</button>
+        <button class='btn btn-default' data-role='next'>Next »</button>
+        <button class='btn btn-default' data-role='end'>End tour</button>
+      </div>
+    </div>`,
     steps: [
       {
         orphan: true,
