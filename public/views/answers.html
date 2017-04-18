@@ -1,10 +1,14 @@
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel = "stylesheet" type = 'text/css' href = "/css/styles.css">
 <div ng-cloak id="cards-container" ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
   <div id="social-bar-container">
     <div style="height: 320px; overflow: auto;">
       <player></player>
     </div>
   </div>
-  <div id="cards" class='hand'>
+  <div id="cards" class='hand'  ng-hide="game.state === 'waiting for czar to draw cards'">
 
     <span ng-show="winnerPicked()"></span>
 
@@ -23,9 +27,41 @@
             <span id='selection-number' ng-show="secondAnswer($index)"> 2 </span>
         </div>
     </span>
-
   </div>
 </div>
+<div ng-show="game.state === 'waiting for czar to draw cards'">
+  <div ng-show="!isCzar()">
+    <h4 style = "text-align:center; color:orangered;">Wait for czar to draw next black card</h4>
+  </div>
+  <div ng-show="isCzar()">
+    <div class = 'text-center'>
+      <div class="container">
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></button>
+
+        <!-- Modal -->
+        <div class="modal show" id="myModal" role="dialog">
+          <div class="modal-dialog">
+  
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">welcome CZAR!!!</h4>
+              </div>
+              <div class="modal-body">
+                <p> <h4 class='text-center'> Please click on the deck to draw next black card </h4>
+                  <img src="../img/deck-cards.jpg" width="400" height="400" ng-click="drawCard()"/>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>  
+<!--</div>-->
 
 <div class="row">
   <div class="col-lg-12">
