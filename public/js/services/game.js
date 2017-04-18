@@ -71,8 +71,6 @@ angular.module('mean.system')
       if (game.gameID !== data.gameID) {
         game.gameID = data.gameID;
       }
-      console.log(`czar from socekt ${data.czar}`);
-
       game.joinOverride = false;
       clearTimeout(game.joinOverrideTimeout);
 

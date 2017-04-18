@@ -193,10 +193,10 @@ angular.module('mean.system')
         $location.search({ game: game.gameID });
         if (!$scope.modalShown) {
           setTimeout(() => {
-            let link = document.URL;
-            let txt = 'Give the following link to your friends so they can join your game: ';
+            const link = document.URL;
+            const txt = 'Give the following link to your friends so they can join your game: ';
             $('#lobby-how-to-play').text(txt);
-            $('#oh-el').css({'text-align': 'center', 'font-size':'22px', 'background': 'white', 'color': 'black'}).text(link);
+            $('#oh-el').css({ 'text-align': 'center', 'font-size': '22px', ' background': 'white', ' color': 'black' }).text(link);
             $('#inner-info').append('<a class="btn btn-default" data-toggle="modal" data-target="#invite-modal">Invite Users</a>');
           }, 200);
           $scope.modalShown = true;
