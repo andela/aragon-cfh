@@ -105,7 +105,7 @@ angular.module('mean.directives', [])
         const date = new Date(chat.date);
         element.append(
           `<div class="chat"> <div class="chat-meta">
-          <img src="${chat.avatar}"> ${chat.username} <br> 
+          <img src="${chat.avatar}"> ${chat.username} <br>
           ${month[date.getMonth()]} ${date.getDate()},
           ${date.getHours()}:${date.getMinutes()} </div>
           <div class="clearfix"></div>
