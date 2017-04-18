@@ -469,39 +469,37 @@ body{
 
 .btn-m {
   border-radius: 8px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  font-size: 20px;
-  font-size: 1.25rem;
+  font-size: 20px 1.25rem;
   font-weight: 400;
-  color: white;
+  color: #ffffff;
   background: #fed136;
   padding: 0.65em 20px;
   margin: 10px;
   cursor: pointer;
   text-transform: uppercase;
 
-  @include tablet-portrait-only{
-    padding: 0.65em 2px;
+  @include tablet-portrait-only {
     font-size: 1.1rem;
+    padding: 0.65em 2px;
   }
 
-  @include mobile-only{
-    padding: 0.65em 1px;
+  @include mobile-only {
     font-size: 1rem;
+    padding: 0.65em 1px;
   }
 }
 
-.btn-m:hover{
+.btn-m:hover {
   background:#fec503;
 }
 
-.input-group-addon, .btn-default {
+.input-group-addon,
+.btn-default {
   background: #fed136;
-  color: white;
+  color: #ffffff;
+  cursor: pointer;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
-  cursor: pointer;
 }
 
 .width-65 {
@@ -510,9 +508,10 @@ body{
 
 .nav-tabs {
   text-align: center;
+  
   li {
-    float: none;
     display: inline-block;
+    float: none;
   }
 }
 
