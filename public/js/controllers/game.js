@@ -23,6 +23,9 @@ angular.module('mean.system')
   );
 
   if (window.user) {
+    if (game.playerIndex === 0) {
+      $scope.showInvite = true;
+    }
     if (window.user.hideTour) {
       $scope.hideTour = true;
     }

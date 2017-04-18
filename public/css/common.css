@@ -114,6 +114,10 @@ body {
 .left {
   float: left; }
 
+.center {
+  margin-left: auto !important;
+  margin-right: auto !important; }
+
 .right {
   float: right; }
 
@@ -142,7 +146,7 @@ body {
 .btn-m:hover {
   background: #fec503; }
 
-.input-group-addon {
+.input-group-addon, .btn-default {
   background: #fed136;
   color: white;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -199,33 +203,6 @@ body {
           color: #FFFFA5; }
         #main-container #app-container #menu-container #logo #third-word {
           color: #FC575E; }
-      #main-container #app-container #menu-container #abandon-game-button {
-        display: inline-block;
-        float: right;
-        border-radius: 8px;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        font-size: 20px;
-        font-size: 1.25rem;
-        font-weight: 400;
-        text-align: center;
-        color: white;
-        background: #C54141;
-        margin-top: 3px;
-        margin-bottom: 3px;
-        margin-right: 10px;
-        padding: 0.65em 20px;
-        width: 140px;
-        cursor: pointer; }
-        @media (max-width: 520px) {
-          #main-container #app-container #menu-container #abandon-game-button {
-            font-size: 0.7rem;
-            margin-top: 5px;
-            margin-right: 1px;
-            padding: 5px;
-            width: 60px; } }
-      #main-container #app-container #menu-container #abandon-game-button:hover {
-        background: #F34444; }
       #main-container #app-container #menu-container #tweet-container {
         float: right;
         padding-top: 10px;
@@ -594,48 +571,6 @@ body {
                   @media (max-width: 520px) {
                     #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #game-end-info .game-end-headline {
                       font-size: 18px; } }
-      #main-container #app-container #gameplay-container #info-container {
-        width: 100%;
-        background: #252525;
-        color: white;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-        text-align: center;
-        padding: 15px;
-        height: 50%;
-        margin-top: 10px; }
-        @media only screen and (min-width: 521px) and (max-width: 768px) {
-          #main-container #app-container #gameplay-container #info-container {
-            padding-top: 5px;
-            height: auto; } }
-        @media (max-width: 520px) {
-          #main-container #app-container #gameplay-container #info-container {
-            width: 100%;
-            padding: 1px;
-            margin: 0px auto;
-            height: 72%; } }
-        #main-container #app-container #gameplay-container #info-container #inner-info {
-          width: 90%;
-          margin: 0 5%; }
-          #main-container #app-container #gameplay-container #info-container #inner-info #lobby-how-to-play {
-            font-size: 18px;
-            margin-top: 10px; }
-            @media only screen and (min-width: 521px) and (max-width: 768px) {
-              #main-container #app-container #gameplay-container #info-container #inner-info #lobby-how-to-play {
-                font-size: 14px; } }
-          #main-container #app-container #gameplay-container #info-container #inner-info ol {
-            margin-top: 10px;
-            font-family: "Roboto Slab", "Helvetica Neue", Helvetica;
-            text-align: left;
-            font-size: 17px; }
-            #main-container #app-container #gameplay-container #info-container #inner-info ol li {
-              list-style-type: decimal;
-              margin-bottom: 5px; }
-            @media (max-width: 520px) {
-              #main-container #app-container #gameplay-container #info-container #inner-info ol {
-                font-size: 13px;
-                padding: 0px 10px 10px 10px; } }
       #main-container #app-container #gameplay-container #game-end-container {
         width: 100%;
         background: #252525;
