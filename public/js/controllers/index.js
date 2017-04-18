@@ -23,6 +23,7 @@ angular.module('mean.system')
           $scope.errorMsg = response.data.message;
         } else {
           $window.localStorage.setItem('token', response.data.token);
+          $window.localStorage.setItem('id', response.data.id);
           $location.path('/');
         }
       }, (err) => {
@@ -40,6 +41,7 @@ angular.module('mean.system')
           $scope.showError = () => 'invalid';
         } else {
           $window.localStorage.setItem('token', response.data.token);
+          $window.localStorage.setItem('id', response.data.id);
           $location.path('/');
         }
       }, (err) => {
@@ -49,6 +51,7 @@ angular.module('mean.system')
 
     $scope.logout = () => {
       $window.localStorage.removeItem('token');
+      $window.localStorage.removeItem('id');
     };
 
     $scope.playAsGuest = () => {

@@ -31,7 +31,7 @@ exports.authToken = (req, res) => {
           expiresIn: expiryDate
         });
         // return the token as JSON
-        return res.json({ success: true, message: 'Signed up', token });
+        return res.json({ success: true, message: 'Signed up', id: req.user._id, token });
       });
     }
   });
@@ -85,7 +85,7 @@ exports.create = (req, res) => {
           const token = jwt.sign(user, secret, {
             expiresIn: 86400
           });
-          return res.json({ success: true, message: 'Signed up', token });
+          return res.json({ success: true, message: 'Signed up', id: req.user._id, token });
         });
       });
     } else {
