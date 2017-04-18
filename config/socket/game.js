@@ -417,7 +417,7 @@ Game.prototype.pickWinning = function(thisCard, thisPlayer, autopicked) {
   }
 };
 
-Game.prototype.killGame = function() {
+Game.prototype.Game = function() {
   console.log('Killing game',this.gameID);
   clearTimeout(this.resultsTimeout);
   clearTimeout(this.choosingTimeout);
