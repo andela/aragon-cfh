@@ -74,14 +74,14 @@ angular.module('mean.system')
     }
     return false;
   };
-  
+
   $scope.cardIsSecondSelected = (card) => {
     if (game.curQuestion.numAnswers > 1) {
       return card === $scope.pickedCards[1];
     }
     return false;
   };
-  
+
   $scope.firstAnswer = ($index) => {
     if ($index % 2 === 0 && game.curQuestion.numAnswers > 1) {
       return true;
@@ -155,7 +155,7 @@ angular.module('mean.system')
           console.log(err);
         });
   };
-  
+
   $scope.appInvite = () => {
 
   };
@@ -179,7 +179,7 @@ angular.module('mean.system')
       });
     }
   };
-  
+
   $scope.copyToClipboard = () => {
     const text = document.getElementById('game-url');
     text.select();

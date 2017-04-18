@@ -116,7 +116,7 @@ module.exports = (io) => {
     console.log(socket.id, 'is requesting room', requestedGameId);
     if (requestedGameId.length && allGames[requestedGameId]) {
       console.log('Room', requestedGameId, 'is valid');
-      let game = allGames[requestedGameId];
+      game = allGames[requestedGameId];
       // Ensure that the same socket doesn't try to join the same game
       // This can happen because we rewrite the browser's URL to reflect
       // the new game ID, causing the view to reload.
@@ -132,7 +132,6 @@ module.exports = (io) => {
         game.assignPlayerColors();
         game.assignGuestNames();
         game.sendUpdate();
-        console.log(`czar from socekt ${data.czar}`);
         game.sendNotification(`${player.username} has joined the game!`);
         if (game.players.length >= game.playerMaxLimit) {
           gamesNeedingPlayers.shift();
