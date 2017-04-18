@@ -19,9 +19,12 @@
             <div id="player-count-container">
               <div id="player-count">{{ players.length }} / 12 </div>
               <div id="the-word-players"> Players </div>
+              <div class="btn-m width-65 center">
+                <h6>Invite Friends</h6>
+              </div>
             </div>
             <div id="loading-container">
-              <div id="loading-gif"><img ng-src="../img/loader.gif"/></div>
+              <div id="loading-gif"><img height="65" ng-src="../img/loader.gif"/></div>
             </div>
           </div>
 
@@ -42,7 +45,7 @@
     </div>
   </div>
   <div ng-cloak id="cards-container">
-    <div id="social-bar-container">
+    <div id="social-bar-container" style="height: 320px; overflow: auto;">
       <div ng-repeat="player in players" id="player-{{$index}}">
         <div id="player-container" style="background-color:{{ colors[player.color] }}">
           <div id ="above-czar-container">
@@ -82,7 +85,7 @@
     </div>
   </div>
   <div id="info-container" ng-show="showInfo">
-    <section id="howto" class="bg-light-gray sections" ng-show="game.state === 'awaiting players'">
+    <section id="howto" class="bg-light-gray sections">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
