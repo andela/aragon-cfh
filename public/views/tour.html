@@ -19,9 +19,12 @@
             <div id="player-count-container">
               <div id="player-count">{{ players.length }} / 12 </div>
               <div id="the-word-players"> Players </div>
+              <div class="btn-m width-65 center">
+                <h6>Invite Friends</h6>
+              </div>
             </div>
             <div id="loading-container">
-              <div id="loading-gif"><img ng-src="../img/loader.gif"/></div>
+              <div id="loading-gif"><img height="65" ng-src="../img/loader.gif"/></div>
             </div>
           </div>
 
@@ -29,12 +32,12 @@
           
           <div id="game-end-info">
             <div id="people-left-game-top" ng-show="gameEnded">
-              <div class="game-end-headline">What the!? The game ended because too many people left! </div>
-              Our sincere apologies.
+              <div id="finding-players">What the!? The game ended because too many people left! </div>
+              <p class="section-subheading">Our sincere apologies.</p>
             </div>
             <div ng-show="gameWon">
-              <div class="game-end-headline">Congratulations! You won the game, Insulated Mustard!</div>
-              We hope you feel special. If you'd like to share that special feeling with the world, consider donating to charity. Or just horde it all for youself.
+              <div id="finding-players">Congratulations! You won the game, Insulated Mustard!</div>
+              <p class="section-subheading">We hope you feel special. If you'd like to share that special feeling with the world, consider donating to charity. Or just horde it all for youself.</p>
             </div>
           </div>
         </div>
@@ -42,7 +45,7 @@
     </div>
   </div>
   <div ng-cloak id="cards-container">
-    <div id="social-bar-container">
+    <div id="social-bar-container" style="height: 320px; overflow: auto;">
       <div ng-repeat="player in players" id="player-{{$index}}">
         <div id="player-container" style="background-color:{{ colors[player.color] }}">
           <div id ="above-czar-container">
@@ -82,35 +85,58 @@
     </div>
   </div>
   <div id="info-container" ng-show="showInfo">
-    <div id="inner-info">
-      <div id="lobby-how-to-play">How To Play</div>
-      <ol id="oh-el">
-        <li>Each player begins with, and will always have, 10 white answer cards.</li>
-        <li>For each round, one player is randomly chosen as the Card Czar.</li>
-        <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
-        <li>The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</li>
-        <li>*Want to adorn your avatar with a glorious crown? Donate to charity after the game!</li>
-      </ol>
-    </div>
+    <section id="howto" class="bg-light-gray sections">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading">Instructions</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-sm-6 howto-item">
+            <div class="howto-caption">
+              <h2 class="section-heading">1</h2>
+              <p class="text-muted">Each player begins with, and will always have, 10 white answer cards.</p>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6 howto-item">
+            <div class="howto-caption">
+              <h2 class="section-heading">2</h2>
+              <p class="text-muted">For each round, one player is randomly chosen as the Card Czar.</p>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6 howto-item">
+            <div class="howto-caption">
+              <h2 class="section-heading">3</h2>
+              <p class="text-muted">Everyone else answers the black question card by clicking on the answer card they want to use.</p>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6 howto-item">
+            <div class="howto-caption">
+              <h2 class="section-heading">4</h2>
+              <p class="text-muted">The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <h4 class="section-heading">Hey there!</h4>
+              <h3 class="section-subheading text-muted">Want to adorn your avatar with a glorious crown? Donate to charity after the game!</h3>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
   <div id="game-end">
     <div id="game-end-container" ng-show="gameWon || gameEnded">
       <div id="inner-info-exit">
         <div class="game-end-answer-text">
-          <h2>What would you like to do now?</h2>
-          You might consider donating to charity to atone for the horrifying answers you've submitted. Donating will also place a lovely crown on your avatar's head.
+          <h2 id="finding-players">What would you like to do now?</h2>
+          <p class="secion-subheading">You might consider donating to charity to atone for the horrifying answers you've submitted. Donating will also place a lovely crown on your avatar's head.</p>
         </div>
         <div id='inner-text-container'>
-          <a>
-            <div id="join-new-game">
-              Join a New Game
-            </div>
-          </a>
-          <a>
-            <div id="exit-match">
-              Return to Lobby
-            </div>
-          </a>
+          <a href='/#!/app' class="btn btn-xl" ng-click="game.joinGame('joinNewGame')">Join a new game</a>
+          <a href='/' class="btn btn-xl" ng-click="game.joinGame('joinNewGame')">Return to lobby</a>
         </div>
       </div>
 
@@ -122,8 +148,8 @@
   </div>
   <div id="czar-blank-container" ng-show="isCzar">
     <div id="czar-blank-inner">
-      You are the Card Czar. <br>
-      <span id="smaller-text">Players are choosing their answers. Prepare to select a winner.</span>
+      <h2 id="finding-players">You are the Card Czar.</h2>
+      <span class="section-subheading">Players are choosing their answers. Prepare to select a winner.</span>
     </div>
     <div id='charity-fact-container'>
       <div id='charity-fact-tagline'>Did you know?</div>

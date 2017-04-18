@@ -5,11 +5,11 @@
  */
 body {
   overflow-x: hidden;
-  font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
   margin: 0;
 }
 html {
-  /*background-image: none !important;*/
+  background-color: #eeeeee;
 }
 .text-muted {
   color: #777777;
@@ -46,7 +46,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Kaushan Script", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   font-weight: 700;
 }
@@ -208,7 +208,7 @@ fieldset[disabled] .btn-xl.active {
     -webkit-transition: padding 0.3s;
     -moz-transition: padding 0.3s;
     transition: padding 0.3s;
-    border: none;
+    border-bottom: thick solid #fed136;
   }
   .navbar-custom .navbar-brand {
     font-size: 2em;
@@ -282,7 +282,7 @@ header .intro-text .intro-heading {
   }
 }
 .howto-caption {
-  height: 200px;
+  height: 220px;
 }
 #charity, .charity {
   color: white;
@@ -292,7 +292,6 @@ header .intro-text .intro-heading {
 }
 #charity {
   background-color: #222222;
-  /*url('../img/charity-photo.png');*/
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -304,9 +303,6 @@ header .intro-text .intro-heading {
 }
 .sections {
   padding: 100px 0;
-}
-section {
-  /*padding: 100px 0;*/
 }
 section h2.section-heading {
   font-size: 40px;
@@ -320,11 +316,6 @@ section h3.section-subheading {
   font-style: italic;
   font-weight: 400;
   margin-bottom: 75px;
-}
-@media (min-width: 768px) {
-  section {
-    /*padding: 150px 0;*/
-  }
 }
 .service-heading {
   margin: 15px 0;
@@ -883,4 +874,12 @@ body {
   background-color: #f9f9f9;
   padding: 5px;
   border-radius: 8px;
+}
+
+#finding-players, #player-count,
+#the-word-players, #timer-status-round,
+#notifications, #currentQuestion, #answers
+.game-end-headline {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-weight: 400;
 }

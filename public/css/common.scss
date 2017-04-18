@@ -1,5 +1,5 @@
-$main-font: "helvetica neue", helvetica, sans-serif;
-
+$main-font: "Roboto Slab", "Helvetica Neue", Helvetica;
+// former font "helvetica neue", helvetica, sans-serif;
 $mq-mobile-portrait : 320px !default;
 $mq-mobile-landscape : 520px !default;
 $mq-tablet-portrait : 768px !default;
@@ -128,10 +128,11 @@ background-image: linear-gradient(to bottom right, #0B394E 0%, #ABCE8D 100%);
     }
 }
 
+// changed mixin boder-radius: 8px to 0;
 @mixin br{
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }
 
 @mixin br-bottom {
@@ -303,8 +304,6 @@ background-image: linear-gradient(to bottom right, #0B394E 0%, #ABCE8D 100%);
 
     background-color: #fff;
 
-    border-radius: 8px;
-
     color: #252525;
     font-family: Arial;
     font-size: 20px;
@@ -432,30 +431,88 @@ body{
   padding-top: 10%;
   .modal-dialog {
     width: 45%;
-    .modal-body {
+    .modal-content {
       background: #333333;
-      border-radius: 8px;
-      padding: 2%;
-      .card {
-        background: white;
-        border-color: #FED136;
-        color: #333333;
-        font-size: 14px;
-        height: 100%;
-        margin: 0;
-        width: 100%;
+      .modal-body {
+        border-radius: 8px;
+        padding: 2%;
+        .card {
+          background: white;
+          border-color: #FED136;
+          color: #333333;
+          font-size: 14px;
+          height: 100%;
+          margin: 0;
+          width: 100%;
+        }
       }
     }
   }
 }
 
 .padding-10 {
-    padding: 10px;
+  padding: 10px;
 }
 
+.left {
+  float: left;
+}
+
+.center {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.right {
+  float: right;
+}
+
+.btn-m {
+  border-radius: 8px;
+  font-size: 20px 1.25rem;
+  font-weight: 400;
+  color: #ffffff;
+  background: #fed136;
+  padding: 0.65em 20px;
+  margin: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+
+  @include tablet-portrait-only {
+    font-size: 1.1rem;
+    padding: 0.65em 2px;
+  }
+
+  @include mobile-only {
+    font-size: 1rem;
+    padding: 0.65em 1px;
+  }
+}
+
+.btn-m:hover {
+  background:#fec503;
+}
+
+.input-group-addon,
 .btn-default {
-    background: #FED136;
-    color: white;
+  background: #fed136;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+.width-65 {
+  width: 65%;
+}
+
+.nav-tabs {
+  text-align: center;
+  
+  li {
+    display: inline-block;
+    float: none;
+  }
 }
 
 #game-loading {
@@ -512,38 +569,6 @@ body{
                 }
             }
 
-            #abandon-game-button{
-                display: inline-block;
-                float:right;
-                border-radius: 8px;
-                -moz-border-radius: 8px;
-                -webkit-border-radius: 8px;
-                font-size: 20px;
-                font-size: 1.25rem;
-                font-weight: 400;
-                text-align: center;
-                color: white;
-                background: #C54141;
-                margin-top: 3px;
-                margin-bottom: 3px;
-                margin-right: 10px;
-                padding: 0.65em 20px;
-                width: 140px;
-                cursor: pointer;
-
-                @include mobile-only{
-                    font-size: 0.7rem;
-                    margin-top: 5px;
-                    margin-right: 1px;
-                    padding: 5px;
-                    width: 60px;
-                }
-            }
-
-            #abandon-game-button:hover{
-               background:#F34444;
-            }
-
             #tweet-container{
                 float: right;
                 padding-top: 10px;
@@ -579,7 +604,7 @@ body{
             height: 63%;
             position: absolute;
             right: 0;
-            top: 60px;
+            top: 0;
 
             @include mobile-only{
                 top: auto;
@@ -691,7 +716,7 @@ body{
                         #player-name{
 
                             h4{
-                                font-family: 'Lobster', cursive;
+                                font-family: "Kaushan Script", "Helvetica Neue", Arial, sans-serif;
                                 margin-bottom: 0px;
                             }
                             h4{
@@ -709,6 +734,11 @@ body{
                             }
                         }
 
+                        #player-score h2, #player-name h4 {
+                            font-family: "Montserrat", Arial, sans-serif;
+                            font-weight: 400;
+                            text-transform: none;
+                        }
                         #player-score{
                             float: left;
 
@@ -848,6 +878,7 @@ body{
                             text-shadow: none;
                             cursor: default;
                             border: none;
+                            border-radius: 0px;
                             min-width: 85px;
                             min-height: 85px;
                             height: 100%;
@@ -871,8 +902,8 @@ body{
                             }
 
                             #time{
-                                font-family: 'Lobster', cursive;
-                                font-size: 110px;
+                                font-family: 'Raleway', sans-serif;
+                                font-size: 120px;
                                 position: absolute;
                                 bottom: 25%;
                                 left: 0;
@@ -968,35 +999,6 @@ body{
 
                                 #start-game-container{
                                     color: #333;
-
-                                    #start-game-button{
-                                        border-radius: 8px;
-                                        -moz-border-radius: 5px;
-                                        -webkit-border-radius: 5px;
-                                        font-size: 20px;
-                                        font-size: 1.25rem;
-                                        font-weight: 400;
-                                        color: white;
-                                        background: #1F959C;
-                                        padding: 0.65em 20px;
-                                        margin: 10px;
-                                        width: 65%;
-                                        cursor: pointer;
-
-                                        @include tablet-portrait-only{
-                                            padding: 0.65em 2px;
-                                            font-size: 1.1rem;
-                                        }
-
-                                        @include mobile-only{
-                                            padding: 0.65em 1px;
-                                            font-size: 1rem;
-                                        }
-                                    }
-
-                                    #start-game-button:hover{
-                                       background:#41C2CA;
-                                    }
                                 }
                             }
 
@@ -1018,59 +1020,6 @@ body{
                                 }
 
                             }
-                        }
-                    }
-                }
-            }
-            #info-container{
-                width: 100%;
-                background: #252525;
-                color: white;
-                @include br;
-                text-align: center;
-                padding: 15px;
-                height: 50%;
-                margin-top: 10px;
-
-                @include tablet-portrait-only{
-                    padding-top: 5px;
-                    height: auto;
-                }
-
-                @include mobile-only{
-                    width: 100%;
-                    padding: 1px;
-                    margin: 0px auto;
-                    height: 72%;
-                }
-
-                #inner-info{
-                    width: 90%;
-                    margin: 0 5%;
-
-                    #lobby-how-to-play{
-                        font-size: 18px;
-                        margin-top: 10px;
-
-                        @include tablet-portrait-only{
-                            font-size: 14px;
-                        }
-                    }
-
-                    ol{
-                        margin-top: 10px;
-                        font-family: $main-font;
-                        text-align: left;
-                        font-size: 17px;
-
-                        li{
-                            list-style-type: decimal;
-                            margin-bottom: 5px;
-                        }
-
-                        @include mobile-only{
-                            font-size: 13px;
-                            padding: 0px 10px 10px 10px;
                         }
                     }
                 }
@@ -1354,9 +1303,9 @@ body{
     width: 80% !important;
     margin-top: 8px !important;
     background: rgb(244,120,31) !important;
-    -webkit-border-radius: 8px !important;
-    -moz-border-radius: 8px !important;
-    border-radius: 8px !important;
+    // -webkit-border-radius: 8px !important;
+    // -moz-border-radius: 8px !important;
+    // border-radius: 8px !important;
     text-transform: none !important;
     .donateNow{
         border-top: 0px solid black !important;

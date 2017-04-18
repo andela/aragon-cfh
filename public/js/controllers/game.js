@@ -23,6 +23,9 @@ angular.module('mean.system')
   );
 
   if (window.user) {
+    if (game.playerIndex === 0) {
+      $scope.showInvite = true;
+    }
     if (window.user.hideTour) {
       $scope.hideTour = true;
     }
@@ -153,24 +156,34 @@ angular.module('mean.system')
         });
   };
 
-  $scope.inviteUser = () => {
-    $scope.inviteSent = null;
+  $scope.appInvite = () => {
+
+  };
+
+  $scope.emailInvite = () => {
+    $scope.emailSent = null;
     if ($scope.invitee.name && $scope.invitee.email) {
-      $http.post('/api/invite', {
-        gameURL: document.URL,
+      $http.post('/api/invite/email', {
+        gameURL: $scope.gameURL,
         inviteeEmail: $scope.invitee.email,
         inviteeName: $scope.invitee.name,
         inviterName: window.user.name || 'Guest'
       }).then((res) => {
         if (res.status === 200) {
           $timeout(() => {
-            $scope.inviteSent = res.data.message;
+            $scope.emailSent = res.data.message;
           }, 200);
         }
       }, (err) => {
         console.log(err);
       });
     }
+  };
+
+  $scope.copyToClipboard = () => {
+    const text = document.getElementById('game-url');
+    text.select();
+    document.execCommand('copy');
   };
 
     // Catches changes to round to update when no players pick card
@@ -203,16 +216,9 @@ angular.module('mean.system')
           // Once the game ID is set, update the URL if this is a game with friends,
           // where the link is meant to be shared.
         $location.search({ game: game.gameID });
-        if (!$scope.modalShown) {
-          setTimeout(() => {
-            const link = document.URL;
-            const txt = 'Give the following link to your friends so they can join your game: ';
-            $('#lobby-how-to-play').text(txt);
-            $('#oh-el').css({ 'text-align': 'center', 'font-size': '22px', background: 'white', color: 'black' }).text(link);
-            $('#inner-info').append('<a class="btn btn-default" data-toggle="modal" data-target="#invite-modal">Invite Users</a>');
-          }, 400);
-          $scope.modalShown = true;
-        }
+        $timeout(() => {
+          $('#game-url').val(document.URL);
+        }, 400);
       }
     }
   });
