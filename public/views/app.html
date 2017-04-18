@@ -17,7 +17,7 @@
                 <li><a id="" href="/#!/dashboard">Dashboard</a></li>
                 <li ng-hide="showOptions"><a target="_blank" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A3000%2F&ref_src=twsrc%5Etfw&related=CFH_App&text=Cards%20for%20Humanity%3A%20A%20Game%20for%20Horrible%20People%20Desperately%20Trying%20to%20do%20Good&tw_p=tweetbutton&url=http%3A%2F%2Fcfh.io"><i class="fa fa-twitter fa-2x"></i></a>
                 </li>
-                <li ng-hide="showOptions"><a href="#!/signup" class="btn btn-xl" ng-click="abandonGame()">Abandon Game</a></li>
+                <li id="abandon-game-button" ng-hide="showOptions"><a href="/" class="btn btn-xl" ng-click="abandonGame()">Abandon Game</a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -28,7 +28,7 @@
 <div id="app-container" ng-controller="GameController" style="margin-top: 150px">
   <tour id="tour" ng-hide="hideTour"></tour>
   <div id="game-loading">
-    <img src="../img/darkloader.gif">
+    <img src="../img/loader.gif">
   </div>
   <div id="gameplay-container" ng-hide="!hideTour">
     <div id="upper-gameplay-container">
