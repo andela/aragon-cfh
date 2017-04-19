@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-  <head>
-    <title>Welcome to signin page</title>
-    
-    <script src="https://use.fontawesome.com/ec7068bdae.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script><link rel = "stylesheet" type = 'text/css' href = "/css/styles.css">
-  </head> 
-     <body>
+
+
   <div id="main-bod" ng-controller="IndexController">
-  <!-- Navigation -->
+    <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -34,63 +28,57 @@
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.container-fluid -->
-  </nav>
+    </nav>
 
-<!-- Landing Start -->
+    <!-- Landing Start -->
     <div class = centered>
-     <div class ="aa">
-      <h2 id="slogan">Sign in with:</h2>
-      <div id="login-buttons">
-         <div class="social-login">
-      <a href="#">
-        <i class="fa fa-facebook fa-lg"></i>
-        Login in with facebook
-      </a>
-      <a href="#" class="twitter-button">
-        <i class="fa fa-twitter fa-lg"></i>
-        Login in with twitter
-      </a>
-      <a href="#" class="github">
-         <i class="fa fa-github fa-lg"></i>
-        Login in with github
-      </a>  
-      <a href="#">
-        <i class="fa fa-google-plus fa-lg"></i>
-        log in with Google
-      </a>  
-      </div>
-      <p id="create">Or log in below:</p>
-      <div class="sign-body">
-        <div class="more-sign">
-          <div class="sign-error" ng-show="showError() === 'invalid'">
-            <br>
-            <p style="color:darkred">Please check your username/password and try again</p>
+      <div class ="aa">
+        <h2 id="slogan">Sign in with:</h2>
+        <div id="login-buttons">
+          <div class="social-login">
+            <a href="#">
+              <i class="fa fa-facebook fa-lg"></i>
+              Login with facebook
+            </a>
+            <a href="#" class="twitter-button">
+              <i class="fa fa-twitter fa-lg"></i>
+              Login with twitter
+            </a>
+            <a href="#" class="github">
+              <i class="fa fa-github fa-lg"></i>
+              Login with github
+            </a>  
+            <a href="#">
+              <i class="fa fa-google-plus fa-lg"></i>
+              Login with google
+            </a>  
           </div>
-          <form class="signup form-horizontal" method="post">
-            <div class="control-group">
-              <label for="email" class="control-label"></label>
-              <div class="controls">
-                <input type ="text" id="email" name="email" placeholder="Please enter your email" ng-model="email" required novalidate />
+          <p id="create">Or log in below:</p>
+          <div class="sign-body">
+            <div class="more-sign">
+              <div class="sign-error" ng-show="showError() === 'invalid'">
+                <br>
+                <p style="color:darkred">Please check your username/password and try again</p>
               </div>
+              <form class="signup form-horizontal" method="post">
+                <div class="control-group">
+                  <label for="email" class="control-label"></label>
+                  <div class="controls">
+                    <input type ="text" id="email" name="email" placeholder="Please enter your email" ng-model="email" required novalidate />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label for="password" class="control-label"></label>
+                  <div class="controls">
+                    <input type="password" id="password" name="password" placeholder="Please Enter password" ng-model="password" required novalidate />
+                  </div>
+                </div>
+                <div class="form-actions top-margin">
+                  <input type ="submit" type='submit' ng-click="login()" value = "Sign In">
+                </div>
+              </form>
             </div>
-            <div class="control-group">
-              <label for="password" class="control-label"></label>
-              <div class="controls">
-                <input type="password" id="password" name="password" placeholder="Please Enter password" ng-model="password" required novalidate />
-              </div>
-            </div>
-            <div class="form-actions top-margin">
-              <input type ="submit" type='submit' ng-click="login()" value = "Sign In">
-            </div>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-    </div>
-  </div>
-</div>
-</body>
-      
-</html>
