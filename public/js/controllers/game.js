@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
+.controller('GameController', ['$scope', 'game', 'region', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, region, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
   $scope.hasPickedCards = false;
   $scope.winningCardPicked = false;
   $scope.showTable = false;
@@ -23,19 +23,29 @@ angular.module('mean.system')
   );
 
   if (window.user) {
-    if (game.playerIndex === 0) {
-      $scope.showInvite = true;
-    }
+    $scope.isSignedIn = true;
     if (window.user.hideTour) {
       $scope.hideTour = true;
     }
   }
+
   if ($scope.hideTour) {
-    $scope.goToGame();
+    $scope.goToGame().then(() => {
+      $scope.locateRegion();
+    });
     $timeout(() => {
       $('#tour').remove();
     }, 200);
   }
+
+  $scope.locateRegion = () => {
+    if ($scope.game.playerIndex === 0) {
+      $scope.regions = region.regions;
+      region.getSelectedRegion().then((selectedRegion) => {
+        $scope.selectedRegion = selectedRegion;
+      });
+    }
+  };
 
   $scope.pickCard = (card) => {
     if (!$scope.hasPickedCards) {
@@ -136,7 +146,9 @@ angular.module('mean.system')
   };
 
   $scope.modalContinue = () => {
-    game.startGame();
+    game.setRegion($scope.selectedRegion).then(() => {
+      game.startGame();
+    });
     angular.element('#modalShow').modal('hide');
   };
 
