@@ -8,7 +8,6 @@ angular.module('mean.system')
   $scope.pickedCards = [];
   let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
   $scope.makeAWishFact = makeAWishFacts.pop();
-  $scope.logs = [];
 
   $scope.goToGame = () => (
     new Promise((resolve) => {
@@ -38,13 +37,16 @@ angular.module('mean.system')
     }, 200);
   }
 
-
   $scope.getGameLogs = () => {
     const userName = window.user.name;
-    console.log( window.user.name, 'I am here');
     $http.get('/api/games/history', { params: { name: userName } })
         .success((response) => {
-          $scope.logs = response;
+          const userGameLog = response.filter((gameResult) => {
+            if (gameResult.players.indexOf(window.user.name) !== -1) {
+              return gameResult;
+            }
+          });
+          $scope.logs = userGameLog;
         }, err => console.log(err));
   };
   $scope.getGameLogs();
@@ -59,9 +61,13 @@ angular.module('mean.system')
   $scope.getLeaderBoard();
 
   $scope.getdonations = () => {
-    $http.get('/api/games/donations').success((response) => {
-      $scope.donations = response;
-    }, err => console.log(err));
+    const userName = window.user.name;
+    $http.get('/api/games/donations', { params: { name: userName } })
+        .success((response) => {
+           $scope.test = response[0].name;
+           $scope.amount = response[0].donations.length;
+          $scope.donations = response;
+        }, err => console.log(err));
   };
   $scope.getdonations();
 

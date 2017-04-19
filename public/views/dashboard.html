@@ -31,7 +31,6 @@
     <div class="tabs">
       <h3 style="margin-bottom:'100px';"><i class="fa fa-dashboard"></i> My Dashboard</h3>
       <ul class="nav nav-tabs">
-        <!--<li class="active"><a href ="#!index.html">Home</a></li>-->
         <li class="active"><a href="javascript:void(0)#Game" data-toggle="tab">Game Log</a></li>
         <li><a href="javascript:void(0)#Leaderboard" data-toggle="tab">Leaderboard</a></li>
         <li><a href="javascript:void(0)#Donations" data-toggle="tab">Donations</a></li>
@@ -43,15 +42,17 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Game winner</th>
-              <th>Game rounds</th>
+              <th>Game Winner</th>
+              <th>Game ID</th>
+              <th>Number of rounds</th>
               <th>Players</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="log in logs">
                 <td>{{log.winner}}</td>
-              <td>{{log.rounds}}</td>
+                <td>{{log.gameID}}</td>
+                 <td>{{log.rounds}}</td>
               <td>
                 <ul>
                   <li ng-repeat="player in log.players track by $index">{{player}}</li>
@@ -72,27 +73,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="board in boards track by $index">
+            <tr ng-repeat="details in boards track by $index">
               <td>{{$index + 1}}</td>
-              <td>{{board.name}}</td>
-              <td>{{board.gameWins}}</td>
+              <td>{{details.name}}</td>
+              <td>{{details.gameWins}}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="tab-pane" id="Donations">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Donations</th>
-            </tr>
-          </thead>
-          <tbody donations>
-             <th>Omokaro</th>
-            <th>$500</th>
-          </tbody>
-        </table>
+            <h1> Hi {{ test }} you have ${{ amount }} donations </h1>
       </div>
     </div>
   </div>

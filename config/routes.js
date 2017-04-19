@@ -108,7 +108,7 @@ module.exports = (app, passport) => {
   // End point route
   app.post('/api/games/:id/start', middleware.requiresLogin, startGame.saveRecords);
   const game = require('../app/controllers/gamelog');
-  app.get('/api/games/history', game.gamelog);
+  app.get('/api/games/history',middleware.requiresLogin, game.gamelog);
   app.get('/api/games/leaderboard', middleware.requiresLogin, game.leaderboard);
   app.get('/api/games/donations', middleware.requiresLogin, game.donations);
 };
