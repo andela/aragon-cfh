@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
+.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', '$window', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http, $window) {
   $scope.hasPickedCards = false;
   $scope.winningCardPicked = false;
   $scope.showTable = false;
@@ -40,12 +40,31 @@ angular.module('mean.system')
 
 
   $scope.getGameLogs = () => {
-    $http.get('/api/games/history').success((response) => {
-      console.log(response);
-      $scope.logs = response;
-    }, err => console.log(err));
+    const userName = window.user.name;
+    console.log( window.user.name, 'I am here');
+    $http.get('/api/games/history', { params: { name: userName } })
+        .success((response) => {
+          $scope.logs = response;
+        }, err => console.log(err));
   };
   $scope.getGameLogs();
+
+  $scope.getLeaderBoard = () => {
+    const userName = window.user.name;
+    $http.get('/api/games/leaderboard', { params: { name: userName } })
+        .success((response) => {
+          $scope.boards = response;
+        }, err => console.log(err));
+  };
+  $scope.getLeaderBoard();
+
+  $scope.getdonations = () => {
+    $http.get('/api/games/donations').success((response) => {
+      $scope.donations = response;
+    }, err => console.log(err));
+  };
+  $scope.getdonations();
+
 
 
   $scope.pickCard = (card) => {

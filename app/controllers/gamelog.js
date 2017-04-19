@@ -1,4 +1,5 @@
 const Game = require('../models/record.js');
+const Users = require('../models/user.js');
 
 
 exports.saveRecord = (req, res) => {
@@ -64,19 +65,28 @@ exports.updateRecord = (req, res) => {
     });
 };
 exports.leaderboard = (req, res) => {
-  Game.find({}, (error, allGames) => {
-    if (error) {
-      return res.status(404).send({ error });
-    }
-    return res.status(200).json(allGames);
+  Users.find().sort({ gameWins: -1 }).exec((error, result) => {
+    res.send(result);
   });
 };
 
 exports.gamelog = (req, res) => {
-  Game.find({}, (error, allGames) => {
+  const userName = req.query.name;
+  console.log('checking', userName);
+  Game.find({ name: userName }, (error, log) => {
     if (error) {
       return res.status(404).send({ error });
     }
-    return res.status(200).json(allGames);
+    return res.send(log);
+  });
+};
+
+exports.donations = (req, res) => {
+  const userName = req.query.name;
+  Users.findOne({ name: userName }, (error, result) => {
+    if (error) {
+      console.log(error);
+    }
+    res.send(result.donations);
   });
 };

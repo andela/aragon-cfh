@@ -39,21 +39,19 @@
       <br>
     </div>
     <div class="tab-content">
-      <div class="tab-pane active" id="Game" gamelog>
+      <div class="tab-pane active" id="Game">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>GameID</th>
-              <th>Rounds</th>
-              <th>Winners</th>
+              <th>Game winner</th>
+              <th>Game rounds</th>
               <th>Players</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="log in logs">
-              <td>{{log.gameID}}</td>
+                <td>{{log.winner}}</td>
               <td>{{log.rounds}}</td>
-              <td>{{log.winner}}</td>
               <td>
                 <ul>
                   <li ng-repeat="player in log.players track by $index">{{player}}</li>
@@ -68,16 +66,16 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>GameID</th>
+              <th>Rank</th>
               <th>Player Name</th>
-              <th>Total </th>
+              <th>Number of wins</th>
             </tr>
           </thead>
-          <tbody leaderboard>
-            <tr ng-repeat="log in logs">
-              <td>{{log.gameID}}</td>
-              <td>{{log.winner}}</td>
-              <td>{{log.rounds}}</td>
+          <tbody>
+            <tr ng-repeat="board in boards track by $index">
+              <td>{{$index + 1}}</td>
+              <td>{{board.name}}</td>
+              <td>{{board.gameWins}}</td>
             </tr>
           </tbody>
         </table>

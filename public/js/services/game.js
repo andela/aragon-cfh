@@ -189,9 +189,12 @@ angular.module('mean.system')
           winner: game.players[game.gameWinner].username,
           rounds: game.round,
           gameID: game.gameID,
+          email: game.email,
           players
         };
-        $http.post(`/api/games/${userid}/start`, gameData);
+        if ($window.user.name === players[0]) {
+          $http.post(`/api/games/${userid}/start`, gameData);
+        }
       }
     });
     socket.on('notification', (data) => {

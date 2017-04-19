@@ -11,7 +11,8 @@ const RecordSchema = new Schema({
   gameID: String,
   players: [],
   rounds: Number,
-  winner: String
+  winner: String,
+  email: String
 });
 
 module.exports = mongoose.model('Record', RecordSchema);
