@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
  * Game Record Schema
  */
 const RecordSchema = new Schema({
+  userName: String,
   gameID: String,
   players: [],
   rounds: Number,

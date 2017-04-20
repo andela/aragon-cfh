@@ -16,7 +16,8 @@
                   <li class="hidden">
                       <a href="#page-top"></a>
                   </li>
-                  <li ng-hide="showOptions"><a href="#" class="btn btn-xl" data-toggle="modal" data-target="#invite-modal">Invite Players</a></li>
+                  <li><a id="" href="/#!/dashboard">Dashboard</a></li>
+                  <li ng-hide="showOptions"><a href="#" class="btn btn-xl" data-toggle="modal" data-target="#invite-modal" ng-show="game.playerIndex === 0 && isSignedIn">Invite Players</a></li>
                   <li ng-hide="showOptions">
                     <a target="_blank" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A3000%2F&ref_src=twsrc%5Etfw&related=CFH_App&text=Cards%20for%20Humanity%3A%20A%20Game%20for%20Horrible%20People%20Desperately%20Trying%20to%20do%20Good&tw_p=tweetbutton&url=http%3A%2F%2Fcfh.io"><i class="fa fa-twitter fa-2x"></i></a>
                   </li>
@@ -30,7 +31,7 @@
 
   <tour id="tour" ng-hide="hideTour"></tour>
   <div id="game-loading">
-    <img src="../img/loader.gif">
+    <img height="65" src="../img/loader.gif">
   </div>
   <div id="gameplay-container" ng-hide="!hideTour">
     <div id="upper-gameplay-container">
@@ -47,5 +48,24 @@
       </div>
     </div>
     <answers></answers>
+  </div>
+  <!--  ChatBox  -->
+  <div class="chatbox">
+    <div class="chat-header">
+      <h3><i class="fa fa-circle" id="chatNotification"></i>ChatBox</h3>
+      <fa class="fa-chevron-down fa" id="endChat"></fa>
+      <fa class="fa-chevron-up fa" id="startChat"></fa>
+    </div>
+    <div class="chat-content" id="chatContent">
+      <div id="chatInner" chatbox>
+        <div class="chat-begin">This is the beginning of the game's chat</div>
+      </div>
+    </div>
+      <div class="input-field emoji-picker-container">
+        <input type="text" class="form-control" id="chatInput" placeholder="Type a message...">
+      </div>
+    <div class="text-right send-message">
+      <button class="btn-donate" ng-click="sendChatMessage()">Send</button>
+    </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('TourController', function tourCtrl($scope, $timeout, $location, $http) {
+.controller('TourController', ['$scope', '$timeout', '$location', '$http', function tourCtrl($scope, $timeout, $location, $http) {
   $scope.showStartGame = true;
   $scope.question = 'What am I giving up for Lent?';
   $scope.showQuestion = false;
@@ -22,6 +22,7 @@ angular.module('mean.system')
           window.user.hideTour = true;
           $scope.$parent.goToGame().then(() => {
             $('#game-loading').remove();
+            $scope.$parent.locateRegion();
           });
         }
       }, (err) => {
@@ -31,6 +32,7 @@ angular.module('mean.system')
       $scope.$parent.hideTour = true;
       $scope.$parent.goToGame().then(() => {
         $('#game-loading').remove();
+        $scope.$parent.locateRegion();
       });
     }
   };
@@ -306,4 +308,4 @@ angular.module('mean.system')
       czar: false
     }
   ];
-});
+}]);

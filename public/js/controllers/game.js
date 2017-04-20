@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
+.controller('GameController', ['$scope', 'game', 'region', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, region, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
   $scope.hasPickedCards = false;
   $scope.winningCardPicked = false;
   $scope.showTable = false;
@@ -22,16 +22,60 @@ angular.module('mean.system')
     })
   );
 
-  if (window.user) {
-    if (game.playerIndex === 0) {
-      $scope.showInvite = true;
+  $scope.locateRegion = () => {
+    if ($scope.game.playerIndex === 0) {
+      $scope.regions = region.regions;
+      region.getSelectedRegion().then((selectedRegion) => {
+        $scope.selectedRegion = selectedRegion;
+      });
     }
+  };
+
+  $scope.getGameLogs = () => {
+    const userName = window.user.name;
+    $http.get('/api/games/history', { params: { name: userName } })
+        .success((response) => {
+          const userGameLog = response.filter((gameResult) => {
+            if (gameResult.players.indexOf(window.user.name) !== -1) {
+              return gameResult;
+            }
+          });
+          $scope.logs = userGameLog;
+        }, err => console.log(err));
+  };
+
+  $scope.getLeaderBoard = () => {
+    const userName = window.user.name;
+    $http.get('/api/games/leaderboard', { params: { name: userName } })
+        .success((response) => {
+          $scope.boards = response;
+        }, err => console.log(err));
+  };
+
+  $scope.getdonations = () => {
+    const userName = window.user.name;
+    $http.get('/api/games/donations', { params: { name: userName } })
+        .success((response) => {
+          $scope.test = response[0].name;
+          $scope.amount = response[0].donations.length;
+          $scope.donations = response;
+        }, err => console.log(err));
+  };
+
+  if (window.user) {
+    $scope.isSignedIn = true;
     if (window.user.hideTour) {
       $scope.hideTour = true;
     }
+    $scope.getGameLogs();
+    $scope.getLeaderBoard();
+    $scope.getdonations();
   }
+
   if ($scope.hideTour) {
-    $scope.goToGame();
+    $scope.goToGame().then(() => {
+      $scope.locateRegion();
+    });
     $timeout(() => {
       $('#tour').remove();
     }, 200);
@@ -58,7 +102,7 @@ angular.module('mean.system')
 
   $scope.pointerCursorStyle = () => {
     if ($scope.isCzar() && $scope.game.state === 'waiting for czar to decide') {
-      return { cursor: 'pointer' };
+      return { ' cursor': 'pointer' };
     }
     return {};
   };
@@ -136,7 +180,9 @@ angular.module('mean.system')
   };
 
   $scope.modalContinue = () => {
-    game.startGame();
+    game.setRegion($scope.selectedRegion).then(() => {
+      game.startGame();
+    });
     angular.element('#modalShow').modal('hide');
   };
 
@@ -222,4 +268,8 @@ angular.module('mean.system')
       }
     }
   });
+
+  $scope.drawCard = () => {
+    game.drawCard();
+  };
 }]);

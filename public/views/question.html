@@ -1,6 +1,6 @@
 <div id="question-container-inner">
   <div class="card longBlack">
-    <span id="currentQuestion" ng-bind-html-unsafe="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'"></span>
+    <span id="currentQuestion" ng-bind-html-unsafe="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players' || game.state === 'waiting for czar to draw cards'"></span>
 
     <div id="notifications" ng-if="game.notification" ng-animate="{enter:'animated fadeInLeft', leave:'animated fadeOut'}">{{game.notification}}</div>
 
@@ -40,10 +40,19 @@
           <h3 class="modal-title" id="finding-players" style="color: #000">Hi Player</h3>
         </div>
         <div class="modal-body">
-          <h4 id="finding-players" style="color: #000">By clicking on the start button below, you have agreed to begin a game session</h4>
+          <div class="text-center padding-10">
+            <h4 id="finding-players">What region of the world are you in?</h4>
+            <h5 id="finding-players">This will let the app select a card pack you can better relate to.</h5>
+          </div>
+          <div class="row padding-10">
+            <div class="form-group center width-65">
+              <select id="region-select" class="form-control" ng-options="region as region.label for region in regions track by region.code" ng-model="selectedRegion"></select>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn" ng-click="modalContinue()" style="color: #000; background: #FED136;">Start</button>
+        <div class="modal-footer center">
+          <h6 id="finding-players" style="color: #000">By clicking the start button, you have agreed to begin a game session</h6>
+          <button type="button" class="btn btn" ng-click="modalContinue()" style="color: #fff; background: #FED136;">Start</button>
         </div>
       </div>
     </div>

@@ -18,10 +18,14 @@ module.exports = function(passport) {
         User.findOne({
             _id: id
         }, function(err, user) {
-            user.email = null;
-            user.facebook = null;
-            user.hashed_password = null;
-            done(err, user);
+            if (user) {
+                user.email = null;
+                user.facebook = null;
+                user.hashed_password = null;
+                done(err, user);
+            } else {
+                done(null, false);
+            }
         });
     });
 
