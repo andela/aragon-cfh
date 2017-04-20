@@ -107,6 +107,56 @@ exports.create = function(req, res) {
   }
 };
 
+exports.addFriend = (req, res, next) => {
+  if (req.body.friendEmail && req.body.userId) {
+    User.findById(req.body.userId)
+      .exec((error, user) => {
+        if (error) {
+          return next(error);
+        }
+        if (user) {
+          const friendAdded = user.addFriend(req.body.friendEmail);
+          if (friendAdded) {
+            user.save((err, savedUser) => {
+              if (err) {
+                next(err);
+              } else {
+                res.status(201).send(savedUser);
+              }
+            });
+          } else {
+            res.status(204);
+          }
+        }
+      });
+  }
+};
+
+exports.removeFriend = (req, res, next) => {
+  if (req.body.friendEmail && req.body.userId) {
+    User.findById(req.body.userId)
+      .exec((error, user) => {
+        if (error) {
+          return next(error);
+        }
+        if (user) {
+          const friendRemoved = user.removeFriend(req.body.friendEmail);
+          if (friendRemoved) {
+            user.save((err, savedUser) => {
+              if (err) {
+                next(err);
+              } else {
+                res.status(201).send(savedUser);
+              }
+            });
+          } else {
+            res.status(204);
+          }
+        }
+      });
+  }
+}
+
 /**
  * Assign avatar to user
  */

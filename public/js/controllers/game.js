@@ -206,6 +206,55 @@ angular.module('mean.system')
 
   };
 
+  $scope.addFriend = (email) => {
+    $http.post('/api/user/addfriend', {
+      userId: window.user._id,
+      friendEmail: email
+    }).then((res) => {
+      console.log('response', res);
+      if (res.status === 201) {
+        window.user = res.data;
+        console.log('Friend Added');
+      } else if (res.status === 204) {
+        console.log('Friend Already Exists');
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  };
+
+  $scope.removeFriend = (email) => {
+    $http.post('/api/user/removefriend', {
+      userId: window.user._id,
+      friendEmail: email
+    }).then((res) => {
+      console.log('response', res);
+      if (res.status === 201) {
+        window.user = res.data;
+        console.log('Friend removed');
+      } else if (res.status === 204) {
+        console.log('Friend does not exist');
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  };
+
+  $scope.isFriend = (email) => {
+    let status;
+    if (window.user.friends) {
+      if (window.user.friends.indexOf(email) > -1) {
+        status = true;
+      } else {
+        status = false;
+      }
+    } else {
+      status = false;
+    }
+
+    return status;
+  };
+
   $scope.emailInvite = () => {
     $scope.emailSent = null;
     if ($scope.invitee.name && $scope.invitee.email) {

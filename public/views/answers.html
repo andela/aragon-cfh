@@ -180,7 +180,13 @@
                 <div ng-repeat="user in userSearchResults" class="row">
                   <div class="col-sm-8 col-sm-offset-2">
                     <div class="checkbox">
-                      <label><input type="checkbox" value="">{{ user.name }} ({{ user.email }})</label>
+                      <label><input type="checkbox" value="">{{ user.name }} ({{ user.email }})</label><br>
+                      <span ng-if="!isFriend(user.email)">
+                        <a class="text-success btn" href="" ng-click="addFriend(user.email)">Add Friend <i class="fa fa-plus"></i></a>
+                      </span>
+                      <span ng-if="isFriend(user.email)">
+                        <a class="text-danger btn" href="" ng-click="removeFriend(user.email)">Remove Friend <i class="fa fa-trash"></i></a>
+                      </span>
                     </div>
                   </div>
                 </div>

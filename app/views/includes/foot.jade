@@ -1,8 +1,9 @@
 div.modal.fade.app-modal#popup-modal(role="dialog")
-      div.modal-dialog.modal-sm
+      div.modal-dialog
             div.modal-content
                   div.modal-body
                         div.card
+                              button.close(type="button", data-dismiss="modal")&times;
                               {{ popupMessage }}
 
 script.

@@ -23,6 +23,7 @@ module.exports = (app, passport) => {
   app.post('/users', users.create);
   app.post('/users/avatars', users.avatars);
 
+
     // Donation Routes
   app.post('/donations', users.addDonation);
 
@@ -104,6 +105,9 @@ module.exports = (app, passport) => {
   // APIs
   app.get('/api/search/users', searchUsers);
   app.post('/api/invite/email', emailInvite);
+  app.post('/api/user/addfriend', users.addFriend);
+  app.post('/api/user/removefriend', users.removeFriend);
+
   app.post('/api/disabletour', disableTour);
 
   // End point route
