@@ -52,6 +52,7 @@ angular.module('mean.system')
     $scope.logout = () => {
       $window.localStorage.removeItem('token');
       $window.localStorage.removeItem('id');
+      $window.user = null;
     };
 
     $scope.playAsGuest = () => {

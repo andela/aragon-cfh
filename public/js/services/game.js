@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$rootScope', '$location', '$timeout', '$http', '$window', function gameService(socket, $rootScope, $location, $timeout, $http, $window) {
+  .factory('game', ['socket', '$rootScope', '$location', '$timeout', '$http', '$window', '$q', function gameService(socket, $rootScope, $location, $timeout, $http, $window, $q) {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -232,6 +232,19 @@ angular.module('mean.system')
 
     game.pickWinning = function pickWinning(card) {
       socket.emit('pickWinning', { card: card.id });
+    };
+
+    game.setRegion = function setRegion(region) {
+      const deferred = $q.defer();
+      socket.emit('setRegion', { region }, (res) => {
+        if (res.success) {
+          deferred.resolve(res);
+        } else {
+          deferred.reject(res);
+        }
+      });
+
+      return deferred.promise;
     };
 
     game.drawCard = () => {

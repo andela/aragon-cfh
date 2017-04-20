@@ -1,9 +1,8 @@
 const async = require('async');
 const _ = require('underscore');
-const path = require('path');
+const questions = require('../../app/controllers/questions.js');
+const answers = require('../../app/controllers/answers.js');
 
-const questions = require(path.join(__dirname, '/../../app/controllers/questions.js'));
-const answers = require(path.join(__dirname, '/../../app/controllers/answers.js'));
 const guestNames = [
   'Disco Potato',
   'Silver Blister',
@@ -43,6 +42,7 @@ class Game {
       stateResults: 6,
       stateOfCzar: 11,
     };
+    this.region = null;
     // setTimeout ID that triggers the czar judging state
     // Used to automatically run czar judging if players don't pick before time limit
     // Gets cleared if players finish picking before time limit.
@@ -52,7 +52,6 @@ class Game {
     // Gets cleared if czar finishes judging before time limit.
     this.judgingTimeout = 0;
     this.resultsTimeout = 0;
-    // this.drawCards = 0;
     this.drawingCardTimeout = 0;
     this.changeCzarTimeout = 0;
     this.guestNames = guestNames.slice();
@@ -125,18 +124,17 @@ class Game {
 
     const self = this;
     async.parallel([
-      this.getQuestions,
-      this.getAnswers
-    ],
-      (err, results) => {
-        if (err) {
-          console.log(err);
-        }
-        self.questions = results[0];
-        self.answers = results[1];
+      this.getQuestions.bind(null, this.region),
+      this.getAnswers.bind(null, this.region)
+    ], (err, results) => {
+      if (err) {
+        console.log(err);
+      }
+      self.questions = results[0];
+      self.answers = results[1];
 
-        self.startGame();
-      });
+      self.startGame();
+    });
   }
 
   startGame() {
@@ -154,20 +152,18 @@ class Game {
   stateChoosing() {
     const self = this;
     self.state = 'waiting for players to pick';
-    // console.log(self.gameID,self.state);
     self.table = [];
     self.winningCard = -1;
     self.winningCardPlayer = -1;
     self.winnerAutopicked = false;
     self.curQuestion = self.questions.pop();
     if (!self.questions.length) {
-      self.getQuestions((err, data) => {
+      self.getQuestions(self.region, (err, data) => {
         self.questions = data;
       });
     }
     self.round += 1;
     self.dealAnswers();
-    // Rotate card czar
 
     self.sendUpdate();
 
@@ -243,14 +239,14 @@ class Game {
     this.sendUpdate();
   }
 
-  getQuestions(cb) {
-    questions.allQuestionsForGame((data) => {
+  getQuestions(region, cb) {
+    questions.allQuestionsForGame(region.code, (data) => {
       cb(null, data);
     });
   }
 
-  getAnswers(cb) {
-    answers.allAnswersForGame((data) => {
+  getAnswers(region, cb) {
+    answers.allAnswersForGame(region.code, (data) => {
       cb(null, data);
     });
   }
@@ -262,7 +258,8 @@ class Game {
     let randNum;
 
     while (shuffleIndex) {
-      randNum = Math.floor(Math.random() * (shuffleIndex -= 1));
+      randNum = Math.floor(Math.random() * shuffleIndex);
+      shuffleIndex -= 1;
       temp = cards[randNum];
       cards[randNum] = cards[shuffleIndex];
       cards[shuffleIndex] = temp;
@@ -280,7 +277,7 @@ class Game {
       while (this.players[i].hand.length < maxAnswers) {
         this.players[i].hand.push(this.answers.pop());
         if (!this.answers.length) {
-          this.getAnswers(storeAnswers);
+          this.getAnswers(this.region, storeAnswers);
         }
       }
     }
@@ -301,7 +298,7 @@ class Game {
     if (this.state === 'waiting for players to pick') {
       // Find the player's position in the players array
       const playerIndex = this._findPlayerIndexBySocket(thisPlayer);
-      console.log('player is at index', playerIndex);
+      console.log(`Player is at index ${playerIndex}`);
       if (playerIndex !== -1) {
         // Verify that the player hasn't previously picked a card
         let previouslySubmitted = false;
@@ -320,12 +317,11 @@ class Game {
                 cardIndex = j;
               }
             }
-            console.log('card', i, 'is at index', cardIndex);
+            console.log(`Card ${i} is at index ${cardIndex}`);
             if (cardIndex !== null) {
-              tableCard.push(this.players[playerIndex].hand.splice(cardIndex,
-              1)[0]);
+              tableCard.push(this.players[playerIndex].hand.splice(cardIndex, 1)[0]);
             }
-            console.log('table object at', cardIndex, ':', tableCard);
+            console.log(`Table object at ${cardIndex}: ${tableCard}`);
           }
           if (tableCard.length === this.curQuestion.numAnswers) {
             this.table.push({
@@ -333,7 +329,7 @@ class Game {
               player: this.players[playerIndex].socket.id
             });
           }
-          console.log('final table object', this.table);
+          console.log(`Final table object ${this.table}`);
           if (this.table.length === this.players.length - 1) {
             clearTimeout(this.choosingTimeout);
             this.stateJudging(this);
@@ -343,7 +339,7 @@ class Game {
         }
       }
     } else {
-      console.log('NOTE:', thisPlayer, 'picked a card during', this.state);
+      console.log(`NOTE: ${thisPlayer} picked a card during ${this.state}`);
     }
   }
 
@@ -372,7 +368,7 @@ class Game {
       // Remove player from this.players
       this.players.splice(playerIndex, 1);
 
-      if (this.state === ' awaiting players') {
+      if (this.state === 'awaiting players') {
         this.assignPlayerColors();
       }
 
@@ -421,7 +417,7 @@ class Game {
         this.winnerAutopicked = autopicked;
         this.stateResults(this);
       } else {
-        console.log('WARNING: czar', thisPlayer, 'picked a card that was not on the table.');
+        console.log(`WARNING: Czar ${thisPlayer} picked a card that was not on the table.`);
       }
     } else {
       // TODO: Do something?
@@ -458,6 +454,11 @@ class Game {
     self.changeCzarTimeout = setTimeout(() => {
       // self.stateChoosing(self);
     }, self.timeLimits.stateOfCzar * 1000);
+  }
+
+  setRegion(region) {
+    this.region = region;
+    console.log(`Region for game ${this.gameID} set to ${this.region.label}`);
   }
 }
 

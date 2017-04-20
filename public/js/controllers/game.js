@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) => {
+.controller('GameController', ['$scope', 'game', 'region', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, region, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
   $scope.hasPickedCards = false;
   $scope.winningCardPicked = false;
   $scope.showTable = false;
@@ -22,20 +22,14 @@ angular.module('mean.system')
     })
   );
 
-  if (window.user) {
-    if (game.playerIndex === 0) {
-      $scope.showInvite = true;
+  $scope.locateRegion = () => {
+    if ($scope.game.playerIndex === 0) {
+      $scope.regions = region.regions;
+      region.getSelectedRegion().then((selectedRegion) => {
+        $scope.selectedRegion = selectedRegion;
+      });
     }
-    if (window.user.hideTour) {
-      $scope.hideTour = true;
-    }
-  }
-  if ($scope.hideTour) {
-    $scope.goToGame();
-    $timeout(() => {
-      $('#tour').remove();
-    }, 200);
-  }
+  };
 
   $scope.getGameLogs = () => {
     const userName = window.user.name;
@@ -49,7 +43,6 @@ angular.module('mean.system')
           $scope.logs = userGameLog;
         }, err => console.log(err));
   };
-  $scope.getGameLogs();
 
   $scope.getLeaderBoard = () => {
     const userName = window.user.name;
@@ -58,7 +51,6 @@ angular.module('mean.system')
           $scope.boards = response;
         }, err => console.log(err));
   };
-  $scope.getLeaderBoard();
 
   $scope.getdonations = () => {
     const userName = window.user.name;
@@ -69,7 +61,25 @@ angular.module('mean.system')
           $scope.donations = response;
         }, err => console.log(err));
   };
-  $scope.getdonations();
+
+  if (window.user) {
+    $scope.isSignedIn = true;
+    if (window.user.hideTour) {
+      $scope.hideTour = true;
+    }
+    $scope.getGameLogs();
+    $scope.getLeaderBoard();
+    $scope.getdonations();
+  }
+
+  if ($scope.hideTour) {
+    $scope.goToGame().then(() => {
+      $scope.locateRegion();
+    });
+    $timeout(() => {
+      $('#tour').remove();
+    }, 200);
+  }
 
   $scope.pickCard = (card) => {
     if (!$scope.hasPickedCards) {
@@ -170,7 +180,9 @@ angular.module('mean.system')
   };
 
   $scope.modalContinue = () => {
-    game.startGame();
+    game.setRegion($scope.selectedRegion).then(() => {
+      game.startGame();
+    });
     angular.element('#modalShow').modal('hide');
   };
 

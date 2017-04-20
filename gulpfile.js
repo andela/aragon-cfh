@@ -51,7 +51,7 @@ gulp.task('serve', ['nodemon'], () => {
   browserSync({
     proxy: 'localhost:4000',
     files: ['public/**/*.*'],
-    PORT: 5000,
+    port: 5000,
     open: false,
   });
 });
