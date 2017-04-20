@@ -42,14 +42,14 @@ gulp.task('nodemon', () => {
     watch: ['app', 'config'],
     env: {
       NODE_ENV: 'development',
-      PORT: 4000,
+      PORT: 3000,
     }
   });
 });
 
 gulp.task('serve', ['nodemon'], () => {
   browserSync({
-    proxy: 'localhost:5000',
+    proxy: 'localhost:3000',
     files: ['public/**/*.*'],
     PORT: 5000,
     open: false,
