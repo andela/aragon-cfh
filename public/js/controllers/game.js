@@ -37,6 +37,40 @@ angular.module('mean.system')
     }, 200);
   }
 
+  $scope.getGameLogs = () => {
+    const userName = window.user.name;
+    $http.get('/api/games/history', { params: { name: userName } })
+        .success((response) => {
+          const userGameLog = response.filter((gameResult) => {
+            if (gameResult.players.indexOf(window.user.name) !== -1) {
+              return gameResult;
+            }
+          });
+          $scope.logs = userGameLog;
+        }, err => console.log(err));
+  };
+  $scope.getGameLogs();
+
+  $scope.getLeaderBoard = () => {
+    const userName = window.user.name;
+    $http.get('/api/games/leaderboard', { params: { name: userName } })
+        .success((response) => {
+          $scope.boards = response;
+        }, err => console.log(err));
+  };
+  $scope.getLeaderBoard();
+
+  $scope.getdonations = () => {
+    const userName = window.user.name;
+    $http.get('/api/games/donations', { params: { name: userName } })
+        .success((response) => {
+          $scope.test = response[0].name;
+          $scope.amount = response[0].donations.length;
+          $scope.donations = response;
+        }, err => console.log(err));
+  };
+  $scope.getdonations();
+
   $scope.pickCard = (card) => {
     if (!$scope.hasPickedCards) {
       if ($scope.pickedCards.indexOf(card.id) < 0) {

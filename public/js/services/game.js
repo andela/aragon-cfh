@@ -181,6 +181,7 @@ angular.module('mean.system')
         game.players[game.playerIndex].hand = [];
         game.time = 0;
         const userid = $window.localStorage.id;
+        const username = $window.user.name;
         const players = [];
         game.players.forEach((player) => {
           players.push(player.username);
@@ -189,9 +190,12 @@ angular.module('mean.system')
           winner: game.players[game.gameWinner].username,
           rounds: game.round,
           gameID: game.gameID,
+          userName: username,
           players
         };
-        $http.post(`/api/games/${userid}/start`, gameData);
+        if ($window.user.name === players[0]) {
+          $http.post(`/api/games/${userid}/start`, gameData);
+        }
       }
     });
     socket.on('notification', (data) => {
