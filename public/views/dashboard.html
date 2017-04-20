@@ -1,0 +1,88 @@
+</script>
+<div id="app-container">
+
+  <!--  Navigation  -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+          aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        <a class="navbar-brand" href="#"><img src="img/cfhlogo.png" alt=""></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a id="startTour" href="javascript:void(0)">Tour</a></li>
+          <li><a href="https://twitter.com/intent/tweet?ref_src=twsrc%5Etfw&related=CFH_App&text=Cards%20for%20Humanity%3A%20A%20Game%20for%20Horrible%20People%20Desperately%20Trying%20to%20do%20Good&tw_p=tweetbutton&url=http%3A%2F%2Fcfh.io">Tweet</a></li>
+          <li><a id="abandon-game" href="#" ng-click="abandonGame()">Abandon Game</a></li>
+          <li><a target="_blank" href="https://www.crowdrise.com/fundraise-and-volunteer/donate-mobile/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Flocalhost%3A5000%2F%23!%2F&stylesheet=&amounts="
+              class="btn-donate">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container" ng-controller="GameController">
+    <div class="tabs">
+      <h3 style="margin-bottom:'100px';"><i class="fa fa-dashboard"></i> My Dashboard</h3>
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:void(0)#Game" data-toggle="tab">Game Log</a></li>
+        <li><a href="javascript:void(0)#Leaderboard" data-toggle="tab">Leaderboard</a></li>
+        <li><a href="javascript:void(0)#Donations" data-toggle="tab">Donations</a></li>
+      </ul>
+      <br>
+    </div>
+    <div class="tab-content">
+      <div class="tab-pane active" id="Game">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Game Winner</th>
+              <th>Game ID</th>
+              <th>Number of rounds</th>
+              <th>Players</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="log in logs">
+                <td>{{log.winner}}</td>
+                <td>{{log.gameID}}</td>
+                 <td>{{log.rounds}}</td>
+              <td>
+                <ul>
+                  <li ng-repeat="player in log.players track by $index">{{player}}</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="Leaderboard">
+        <p></p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player Name</th>
+              <th>Number of wins</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="details in boards track by $index">
+              <td>{{$index + 1}}</td>
+              <td>{{details.name}}</td>
+              <td>{{details.gameWins}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="Donations">
+            <h1> Hi {{ test }} you have ${{ amount }} donations </h1>
+      </div>
+    </div>
+  </div>

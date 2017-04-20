@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$rootScope', '$location', '$timeout', function gameService(socket, $rootScope, $location, $timeout) {
+  .factory('game', ['socket', '$rootScope', '$location', '$timeout', '$http', '$window', '$q', function gameService(socket, $rootScope, $location, $timeout, $http, $window, $q) {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -24,7 +24,6 @@ angular.module('mean.system')
 
     const notificationQueue = [];
     let timeout = false;
-    let joinOverrideTimeout = 0;
 
     const setNotification = function setNotification() {
       if (notificationQueue.length === 0) { // If notificationQueue is empty, stop
@@ -72,7 +71,6 @@ angular.module('mean.system')
       if (game.gameID !== data.gameID) {
         game.gameID = data.gameID;
       }
-
       game.joinOverride = false;
       clearTimeout(game.joinOverrideTimeout);
 
@@ -136,6 +134,14 @@ angular.module('mean.system')
         game.state = data.state;
       }
 
+      if (data.state === 'waiting for czar to draw cards') {
+        game.czar = data.czar;
+        if (game.czar === game.playerIndex) {
+          addToNotificationQueue('You\'re the czar. Please wait!');
+        } else {
+          addToNotificationQueue('wait for czar to shuffle');
+        }
+      } else
       if (data.state === 'waiting for players to pick') {
         game.czar = data.czar;
         game.curQuestion = data.curQuestion;
@@ -158,6 +164,12 @@ angular.module('mean.system')
         } else {
           addToNotificationQueue('The czar is contemplating...');
         }
+      } else if (data.state === 'waiting for czar to draw cards') {
+        if (game.czar === game.playerIndex) {
+          addToNotificationQueue('Click to Draw the Cards!');
+        } else {
+          addToNotificationQueue('The czar is drawing the cards...');
+        }
       } else if (data.state === 'winner has been chosen' &&
                 game.curQuestion.text.indexOf('<u></u>') > -1) {
         game.curQuestion = data.curQuestion;
@@ -168,9 +180,24 @@ angular.module('mean.system')
       } else if (data.state === 'game dissolved' || data.state === 'game ended') {
         game.players[game.playerIndex].hand = [];
         game.time = 0;
+        const userid = $window.localStorage.id;
+        const username = $window.user.name;
+        const players = [];
+        game.players.forEach((player) => {
+          players.push(player.username);
+        });
+        const gameData = {
+          winner: game.players[game.gameWinner].username,
+          rounds: game.round,
+          gameID: game.gameID,
+          userName: username,
+          players
+        };
+        if ($window.user.name === players[0]) {
+          $http.post(`/api/games/${userid}/start`, gameData);
+        }
       }
     });
-
     socket.on('notification', (data) => {
       addToNotificationQueue(data.notification);
     });
@@ -205,6 +232,23 @@ angular.module('mean.system')
 
     game.pickWinning = function pickWinning(card) {
       socket.emit('pickWinning', { card: card.id });
+    };
+
+    game.setRegion = function setRegion(region) {
+      const deferred = $q.defer();
+      socket.emit('setRegion', { region }, (res) => {
+        if (res.success) {
+          deferred.resolve(res);
+        } else {
+          deferred.reject(res);
+        }
+      });
+
+      return deferred.promise;
+    };
+
+    game.drawCard = () => {
+      socket.emit('drawCard');
     };
 
     decrementTime();
