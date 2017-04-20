@@ -3,6 +3,7 @@
 */
 
 const Record = require('../models/record');
+const User = require('../models/user');
 
 
 exports.saveRecords = (req, res) => {
@@ -22,5 +23,16 @@ exports.saveRecords = (req, res) => {
     if (err) return (err);
   }
   );
+
+  User.findOneAndUpdate({ name: winner },
+    {
+      $inc: { gameWins: 1 }
+    }, (error) => {
+      if (error) {
+        console.log(`Error occured for ${winner}`);
+      } else {
+        console.log(`${winner} record has been updated`);
+      }
+    });
 };
 
