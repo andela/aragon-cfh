@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-  <head>
-    <title>Welcome to signin page</title>
-    
-    <script src="https://use.fontawesome.com/ec7068bdae.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script><link rel = "stylesheet" type = 'text/css' href = "/css/styles.css">
-  </head> 
-     <body>
-  <div id="main-bod">
-  <!-- Fixed Logo & Menu Bar Start -->
-  <!-- Navigation -->
+  <div id="main-bod" ng-controller="IndexController">
+    <!-- Fixed Logo & Menu Bar Start -->
+    <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-            </button>
-            <a class="navbar-brand page-scroll" href="#page-top">Cards 4 humanity</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+          </button>
+          <a class="navbar-brand page-scroll" href="#page-top">Cards 4 humanity</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -35,76 +27,74 @@
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.container-fluid -->
-  </nav>
+    </nav>
 
-<!-- Landing Start -->
-<div class="wpb-teaser parallax-background" ng-controller="IndexController" id="homer">
-    <div class = centers>
-     <div class ="aaa">
-      <h2 id="slogan">Sign up with:</h2>
-      <div id="login-buttons">
-         <div class="social-login">
-      <a href="#">
-        <i class="fa fa-facebook fa-lg"></i>
-        Login in with facebook
-      </a>
-      <a href="#" class="twitter-button">
-        <i class="fa fa-twitter fa-lg"></i>
-        Login in with twitter
-      </a>
-      <a href="#" class="github">
-         <i class="fa fa-github fa-lg"></i>
-        Login in with github
-      </a>  
-      <a href="#">
-        <i class="fa fa-google-plus fa-lg"></i>
-        log in with Google
-      </a>  
-      </div>
-      <p id="create">Or create a username/password and select an avatar:</p>
-
-      <div class="sign-body">
-        <div class="more-sign">
-          <form class="signup form-horizontal"  method="post">
-            <div class="control-group">
-              <br>
-              <p style="color: darkred">{{errorMsg}}</p>
-              <label for="name" class="control-label"></label>
-              <div class="controls">
-                <input class="input-info" id="name" type="text" name="name" placeholder="Full name" ng-model="fullname" required novalidate />
-              </div>
+    <!-- Landing Start -->
+    <div class="wpb-teaser parallax-background" id="homer">
+      <div class = centers>
+        <div class ="aaa">
+          <h2 id="slogan">Sign up with:</h2>
+          <div id="login-buttons">
+            <div class="social-login">
+              <a href="#">
+                <i class="fa fa-facebook fa-lg"></i>
+                Login in with facebook
+              </a>
+              <a href="#" class="twitter-button">
+                <i class="fa fa-twitter fa-lg"></i>
+                Login in with twitter
+              </a>
+              <a href="#" class="github">
+                <i class="fa fa-github fa-lg"></i>
+                Login in with github
+              </a>  
+              <a href="#">
+                <i class="fa fa-google-plus fa-lg"></i>
+                Login with google
+              </a>  
             </div>
-            <div class="control-group">
-              <label for="email" class="control-label"></label>
-              <div class="controls">
-                <input class="input-info" id="email" type="email" name="email" placeholder="Email" ng-model="email" required novalidate />
-              </div>
-            </div>
-            <div class="control-group">
-              <label for="password" class="control-label"></label>
-              <div class="controls">
-                <input class="input-info" id="password" type="password" name="password" placeholder="Password" ng-model="password" required novalidate />
-              </div>
-            </div>
+            <p id="create">Or create a username/password and select an avatar:</p>
+            <div class="sign-body">
+              <div class="more-sign">
+                <form class="signup form-horizontal"  method="post">
+                  <div class="control-group">
+                    <br>
+                    <p style="color: darkred">{{errorMsg}}</p>
+                    <label for="name" class="control-label"></label>
+                    <div class="controls">
+                      <input class="input-info" id="name" type="text" name="name" placeholder="Full name" ng-model="fullname" required novalidate />
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label for="email" class="control-label"></label>
+                    <div class="controls">
+                      <input class="input-info" id="email" type="email" name="email" placeholder="Email" ng-model="email" required novalidate />
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label for="password" class="control-label"></label>
+                    <div class="controls">
+                      <input class="input-info" id="password" type="password" name="password" placeholder="Password" ng-model="password" required novalidate />
+                    </div>
+                  </div>
             
-             <div id="contain-avatars">
-              <ul ng-controller="IndexController" class="avatar-list">
-                <li ng-repeat="avatar in avatars" class="avatars ng-scope">
-                  <input name="avatar" type='radio' value="{{$index}}">
-                    <img ng-src="{{avatar}}">
-                  </input>
-                </li>
-              </ul>
+                  <div id="contain-avatars">
+                    <ul ng-controller="IndexController" class="avatar-list">
+                      <li ng-repeat="avatar in avatars" class="avatars ng-scope">
+                        <input name="avatar" type='radio' value="{{$index}}">
+                          <img ng-src="{{avatar}}">
+                        </input>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="form-actions">
+                    <button id="sign-up-btn-other" type='submit' ng-click="signup()">Sign Up</button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <div class="form-actions">
-              <button id="sign-up-btn-other" type='submit' ng-click="signup()">Sign Up</button>
-            </div>
-          </form>
-           </div>
-      </div>
-    </div>
-    </div>
-  </div>
-</div>
-</body>     
-</html>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

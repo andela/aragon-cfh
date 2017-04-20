@@ -5,7 +5,8 @@
 const Record = require('../models/record');
 
 
-exports.saveRecords = (req) => {
+exports.saveRecords = (req, res) => {
+  res.connection.setTimeout(0);
   const gameID = req.body.gameID,
     players = req.body.players,
     winner = req.body.winner,

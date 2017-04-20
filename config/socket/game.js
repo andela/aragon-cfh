@@ -39,7 +39,8 @@ class Game {
     this.timeLimits = {
       stateChoosing: 21,
       stateJudging: 16,
-      stateResults: 6
+      stateResults: 6,
+      stateOfCzar: 11,
     };
     this.region = null;
     // setTimeout ID that triggers the czar judging state
@@ -51,6 +52,8 @@ class Game {
     // Gets cleared if czar finishes judging before time limit.
     this.judgingTimeout = 0;
     this.resultsTimeout = 0;
+    this.drawingCardTimeout = 0;
+    this.changeCzarTimeout = 0;
     this.guestNames = guestNames.slice();
   }
 
@@ -139,13 +142,15 @@ class Game {
     this.shuffleCards(this.questions);
     this.shuffleCards(this.answers);
     this.stateChoosing(this);
+    this.changeCards(this);
   }
 
   sendUpdate() {
     this.io.sockets.in(this.gameID).emit('gameUpdate', this.payload());
   }
 
-  stateChoosing(self) {
+  stateChoosing() {
+    const self = this;
     self.state = 'waiting for players to pick';
     self.table = [];
     self.winningCard = -1;
@@ -159,12 +164,7 @@ class Game {
     }
     self.round += 1;
     self.dealAnswers();
-    // Rotate card czar
-    if (self.czar >= self.players.length - 1) {
-      self.czar = 0;
-    } else {
-      self.czar += 1;
-    }
+
     self.sendUpdate();
 
     self.choosingTimeout = setTimeout(() => {
@@ -180,19 +180,24 @@ class Game {
       this.players[winnerIndex].points += 1;
       this.winnerAutopicked = true;
       this.stateResults(this);
+      this.sendNotification(`${this.players[winnerIndex].username} has won the round!`);
+      this.sendUpdate();
     } else {
       // console.log(this.gameID,'no cards were picked!');
-      this.stateChoosing(this);
+      // this.stateDrawCards(this);
     }
   }
 
-  stateJudging(self) {
+  stateJudging() {
+    const self = this;
     self.state = 'waiting for czar to decide';
     // console.log(self.gameID,self.state);
 
-    if (self.table.length <= 1) {
+    if (self.table.length === 1) {
       // Automatically select a card if only one card was submitted
       self.selectFirst();
+    } else if (self.table.length === 0) {
+      self.changeCards(self);
     } else {
       self.sendUpdate();
       self.judgingTimeout = setTimeout(() => {
@@ -202,7 +207,8 @@ class Game {
     }
   }
 
-  stateResults(self) {
+  stateResults() {
+    const self = this;
     self.state = 'winner has been chosen';
     console.log(self.state);
     // TODO: do stuff
@@ -217,7 +223,7 @@ class Game {
       if (winner !== -1) {
         self.stateEndGame(winner);
       } else {
-        self.stateChoosing(self);
+        self.changeCards(self);
       }
     }, self.timeLimits.stateResults * 1000);
   }
@@ -246,6 +252,7 @@ class Game {
   }
 
   shuffleCards(cards) {
+    this.cards = cards;
     let shuffleIndex = cards.length;
     let temp;
     let randNum;
@@ -419,10 +426,34 @@ class Game {
   }
 
   killGame() {
-    console.log(`Killing game ${this.gameID}`);
+    console.log('Killing game', this.gameID);
     clearTimeout(this.resultsTimeout);
     clearTimeout(this.choosingTimeout);
     clearTimeout(this.judgingTimeout);
+    clearTimeout(this.drawingCardTimeout);
+  }
+
+  drawCard(self) {
+    if (self.state === 'waiting for czar to draw cards') {
+      self.stateChoosing(self);
+    }
+    // clearTimeout(this.drawCardsTimeout);
+    // this.sendUpdate();
+  }
+
+  changeCards(self) {
+    self.state = 'waiting for czar to draw cards';
+    self.table = [];
+    if (self.czar >= self.players.length - 1) {
+      self.czar = 0;
+    } else {
+      self.czar += 1;
+    }
+    self.sendUpdate();
+
+    self.changeCzarTimeout = setTimeout(() => {
+      // self.stateChoosing(self);
+    }, self.timeLimits.stateOfCzar * 1000);
   }
 
   setRegion(region) {

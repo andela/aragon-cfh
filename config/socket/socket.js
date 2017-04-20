@@ -2,21 +2,33 @@ const Game = require('./game');
 const Player = require('./player');
 require('console-stamp')(console, 'mm/dd HH:MM:ss');
 const mongoose = require('mongoose');
+const firebase = require('firebase');
 
 const User = mongoose.model('User');
+
+// firebase details
+const config = {
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+};
+firebase.initializeApp(config);
+const database = firebase.database();
 
 const avatars = require('../../app/controllers/avatars.js').all();
 // Valid characters to use to generate random private game IDs
 const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
 
-module.exports = function appSocket(io) {
-  // var game;
+module.exports = (io) => {
+  let chatMessages = [];
   const allGames = {};
   const allPlayers = {};
   const gamesNeedingPlayers = [];
   let gameID = 0;
 
-  const fireGame = function fireGame(player, socket) {
+  const fireGame = (player, socket) => {
     let game;
     if (gamesNeedingPlayers.length <= 0) {
       gameID += 1;
@@ -50,7 +62,7 @@ module.exports = function appSocket(io) {
     }
   };
 
-  const createGameWithFriends = function createGameWithFriends(player, socket) {
+  const createGameWithFriends = (player, socket) => {
     let isUniqueRoom = false;
     let uniqueRoom = '';
     // Generate a random 6-character game ID
@@ -75,7 +87,7 @@ module.exports = function appSocket(io) {
     game.sendUpdate();
   };
 
-  const getGame = function getGame(player, socket, requestedGameId, createPrivate) {
+  const getGame = (player, socket, requestedGameId, createPrivate) => {
     requestedGameId = requestedGameId || '';
     createPrivate = createPrivate || false;
     console.log(`${socket.id} is requesting room ${requestedGameId}`);
@@ -118,7 +130,7 @@ module.exports = function appSocket(io) {
     }
   };
 
-  const joinGame = function joinGame(socket, data) {
+  const joinGame = (socket, data) => {
     const player = new Player(socket);
     data = data || {};
     player.userID = data.userID || 'unauthenticated';
@@ -149,7 +161,7 @@ module.exports = function appSocket(io) {
     }
   };
 
-  const exitGame = function exitGame(socket) {
+  const exitGame = (socket) => {
     console.log(`${socket.id} has disconnected`);
     if (allGames[socket.gameID]) { // Make sure game exists
       const game = allGames[socket.gameID];
@@ -168,21 +180,35 @@ module.exports = function appSocket(io) {
         }
         game.killGame();
         delete allGames[socket.gameID];
+        chatMessages = [];
+      }
+      if (game.players.length === 1) {
+        chatMessages = [];
+        game.sendUpdate();
       }
     }
     socket.leave(socket.gameID);
   };
 
   io.sockets.on('connection', (socket) => {
-    console.log(`${socket.id} connected`);
+    console.log(`${socket.id} Connected`);
     socket.emit('id', { id: socket.id });
+    // initialize chat when a new socket is connected
+    socket.emit('initializeChat', chatMessages);
+
+    // send recieved chat message to all connected sockets
+    socket.on('chat message', (chat) => {
+      allGames[socket.gameID].players.forEach(player => player.socket.emit('chat message', chat));
+      chatMessages.push(chat);
+      database.ref(`chat/${gameID}`).set(chatMessages);
+    });
 
     socket.on('pickCards', (data) => {
-      console.log(`${socket.id} picked ${data}`);
+      console.log(socket.id, 'picked', data);
       if (allGames[socket.gameID]) {
         allGames[socket.gameID].pickCards(data.cards, socket.id);
       } else {
-        console.log(`Received pickCard from ${socket.id} but game does not appear to exist!`);
+        console.log('Received pickCard from', socket.id, 'but game does not appear to exist!');
       }
     });
 
@@ -238,6 +264,10 @@ module.exports = function appSocket(io) {
     socket.on('disconnect', () => {
       console.log(`Rooms on Disconnect: ${io.sockets.adapter.rooms}`);
       exitGame(socket);
+    });
+
+    socket.on('drawCard', () => {
+      allGames[socket.gameID].drawCard(allGames[socket.gameID]);
     });
   });
 };
