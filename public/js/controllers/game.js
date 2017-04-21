@@ -31,45 +31,11 @@ angular.module('mean.system')
     }
   };
 
-  $scope.getGameLogs = () => {
-    const userName = window.user.name;
-    $http.get('/api/games/history', { params: { name: userName } })
-        .success((response) => {
-          const userGameLog = response.filter((gameResult) => {
-            if (gameResult.players.indexOf(window.user.name) !== -1) {
-              return gameResult;
-            }
-          });
-          $scope.logs = userGameLog;
-        }, err => console.log(err));
-  };
-
-  $scope.getLeaderBoard = () => {
-    const userName = window.user.name;
-    $http.get('/api/games/leaderboard', { params: { name: userName } })
-        .success((response) => {
-          $scope.boards = response;
-        }, err => console.log(err));
-  };
-
-  $scope.getdonations = () => {
-    const userName = window.user.name;
-    $http.get('/api/games/donations', { params: { name: userName } })
-        .success((response) => {
-          $scope.test = response[0].name;
-          $scope.amount = response[0].donations.length;
-          $scope.donations = response;
-        }, err => console.log(err));
-  };
-
   if (window.user) {
     $scope.isSignedIn = true;
     if (window.user.hideTour) {
       $scope.hideTour = true;
     }
-    $scope.getGameLogs();
-    $scope.getLeaderBoard();
-    $scope.getdonations();
   }
 
   if ($scope.hideTour) {
@@ -204,6 +170,55 @@ angular.module('mean.system')
 
   $scope.appInvite = () => {
 
+  };
+
+  $scope.addFriend = (email) => {
+    $http.post('/api/user/addfriend', {
+      userId: window.user._id,
+      friendEmail: email
+    }).then((res) => {
+      console.log('response', res);
+      if (res.status === 201) {
+        window.user = res.data;
+        console.log('Friend Added');
+      } else if (res.status === 204) {
+        console.log('Friend Already Exists');
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  };
+
+  $scope.removeFriend = (email) => {
+    $http.post('/api/user/removefriend', {
+      userId: window.user._id,
+      friendEmail: email
+    }).then((res) => {
+      console.log('response', res);
+      if (res.status === 201) {
+        window.user = res.data;
+        console.log('Friend removed');
+      } else if (res.status === 204) {
+        console.log('Friend does not exist');
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  };
+
+  $scope.isFriend = (email) => {
+    let status;
+    if (window.user.friends) {
+      if (window.user.friends.indexOf(email) > -1) {
+        status = true;
+      } else {
+        status = false;
+      }
+    } else {
+      status = false;
+    }
+
+    return status;
   };
 
   $scope.emailInvite = () => {

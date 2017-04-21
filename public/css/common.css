@@ -98,7 +98,7 @@ body {
       background: #333333; }
       .app-modal .modal-dialog .modal-content .modal-body {
         border-radius: 8px;
-        padding: 2%; }
+        padding: inherit; }
         .app-modal .modal-dialog .modal-content .modal-body .card {
           background: white;
           border-color: #FED136;
@@ -122,6 +122,7 @@ body {
   float: right; }
 
 .btn-m {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   border-radius: 8px;
   font-size: 20px 1.25rem;
   font-weight: 400;

@@ -435,7 +435,7 @@ body{
       background: #333333;
       .modal-body {
         border-radius: 8px;
-        padding: 2%;
+        padding: inherit;
         .card {
           background: white;
           border-color: #FED136;
@@ -468,15 +468,16 @@ body{
 }
 
 .btn-m {
-  border-radius: 8px;
-  font-size: 20px 1.25rem;
-  font-weight: 400;
-  color: #ffffff;
-  background: #fed136;
-  padding: 0.65em 20px;
-  margin: 10px;
-  cursor: pointer;
-  text-transform: uppercase;
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 8px;
+    font-size: 20px 1.25rem;
+    font-weight: 400;
+    color: #ffffff;
+    background: #fed136;
+    padding: 0.65em 20px;
+    margin: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
 
   @include tablet-portrait-only {
     font-size: 1.1rem;
