@@ -1,10 +1,11 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', 'region', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, region, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
+.controller('GameController', ['$scope', 'game', 'region', 'User', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', '$rootScope', '$http', function ($scope, game, region, User, $timeout, $location, MakeAWishFactsService, $dialog, $rootScope, $http) {
   $scope.hasPickedCards = false;
   $scope.winningCardPicked = false;
   $scope.showTable = false;
   $scope.modalShown = false;
   $scope.game = game;
+  $scope.User = User;
   $scope.pickedCards = [];
   let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
   $scope.makeAWishFact = makeAWishFacts.pop();
@@ -157,87 +158,60 @@ angular.module('mean.system')
     $location.path('/');
   };
 
-  $scope.searchUsers = () => {
-    $http.get(`/api/search/users?name=${$scope.searchName}`)
-        .then((res) => {
-          if (res.status === 200) {
-            $scope.userSearchResults = res.data;
+  $scope.searchUsers = (name) => {
+    $scope.User.searchUsers(name)
+    .then((results) => {
+      $scope.userSearchResults = results;
+    }, (err) => {
+      console.log(err);
+    });
+  };
+
+  $scope.appInvite = (selectedFriends) => {
+    $('.invite-sent').html('');
+    if (Array.isArray(selectedFriends) && selectedFriends.length > 0) {
+      selectedFriends.forEach((friendEmail) => {
+        User.appInvite({
+          email: friendEmail,
+          name: window.user.name || 'Guest',
+          gameURL: document.URL
+        }).then((isOnline) => {
+          if (isOnline) {
+            $('.invite-sent').html(`${$('.invite-sent').html()}Invite sent to ${User.getFriends()[friendEmail]}!<br>`);
+          } else {
+            User.emailInvite({
+              gameURL: document.URL,
+              inviteeEmail: friendEmail,
+              inviteeName: User.getFriends()[friendEmail],
+              inviterName: window.user.name || 'Guest'
+            }).then((successMessage) => {
+              $('.invite-sent').html(`${$('.invite-sent').html()}${successMessage}<br>`);
+            }, (errorMessage) => {
+              $('.invite-sent').html(`${$('.invite-sent').html()}${errorMessage}<br>`);
+            });
           }
-        }, (err) => {
-          console.log(err);
         });
-  };
-
-  $scope.appInvite = () => {
-
-  };
-
-  $scope.addFriend = (email) => {
-    $http.post('/api/user/addfriend', {
-      userId: window.user._id,
-      friendEmail: email
-    }).then((res) => {
-      console.log('response', res);
-      if (res.status === 201) {
-        window.user = res.data;
-        console.log('Friend Added');
-      } else if (res.status === 204) {
-        console.log('Friend Already Exists');
-      }
-    }, (err) => {
-      console.log(err);
-    });
-  };
-
-  $scope.removeFriend = (email) => {
-    $http.post('/api/user/removefriend', {
-      userId: window.user._id,
-      friendEmail: email
-    }).then((res) => {
-      console.log('response', res);
-      if (res.status === 201) {
-        window.user = res.data;
-        console.log('Friend removed');
-      } else if (res.status === 204) {
-        console.log('Friend does not exist');
-      }
-    }, (err) => {
-      console.log(err);
-    });
-  };
-
-  $scope.isFriend = (email) => {
-    let status;
-    if (window.user.friends) {
-      if (window.user.friends.indexOf(email) > -1) {
-        status = true;
-      } else {
-        status = false;
-      }
-    } else {
-      status = false;
-    }
-
-    return status;
-  };
-
-  $scope.emailInvite = () => {
-    $scope.emailSent = null;
-    if ($scope.invitee.name && $scope.invitee.email) {
-      $http.post('/api/invite/email', {
-        gameURL: $scope.gameURL,
-        inviteeEmail: $scope.invitee.email,
-        inviteeName: $scope.invitee.name,
-        inviterName: window.user.name || 'Guest'
-      }).then((res) => {
-        if (res.status === 200) {
-          $timeout(() => {
-            $scope.emailSent = res.data.message;
-          }, 200);
-        }
-      }, (err) => {
-        console.log(err);
       });
+    } else {
+      $('.invite-sent').html('Please select at least one friend to invite');
+    }
+  };
+
+  $scope.emailInvite = (inviteeEmail, inviteeName) => {
+    $scope.emailSent = '';
+    if (inviteeEmail && inviteeName && User.isValidEmail(inviteeEmail)) {
+      User.emailInvite({
+        gameURL: document.URL,
+        inviteeEmail,
+        inviteeName,
+        inviterName: window.user.name || 'Guest'
+      }).then((successMessage) => {
+        $scope.emailSent = successMessage;
+      }, (errorMessage) => {
+        $scope.emailSent = errorMessage;
+      });
+    } else {
+      $scope.emailSent = 'Please provide a name and valid email';
     }
   };
 

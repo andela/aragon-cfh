@@ -25,8 +25,88 @@ module.exports = (io) => {
   let chatMessages = [];
   const allGames = {};
   const allPlayers = {};
+  const onlineUsers = {};
+  const userStatuses = {};
   const gamesNeedingPlayers = [];
+  const invites = {};
   let gameID = 0;
+
+  const setUserStatus = (email, id, status) => {
+    userStatuses[email] = { id, status };
+  };
+
+  const getUserStatus = (email) => {
+    if (userStatuses[email]) {
+      return userStatuses[email].status;
+    }
+    return 'offline';
+  };
+
+  const getUserStatuses = (emails) => {
+    const statuses = {};
+    emails.forEach((email) => {
+      statuses[email] = getUserStatus(email);
+    });
+    return statuses;
+  };
+
+  const addUser = (socket, data) => {
+    onlineUsers[socket.id] = data.email;
+    setUserStatus(data.email, socket.id, 'online');
+  };
+
+  const addPlayer = (socket) => {
+    if (onlineUsers[socket.id]) {
+      setUserStatus(onlineUsers[socket.id], socket.id, 'playing');
+      console.log(onlineUsers);
+      console.log(userStatuses);
+    }
+  };
+
+  const removePlayer = (socket) => {
+    if (onlineUsers[socket.id]) {
+      setUserStatus(onlineUsers[socket.id], socket.id, 'online');
+    }
+  };
+
+  const removeUser = (socket) => {
+    if (onlineUsers[socket.id]) {
+      setUserStatus(onlineUsers[socket.id], null, 'offline');
+      delete onlineUsers[socket.id];
+    }
+  };
+
+  const sendInvite = (data) => {
+    if (getUserStatus(data.email) !== 'offline') {
+      if (!invites[data.email]) {
+        invites[data.email] = [];
+      }
+      invites[data.email].unshift({
+        inviter: data.name,
+        game: data.gameURL
+      });
+      // database.ref(`invites/${data.email.replace(/\./g, '%2E')}`).set(invites[data.email]);
+      io.to(userStatuses[data.email].id).emit('receiveInvite', invites[data.email]);
+      return { success: true };
+    }
+    return { success: false };
+  };
+
+  const getInvites = (data) => {
+    if (invites[data.email]) {
+      return {
+        success: true,
+        invites: invites[data.email]
+      };
+    }
+    return { success: false };
+  };
+
+  const removeInvites = (data) => {
+    if (invites[data.email]) {
+      delete invites[data.email];
+    }
+  };
 
   const fireGame = (player, socket) => {
     let game;
@@ -41,6 +121,7 @@ module.exports = (io) => {
       socket.join(game.gameID);
       socket.gameID = game.gameID;
       console.log(`${socket.id} has joined newly created game ${game.gameID}`);
+      addPlayer(socket);
       game.assignPlayerColors();
       game.assignGuestNames();
       game.sendUpdate();
@@ -51,6 +132,7 @@ module.exports = (io) => {
       console.log(`${socket.id} has joined game ${game.gameID}`);
       socket.join(game.gameID);
       socket.gameID = game.gameID;
+      addPlayer(socket);
       game.assignPlayerColors();
       game.assignGuestNames();
       game.sendUpdate();
@@ -82,6 +164,7 @@ module.exports = (io) => {
     allGames[uniqueRoom] = game;
     socket.join(game.gameID);
     socket.gameID = game.gameID;
+    addPlayer(socket);
     game.assignPlayerColors();
     game.assignGuestNames();
     game.sendUpdate();
@@ -115,6 +198,7 @@ module.exports = (io) => {
           gamesNeedingPlayers.shift();
           game.state = 'waiting to start';
         }
+        addPlayer(socket);
       } else {
         io.to(player.socket.id).emit('alert',
           `Sorry, game ${game.gameID} already has ${game.playerMaxLimit} players.`);
@@ -259,15 +343,53 @@ module.exports = (io) => {
 
     socket.on('leaveGame', () => {
       exitGame(socket);
+      removePlayer(socket);
+      console.log(onlineUsers);
+      console.log(userStatuses);
     });
 
     socket.on('disconnect', () => {
       console.log(`Rooms on Disconnect: ${io.sockets.adapter.rooms}`);
       exitGame(socket);
+      removeUser(socket);
+      console.log(onlineUsers);
+      console.log(userStatuses);
     });
 
     socket.on('drawCard', () => {
       allGames[socket.gameID].drawCard(allGames[socket.gameID]);
+    });
+
+    socket.on('login', (data) => {
+      addUser(socket, data);
+      console.log(onlineUsers);
+      console.log(userStatuses);
+    });
+
+    socket.on('logout', () => {
+      removeUser(socket);
+      console.log(onlineUsers);
+      console.log(userStatuses);
+    });
+
+    socket.on('getStatus', (data, fn) => {
+      fn(getUserStatus(data.email));
+    });
+
+    socket.on('getStatuses', (data, fn) => {
+      fn(getUserStatuses(data));
+    });
+
+    socket.on('sendInvite', (data, fn) => {
+      fn(sendInvite(data));
+    });
+
+    socket.on('getInvites', (data, fn) => {
+      fn(getInvites(data));
+    });
+
+    socket.on('readInvites', (data) => {
+      removeInvites(data);
     });
   });
 };

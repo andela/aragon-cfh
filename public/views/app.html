@@ -16,6 +16,19 @@
                   <li class="hidden">
                       <a href="#page-top"></a>
                   </li>
+                  <li ng-hide="showOptions" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" ng-click="readInvites()"><i class="fa fa-bell fa-2x"></i><span class="badge" ng-show="hasInvites">{{ invites.length }}</span></a>
+                    <ul class="invite-list dropdown-menu dropdown-menu-right">
+                      <div ng-hide="invites && invites.length > 0">
+                        <li id="finding-players"><a>You have no notifications</a></li>
+                      </div>
+                      <div ng-show="invites && invites.length > 0" ng-repeat="invite in invites">
+                        <li id="finding-players" ng-click="acceptInvite($index)">
+                          <a href="{{ invite.game }}">You've been invited to play a game with {{ invite.inviter }}!</a>
+                        </li>
+                      </div>
+                    </ul>
+                  </li>
                   <li><a href="/#!/dashboard">Dashboard</a></li>
                   <li ng-hide="showOptions"><a href="#" data-toggle="modal" data-target="#invite-modal" ng-show="game.playerIndex === 0 && isSignedIn">Invite Players</a></li>
                   <li ng-hide="showOptions">

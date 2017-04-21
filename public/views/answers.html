@@ -148,7 +148,7 @@
 
   </div>
 </div>
-<div id="invite-modal" class="modal fade app-modal" role="dialog">
+<div id="invite-modal" ng-if="!showOptions" class="modal fade app-modal" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
@@ -163,37 +163,38 @@
           <h5 id="finding-players">Share this link with your friends so they can join the game!</h5>
 
           <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#app-invite"><h6 id="finding-players">Search for users</h6></a></li>
+            <li class="active"><a data-toggle="tab" href="#app-invite"><h6 id="finding-players">Invite Friends</h6></a></li>
             <li><a data-toggle="tab" href="#email-invite"><h6 id="finding-players">Email a friend</h6></a></li>
           </ul>
 
           <div class="tab-content">
             <div id="app-invite" class="tab-pane fade in active">
-              <h6 id="finding-players">Enter the name of a user to search for:</h6>
-              <div class="row">
-                <div class="col-sm-8 col-sm-offset-2 input-group">
-                  <input class="form-control" type="search" id="user-search" ng-model="searchName" placeholder="Name" ng-keyup="searchUsers()">
-                  <span class="input-group-addon" ng-click="searchUsers()">Search</span>
-                </div>
-              </div>
-              <div ng-show="userSearchResults" class="padding-10">
-                <div ng-repeat="user in userSearchResults" class="row">
-                  <div class="col-sm-8 col-sm-offset-2">
-                    <div class="checkbox">
-                      <label><input type="checkbox" value="">{{ user.name }} ({{ user.email }})</label><br>
-                      <span ng-if="!isFriend(user.email)">
-                        <a class="text-success btn" href="" ng-click="addFriend(user.email)">Add Friend <i class="fa fa-plus"></i></a>
-                      </span>
-                      <span ng-if="isFriend(user.email)">
-                        <a class="text-danger btn" href="" ng-click="removeFriend(user.email)">Remove Friend <i class="fa fa-trash"></i></a>
-                      </span>
-                    </div>
-                  </div>
+              <h6 id="finding-players">Invite your friends!</h6>
+              <div class="row padding-10">
+                <div class="form-group center width-65">
+                  <select id="friend-select" class="form-control" ng-options="email as name for (email, name) in User.getFriends()" ng-model="selectedFriends" multiple></select>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-4 col-sm-offset-4">
-                  <div class="btn btn-m" ng-click="appInvite()">Send Invite</div>
+                  <div class="btn btn-m" ng-click="appInvite(selectedFriends)">Send Invite</div>
+                </div>
+              </div>
+              <div id="finding-players" class="text-center invite-sent"></div>
+              <div class="row padding-10">
+                <h6 id="finding-players" class="text-center">Add more friends!</h6>
+                <div class="col-sm-8 col-sm-offset-2 input-group">
+                  <input class="form-control" type="search" ng-model="searchName" placeholder="Name" ng-keyup="searchUsers(searchName)">
+                </div>
+                <div ng-show="userSearchResults" class="padding-10">
+                  <div ng-repeat="user in userSearchResults">
+                    <div ng-if="!User.isFriend(user.email)">
+                      <p id="finding-players">{{ user.name }} ({{ user.email }})</p>
+                      <span>
+                        <a class="text-success btn" href="" ng-click="User.addFriend(user.email, user.name)">Add Friend <i class="fa fa-plus"></i></a>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -201,15 +202,15 @@
               <h6 id="finding-players">Enter the name and email of a friend to be invited:</h6>
               <div class="row">
                 <div class="col-sm-5">
-                  <input class="form-control" type="text" ng-model="invitee.name" placeholder="Name" />
+                  <input class="form-control" type="text" ng-model="inviteeName" placeholder="Name" />
                 </div>
                 <div class="col-sm-7">
-                  <input class="form-control" type="text" ng-model="invitee.email" placeholder="Email" />
+                  <input id="search-email" class="form-control" type="text" ng-model="inviteeEmail" placeholder="Email" />
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-4 col-sm-offset-4">
-                  <div class="btn btn-m" ng-click="emailInvite()">Send Email</div>
+                  <div class="btn btn-m" ng-click="emailInvite(inviteeEmail, inviteeName)">Send Email</div>
                 </div>
               </div>
               <div id="finding-players" class="text-center" ng-show="emailSent">{{ emailSent }}</div>
