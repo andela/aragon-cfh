@@ -897,3 +897,9 @@ body {
 .color-yellow {
   color: #fed136;
 }
+.donation-notification {
+  text-transform: none;
+}
+.dashboard-nav {
+  color: black;
+}

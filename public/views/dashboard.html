@@ -1,39 +1,41 @@
 </script>
-<div id="app-container">
 
-  <!--  Navigation  -->
-  <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-          aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        <a class="navbar-brand" href="#"><img src="img/cfhlogo.png" alt=""></a>
+<div id="app-container" ng-controller="ReportController"  style="margin-top: 130px">
+  <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+      <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header page-scroll">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+              </button>
+              <a class="navbar-brand page-scroll" href="#page-top">Cards 4 humanity</a>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                  <li class="hidden">
+                      <a href="#page-top"></a>
+                  </li>
+                  <li><a href="/#!/dashboard">Dashboard</a></li>
+                  <li ng-hide="showOptions"><a href="#" data-toggle="modal" data-target="#invite-modal" ng-show="game.playerIndex === 0 && isSignedIn">Invite Players</a></li>
+                  <li ng-hide="showOptions">
+                    <a target="_blank" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A3000%2F&ref_src=twsrc%5Etfw&related=CFH_App&text=Cards%20for%20Humanity%3A%20A%20Game%20for%20Horrible%20People%20Desperately%20Trying%20to%20do%20Good&tw_p=tweetbutton&url=http%3A%2F%2Fcfh.io"><i class="fa fa-twitter fa-2x"></i></a>
+                  </li>
+                  <li id="abandon-game-button" ng-hide="showOptions"><a href="/" class="btn btn-xl" ng-click="abandonGame()">Abandon Game</a></li>
+              </ul>
+          </div>
+          <!-- /.navbar-collapse -->
       </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a id="startTour" href="javascript:void(0)">Tour</a></li>
-          <li><a href="https://twitter.com/intent/tweet?ref_src=twsrc%5Etfw&related=CFH_App&text=Cards%20for%20Humanity%3A%20A%20Game%20for%20Horrible%20People%20Desperately%20Trying%20to%20do%20Good&tw_p=tweetbutton&url=http%3A%2F%2Fcfh.io">Tweet</a></li>
-          <li><a id="abandon-game" href="#" ng-click="abandonGame()">Abandon Game</a></li>
-          <li><a target="_blank" href="https://www.crowdrise.com/fundraise-and-volunteer/donate-mobile/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Flocalhost%3A5000%2F%23!%2F&stylesheet=&amounts="
-              class="btn-donate">Donate</a></li>
-        </ul>
-      </div>
-    </div>
+      <!-- /.container-fluid -->
   </nav>
 
-
-  <div class="container" ng-controller="ReportController">
+  <div class="container">
     <div class="tabs">
-      <h3 style="margin-bottom:'100px';"><i class="fa fa-dashboard"></i> My Dashboard</h3>
-      <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:void(0)#Game" data-toggle="tab">Game Log</a></li>
-        <li><a href="javascript:void(0)#Leaderboard" data-toggle="tab">Leaderboard</a></li>
-        <li><a href="javascript:void(0)#Donations" data-toggle="tab">Donations</a></li>
+      <h3 id="finding-players"><i class="fa fa-dashboard"></i> My Dashboard</h3>
+      <ul class="nav nav-tabs" id="finding-players">
+        <li class="active"><a class="dashboard-nav" href="javascript:void(0)#Game" data-toggle="tab">Game Log</a></li>
+        <li><a class="dashboard-nav" href="javascript:void(0)#Leaderboard" data-toggle="tab">Leaderboard</a></li>
+        <li><a class="dashboard-nav" href="javascript:void(0)#Donations" data-toggle="tab">Donations</a></li>
       </ul>
       <br>
     </div>
@@ -82,7 +84,7 @@
         </table>
       </div>
       <div class="tab-pane" id="Donations">
-            <h1> Hi {{ test }} you have ${{ amount }} donations </h1>
+            <h3 class="donation-notification" id="finding-players"> Hi {{ test }}, you have ${{ amount }} donations </h3>
       </div>
     </div>
   </div>
