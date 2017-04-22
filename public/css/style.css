@@ -121,8 +121,9 @@
 
 .sign-error {
    text-align: center;
-   color: white;
+   color: #DF4A32;
    font-family: arial;
+   font-size: 18px;
    margin-bottom: -13px;
 }
 
