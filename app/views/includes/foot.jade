@@ -1,8 +1,9 @@
 div.modal.fade.app-modal#popup-modal(role="dialog")
-      div.modal-dialog.modal-sm
+      div.modal-dialog
             div.modal-content
                   div.modal-body
                         div.card
+                              button.close(type="button", data-dismiss="modal")&times;
                               {{ popupMessage }}
 
 script.
@@ -47,6 +48,7 @@ script(type='text/javascript', src='/js/services/region.js')
 script(type='text/javascript', src='/js/controllers/index.js')
 script(type='text/javascript', src='/js/controllers/header.js')
 script(type='text/javascript', src='/js/controllers/game.js')
+script(type='text/javascript', src='/js/controllers/report.js')
 script(type='text/javascript', src='/js/controllers/tour.js')
 script(type='text/javascript', src='/js/init.js')
 
