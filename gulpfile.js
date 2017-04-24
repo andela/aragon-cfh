@@ -49,7 +49,7 @@ gulp.task('nodemon', () => {
 
 gulp.task('serve', ['nodemon'], () => {
   browserSync({
-    proxy: 'localhost:4000',
+    proxy: 'localhost:5000',
     files: ['public/**/*.*'],
     port: 5000,
     open: false,

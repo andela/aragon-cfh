@@ -33,6 +33,19 @@ $(document).ready(function() {
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
+                    <li ng-hide="showOptions" class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown" ng-click="readInvites()"><i class="fa fa-bell fa-2x"></i><span class="badge" ng-show="hasInvites">{{ invites.length }}</span></a>
+                      <ul class="invite-list dropdown-menu dropdown-menu-right">
+                        <div ng-hide="invites && invites.length > 0">
+                          <li id="finding-players"><a>You have no notifications</a></li>
+                        </div>
+                        <div ng-show="invites && invites.length > 0" ng-repeat="invite in invites">
+                          <li id="finding-players" ng-click="acceptInvite($index)">
+                            <a href="{{ invite.game }}">You've been invited to play a game with {{ invite.inviter }}!</a>
+                          </li>
+                        </div>
+                      </ul>
+                    </li>
                     <li>
                         <a class="page-scroll" onclick="scrollToWhat()" id="what-btn" href="#!what">What?</a>
                     </li>
@@ -48,20 +61,7 @@ $(document).ready(function() {
                     <li ng-show="showOptions">
                         <a href="#!/signin">Sign In</a>
                     </li>
-                    <li ng-hide="showOptions" class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" ng-click="readInvites()"><i class="fa fa-bell fa-2x"></i><span class="badge" ng-show="hasInvites">{{ invites.length }}</span></a>
-                      <ul class="invite-list dropdown-menu dropdown-menu-right">
-                        <div ng-hide="invites && invites.length > 0">
-                          <li id="finding-players"><a>You have no notifications</a></li>
-                        </div>
-                        <div ng-show="invites && invites.length > 0" ng-repeat="invite in invites">
-                          <li id="finding-players" ng-click="acceptInvite($index)">
-                            <a href="{{ invite.game }}">You've been invited to play a game with {{ invite.inviter }}!</a>
-                          </li>
-                        </div>
-                      </ul>
-                    </li>
-                    <li ng-hide="showOptions"><a href="#" data-toggle="modal" data-target="#friends-modal">Friends</a></li>
+                    <!--<li ng-hide="showOptions"><a href="#" data-toggle="modal" data-target="#friends-modal">Friends</a></li>-->
                     <li ng-hide="showOptions"><a class="pointer" ng-click="logout()">Sign Out</a></li>
                     <li>
                         <a href="https://www.crowdrise.com/fundraise-and-volunteer/donate-mobile/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Faragon-cfh-staging.herokuapp.com%2F%23!%2F&stylesheet=&amounts=" class="page-scroll btn btn-xl">Donate Now</a>

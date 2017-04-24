@@ -36,10 +36,11 @@
           <h3 class="text-center white" id="finding-players">Sign up with email:</h3>
             <div class="sign-body">
             <div class="more-sign">
+              <div class="text-danger sign-error">
+                <strong>{{errorMsg}}</strong>
+              </div>
               <form class="signup form-horizontal"  method="post">
                 <div class="control-group">
-                  <br>
-                  <p style="color: darkred">{{errorMsg}}</p>
                   <label for="name" class="control-label"></label>
                   <div class="controls">
                     <input class="input-info" id="name" type="text" name="name" placeholder="Full name" ng-model="fullname" required novalidate />
