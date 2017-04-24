@@ -141,7 +141,6 @@ class Game {
     console.log(this.gameID, this.state);
     this.shuffleCards(this.questions);
     this.shuffleCards(this.answers);
-    this.stateChoosing(this);
     this.changeCards(this);
   }
 

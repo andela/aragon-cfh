@@ -20,7 +20,7 @@
     }
      .aaa{
       padding-top: 20px;
-      margin: 40px auto;
+      margin: 70px auto;
       position: relative;
       width: 550px;
       height: 780px;
@@ -116,19 +116,18 @@
   width: 20px;
   top: 2px;
 }
-.social-login a:first-child{
-  background-color: #49639F;
+.fa-facebook{
+  color: #49639F;
 }
 
-.social-login a.github {
-  background: purple;
-  display:inline-block;
+.fa-github {
+  color: grey;
 }
-.social-login .twitter-button {
-  background-color: #55acee;
+.fa-twitter {
+  color: #55acee;
 }
-.social-login a:last-child{
-  background-color: #DF4A32;
+.fa-google-plus{
+  color: #DF4A32;
 }  
 .facebook-div{
   background-color: #49639F;
@@ -146,4 +145,10 @@
 }
 .modal-body{
   background-color: lightgoldenrodyellow;
+}
+.space {
+  padding-right: 20px;
+}
+.white {
+  color: white;
 }
