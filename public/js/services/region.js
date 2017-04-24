@@ -245,7 +245,6 @@ angular.module('mean.system')
       new Promise((resolve) => {
         $http.get('http://freegeoip.net/json/')
         .then((res) => {
-          console.log(res.data.country_name);
           if (Object.prototype.hasOwnProperty.call(countries, res.data.country_name)) {
             switch (countries[res.data.country_name]) {
               case 'asi':

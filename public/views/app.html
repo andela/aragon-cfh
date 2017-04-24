@@ -16,7 +16,20 @@
                   <li class="hidden">
                       <a href="#page-top"></a>
                   </li>
-                  <li><a href="/#!/dashboard">Dashboard</a></li>
+                  <li ng-hide="showOptions" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" ng-click="readInvites()"><i class="fa fa-bell fa-2x"></i><span class="badge" ng-show="hasInvites">{{ invites.length }}</span></a>
+                    <ul class="invite-list dropdown-menu dropdown-menu-right">
+                      <div ng-hide="invites && invites.length > 0">
+                        <li id="finding-players"><a>You have no notifications</a></li>
+                      </div>
+                      <div ng-show="invites && invites.length > 0" ng-repeat="invite in invites">
+                        <li id="finding-players" ng-click="acceptInvite($index)">
+                          <a href="{{ invite.game }}">You've been invited to play a game with {{ invite.inviter }}!</a>
+                        </li>
+                      </div>
+                    </ul>
+                  </li>
+                  <li><a target="_blank" href="/#!/dashboard">Dashboard</a></li>
                   <li ng-hide="showOptions"><a href="#" data-toggle="modal" data-target="#invite-modal" ng-show="game.playerIndex === 0 && isSignedIn">Invite Players</a></li>
                   <li ng-hide="showOptions">
                     <a target="_blank" href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A3000%2F&ref_src=twsrc%5Etfw&related=CFH_App&text=Cards%20for%20Humanity%3A%20A%20Game%20for%20Horrible%20People%20Desperately%20Trying%20to%20do%20Good&tw_p=tweetbutton&url=http%3A%2F%2Fcfh.io"><i class="fa fa-twitter fa-2x"></i></a>
@@ -50,7 +63,7 @@
     <answers></answers>
   </div>
   <!--  ChatBox  -->
-  <div class="chatbox">
+  <div id="chatbox" class="chatbox">
     <div class="chat-header">
       <h3><i class="fa fa-circle" id="chatNotification"></i>ChatBox</h3>
       <fa class="fa-chevron-down fa" id="endChat"></fa>

@@ -48,7 +48,21 @@ $(document).ready(function() {
                     <li ng-show="showOptions">
                         <a href="#!/signin">Sign In</a>
                     </li>
-                    <li ng-hide="showOptions"><a href="/signout" ng-click="logout()">Sign Out</a></li>
+                    <li ng-hide="showOptions" class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown" ng-click="readInvites()"><i class="fa fa-bell fa-2x"></i><span class="badge" ng-show="hasInvites">{{ invites.length }}</span></a>
+                      <ul class="invite-list dropdown-menu dropdown-menu-right">
+                        <div ng-hide="invites && invites.length > 0">
+                          <li id="finding-players"><a>You have no notifications</a></li>
+                        </div>
+                        <div ng-show="invites && invites.length > 0" ng-repeat="invite in invites">
+                          <li id="finding-players" ng-click="acceptInvite($index)">
+                            <a href="{{ invite.game }}">You've been invited to play a game with {{ invite.inviter }}!</a>
+                          </li>
+                        </div>
+                      </ul>
+                    </li>
+                    <li ng-hide="showOptions"><a href="#" data-toggle="modal" data-target="#friends-modal">Friends</a></li>
+                    <li ng-hide="showOptions"><a class="pointer" ng-click="logout()">Sign Out</a></li>
                     <li>
                         <a href="https://www.crowdrise.com/fundraise-and-volunteer/donate-mobile/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Faragon-cfh-staging.herokuapp.com%2F%23!%2F&stylesheet=&amounts=" class="page-scroll btn btn-xl">Donate Now</a>
                     </li>
@@ -67,13 +81,13 @@ $(document).ready(function() {
               <div class="intro-lead-in">A Game For Horrible People</div>
               <div class="intro-heading">Desparately trying to do GOOD!!</div>
               <span ng-hide="showOptions">
-                <a href="/play" class="btn btn-xl">Play Game with Strangers</a>
-                <a href="/play?custom" class="btn btn-xl">Play Game with Friends</a>
+                <a href="#!/play" class="btn btn-xl">Play Game with Strangers</a>
+                <a href="#!/play?custom" class="btn btn-xl">Play Game with Friends</a>
               </span>
               <span id='send-link' ng-show="showOptions"> *To send a private link to your friends, sign up! </span>
               <span ng-show="showOptions">
                 <a href="#!/signup" class="btn btn-xl">Sign Up</a>
-                <a href="/play" class="btn btn-xl">Play as Guest</a>
+                <a href="#!/play" class="btn btn-xl">Play as Guest</a>
             </span>
           </div>
       </div>
@@ -81,7 +95,56 @@ $(document).ready(function() {
         <!--<div class="col-md-12" id="avatars" ng-controller="IndexController">
           <img ng-repeat="avatar in avatars" ng-src="{{avatar}}" id="avatar-face">
         </div>-->
-
+  <!-- Friends modal -->
+  <div id="friends-modal" ng-if="!showOptions" class="modal fade app-modal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="card text-center">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="padding-10">
+              <h4 id="finding-players" class="text-center">{{ global.user.name }}'s Friends</h4>
+              <div class="row padding-10">
+                <div class="col-sm-5">
+                  <div ng-hide="User.hasFriends()" style="margin-top:50px">
+                    <h5 id="finding-players">You have no friends :(</h5>
+                    <h6 id="finding-players">Add some from the panel to the right!</h6>
+                  </div>
+                  <div ng-show="User.hasFriends()">
+                    <div ng-repeat="(friendEmail, friendName) in User.getFriends()">
+                      <p id="finding-players">{{ friendName }} ({{ friendEmail }})</p>
+                      <span>
+                        <a class="text-danger btn" href="" ng-click="User.removeFriend(friendEmail)">Remove Friend <i class="fa fa-trash"></i></a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-7">
+                  <h5 id="finding-players">Search registered users for your friends!</h5>
+                  <h6 id="finding-players">Type in a name to search</h6>
+                  <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 input-group">
+                      <input class="form-control" type="search" ng-model="searchName" placeholder="Name" ng-keyup="searchUsers(searchName)">
+                    </div>
+                  </div>
+                  <div ng-show="userSearchResults" class="padding-10">
+                    <div ng-repeat="user in userSearchResults">
+                      <div ng-if="!User.isFriend(user.email)">
+                        <p id="finding-players">{{ user.name }} ({{ user.email }})</p>
+                        <span>
+                          <a class="text-success btn" href="" ng-click="User.addFriend(user.email, user.name)">Add Friend <i class="fa fa-plus"></i></a>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- Landing End -->
 
@@ -213,4 +276,3 @@ $(document).ready(function() {
             </div>
         </div>
     </footer>
-</section>

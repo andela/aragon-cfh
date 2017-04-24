@@ -3,7 +3,11 @@ angular.module('mean.system')
     var _this = this;
     _this._data = {
         user: window.user,
-        authenticated: !! window.user
+        authenticated: !! window.user,
+        update: () => {
+          _this._data.user = window.user;
+          _this._data.authenticated = !! window.user;
+        }
     };
 
     return _this._data;

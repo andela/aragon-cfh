@@ -1,6 +1,6 @@
 angular.module('mean.system')
 .controller('ReportController', ['$scope', '$http', function ($scope, $http) {
-$scope.getGameLogs = () => {
+  $scope.getGameLogs = () => {
     const userName = window.user.name;
     $http.get('/api/games/history', { params: { name: userName } })
         .success((response) => {
