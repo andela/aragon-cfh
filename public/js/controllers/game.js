@@ -27,25 +27,24 @@ angular.module('mean.system')
     if ($scope.game.playerIndex === 0) {
       $scope.regions = region.regions;
       region.getSelectedRegion().then((selectedRegion) => {
-        $scope.selectedRegion = selectedRegion;
+        $rootScope.selectedRegion = selectedRegion;
       });
     }
   };
 
   if (window.user) {
     $scope.isSignedIn = true;
-    if (window.user.hideTour) {
-      $scope.hideTour = true;
-    }
   }
 
-  if ($scope.hideTour) {
-    $scope.goToGame().then(() => {
-      $scope.locateRegion();
-    });
+  if ($rootScope.hideTour) {
     $timeout(() => {
       $('#tour').remove();
     }, 200);
+  } else if (window.user && window.user.hideTour) {
+    $scope.goToGame().then(() => {
+      $rootScope.hideTour = true;
+      $scope.locateRegion();
+    });
   }
 
   $scope.pickCard = (card) => {
@@ -147,7 +146,7 @@ angular.module('mean.system')
   };
 
   $scope.modalContinue = () => {
-    game.setRegion($scope.selectedRegion).then(() => {
+    game.setRegion($rootScope.selectedRegion).then(() => {
       game.startGame();
     });
     angular.element('#modalShow').modal('hide');
@@ -174,7 +173,7 @@ angular.module('mean.system')
         User.appInvite({
           email: friendEmail,
           name: window.user.name || 'Guest',
-          gameURL: document.URL
+          gameURL: `#!/app?game=${game.gameID}`
         }).then((isOnline) => {
           if (isOnline) {
             $('.invite-sent').html(`${$('.invite-sent').html()}Invite sent to ${User.getFriends()[friendEmail]}!<br>`);

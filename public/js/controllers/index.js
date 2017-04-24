@@ -26,6 +26,7 @@ angular.module('mean.system')
           $window.localStorage.setItem('token', response.data.token);
           $window.user = response.data.user;
           window.localStorage.setItem('user', JSON.stringify(window.user));
+          $scope.global.update();
           $scope.User.addUser($window.user.email);
           $location.path('/');
         }
@@ -47,6 +48,7 @@ angular.module('mean.system')
           $window.localStorage.setItem('token', response.data.token);
           $window.user = response.data.user;
           window.localStorage.setItem('user', JSON.stringify(window.user));
+          $scope.global.update();
           $scope.User.addUser($window.user.email);
           $location.path('/');
         }
@@ -63,7 +65,7 @@ angular.module('mean.system')
           $window.localStorage.removeItem('user');
           $scope.User.removeUser();
           $window.user = null;
-          $scope.global.authenticated = false;
+          $scope.global.update();
           $scope.showOptions = true;
         }
       }, (err) => {
