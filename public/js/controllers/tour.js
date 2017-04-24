@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('TourController', ['$scope', '$timeout', '$location', '$http', function tourCtrl($scope, $timeout, $location, $http) {
+.controller('TourController', ['$scope', '$timeout', '$location', '$http', '$rootScope', function tourCtrl($scope, $timeout, $location, $http, $rootScope) {
   $scope.showStartGame = true;
   $scope.question = 'What am I giving up for Lent?';
   $scope.showQuestion = false;
@@ -20,6 +20,7 @@ angular.module('mean.system')
       }).then((res) => {
         if (res.status === 200) {
           window.user.hideTour = true;
+          $rootScope.hideTour = true;
           window.localStorage.setItem('user', JSON.stringify(window.user));
           $scope.$parent.goToGame().then(() => {
             $('#game-loading').remove();
@@ -30,7 +31,7 @@ angular.module('mean.system')
         console.log(err);
       });
     } else {
-      $scope.$parent.hideTour = true;
+      $rootScope.hideTour = true;
       $scope.$parent.goToGame().then(() => {
         $('#game-loading').remove();
         $scope.$parent.locateRegion();
@@ -243,7 +244,7 @@ angular.module('mean.system')
       }
     ]
   });
-  if (!$scope.$parent.hideTour) {
+  if (!$rootScope.hideTour) {
     $scope.tour.init();
     $scope.tour.start(true);
     $scope.tour.goTo(0);
