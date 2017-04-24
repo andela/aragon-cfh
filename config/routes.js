@@ -95,7 +95,6 @@ module.exports = (app, passport) => {
   app.get('/avatars', avatars.allJSON);
 
     // Home route
-  app.get('/play', index.play);
   app.get('/', index.render);
 
   // JWT API endpoint

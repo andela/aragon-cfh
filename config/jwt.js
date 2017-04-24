@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken'),
   expiryDate = 86400, // 24hours
   secret = process.env.SECRET,
   User = mongoose.model('User'),
+  _ = require('underscore'),
   avatars = require('../app/controllers/avatars').all();
 
 // routing process to authenticate users and generate token
@@ -31,7 +32,13 @@ exports.authToken = (req, res) => {
           expiresIn: expiryDate
         });
         // return the token as JSON
-        return res.json({ success: true, message: 'Signed up', id: req.user._id, token });
+        // return res.json({ success: true, message: 'Signed up', id: req.user._id, token });
+        return res.json({
+          success: true,
+          message: 'Signed in',
+          user: _.pick(existingUser, '_id', 'donations', 'email', 'friends', 'gameWins', 'hideTour', 'name', 'provider'),
+          token
+        });
       });
     }
   });
@@ -65,6 +72,7 @@ exports.checkToken = (req, res, next) => {
 };
 
 exports.create = (req, res) => {
+  console.log(req.body);
   if (!req.body.name || !req.body.email || !req.body.password) {
     return res.json({ success: false, message: 'Incomplete user details' });
   }
@@ -78,14 +86,23 @@ exports.create = (req, res) => {
       user.provider = 'jwt';
 
       user.save((err) => {
-        if (err) return res.json({ success: false, message: 'Unable to save' });
-
+        if (err) {
+          return res.json({ success: false, message: 'Unable to save' });
+        }
         req.logIn(user, (err) => {
-          if (err) return err;
+          if (err) {
+            return err;
+          }
           const token = jwt.sign(user, secret, {
             expiresIn: 86400
           });
-          return res.json({ success: true, message: 'Signed up', id: req.user._id, token });
+          // return res.json({ success: true, message: 'Signed up', id: req.user._id, token });
+          return res.json({
+            success: true,
+            message: 'Signed up',
+            user: _.pick(user, '_id', 'donations', 'email', 'friends', 'gameWins', 'hideTour', 'name', 'provider'),
+            token
+          });
         });
       });
     } else {

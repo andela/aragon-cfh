@@ -1,10 +1,11 @@
 angular.module('mean.system')
 
 .controller('IndexController', ['$scope', 'Global', '$http', '$location',
-  'socket', 'game', 'AvatarService', '$window',
-  ($scope, Global, $http, $location, socket, game, AvatarService, $window) => {
+  'socket', 'game', 'AvatarService', 'User', '$window',
+  ($scope, Global, $http, $location, socket, game, AvatarService, User, $window) => {
     $scope.global = Global;
     $scope.errorMsg = '';
+    $scope.User = User;
 
     if ($window.localStorage.getItem('token')) {
       $scope.global.authenticated = true;
@@ -23,11 +24,14 @@ angular.module('mean.system')
           $scope.errorMsg = response.data.message;
         } else {
           $window.localStorage.setItem('token', response.data.token);
-          $window.localStorage.setItem('id', response.data.id);
+          $window.user = response.data.user;
+          window.localStorage.setItem('user', JSON.stringify(window.user));
+          $scope.User.addUser($window.user.email);
           $location.path('/');
         }
       }, (err) => {
-        $scope.errorMsg = 'An error occured!!! '.concat(err.status);
+        $scope.errorMsg = `An error occured!!! ${err.status}`;
+        console.log(err);
       });
     };
 
@@ -41,18 +45,30 @@ angular.module('mean.system')
           $scope.showError = () => 'invalid';
         } else {
           $window.localStorage.setItem('token', response.data.token);
-          $window.localStorage.setItem('id', response.data.id);
+          $window.user = response.data.user;
+          window.localStorage.setItem('user', JSON.stringify(window.user));
+          $scope.User.addUser($window.user.email);
           $location.path('/');
         }
       }, (err) => {
-        $scope.errorMsg = 'An error occured!!! '.concat(err.status);
+        $scope.errorMsg = `An error occured!!! ${err.status}`;
+        console.log(err);
       });
     };
 
     $scope.logout = () => {
-      $window.localStorage.removeItem('token');
-      $window.localStorage.removeItem('id');
-      $window.user = null;
+      $http.get('/signout').then((res) => {
+        if (res.status === 200) {
+          $window.localStorage.removeItem('token');
+          $window.localStorage.removeItem('user');
+          $scope.User.removeUser();
+          $window.user = null;
+          $scope.global.authenticated = false;
+          $scope.showOptions = true;
+        }
+      }, (err) => {
+        console.log(err);
+      });
     };
 
     $scope.playAsGuest = () => {
@@ -65,6 +81,15 @@ angular.module('mean.system')
         return $location.search().error;
       }
       return false;
+    };
+
+    $scope.searchUsers = (name) => {
+      $scope.User.searchUsers(name)
+      .then((results) => {
+        $scope.userSearchResults = results;
+      }, (err) => {
+        console.log(err);
+      });
     };
 
     $scope.avatars = [];

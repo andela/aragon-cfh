@@ -2,33 +2,36 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
   .config(['$routeProvider',
     function ($routeProvider) {
       $routeProvider
-          .when('/', {
-            templateUrl: 'views/index.html'
-          })
-          .when('/app', {
-            templateUrl: '/views/app.html',
-          })
-          .when('/privacy', {
-            templateUrl: '/views/privacy.html',
-          })
-          .when('/bottom', {
-            templateUrl: '/views/bottom.html'
-          })
-          .when('/signin', {
-            templateUrl: '/views/signin.html'
-          })
-           .when('/dashboard', {
-             templateUrl: '/views/dashboard.html'
-           })
-          .when('/signup', {
-            templateUrl: '/views/signup.html'
-          })
-          .when('/choose-avatar', {
-            templateUrl: '/views/choose-avatar.html'
-          })
-          .otherwise({
-            redirectTo: '/'
-          });
+        .when('/', {
+          templateUrl: 'views/index.html'
+        })
+        .when('/app', {
+          templateUrl: '/views/app.html',
+        })
+        .when('/privacy', {
+          templateUrl: '/views/privacy.html',
+        })
+        .when('/bottom', {
+          templateUrl: '/views/bottom.html'
+        })
+        .when('/signin', {
+          templateUrl: '/views/signin.html'
+        })
+        .when('/dashboard', {
+          templateUrl: '/views/dashboard.html'
+        })
+        .when('/signup', {
+          templateUrl: '/views/signup.html'
+        })
+        .when('/choose-avatar', {
+          templateUrl: '/views/choose-avatar.html'
+        })
+        .when('/play', {
+          redirectTo: `/app${location.search}`
+        })
+        .otherwise({
+          redirectTo: '/'
+        });
     }
   ]).config(['$locationProvider',
     function ($locationProvider) {

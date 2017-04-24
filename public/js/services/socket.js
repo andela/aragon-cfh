@@ -1,7 +1,14 @@
 angular.module('mean.system')
 .factory('socket', ['$rootScope', function appSocket($rootScope) {
-  const socket = io.connect();
+  let socket;
+  // const socket = io.connect();
   return {
+    init: () => {
+      socket = io.connect();
+      if (window.user) {
+        socket.emit('login', { email: window.user.email });
+      }
+    },
     on: (eventName, callback) => {
       socket.on(eventName, (...args) => {
         // const args = arguments;

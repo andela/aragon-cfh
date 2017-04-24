@@ -20,6 +20,7 @@ angular.module('mean.system')
       }).then((res) => {
         if (res.status === 200) {
           window.user.hideTour = true;
+          window.localStorage.setItem('user', JSON.stringify(window.user));
           $scope.$parent.goToGame().then(() => {
             $('#game-loading').remove();
             $scope.$parent.locateRegion();
@@ -44,14 +45,16 @@ angular.module('mean.system')
     onEnd: () => {
       $scope.endTour();
     },
-    template: `<div class='popover tour center-block'>
+    template: `<div class='popover tour'>
       <div class='arrow'></div>
       <h3 id='finding-players' class='popover-title'></h3>
-      <div class='popover-content'></div>
-      <div id='tour-btn'>
-        <button class='btn btn-default' data-role='prev'>« Prev</button>
-        <button class='btn btn-default' data-role='next'>Next »</button>
-        <button class='btn btn-default' data-role='end'>End tour</button>
+      <div class='popover-content'></div> 
+      <div class="popover-navigation">
+        <div class='btn-group'>
+          <button class='btn btn-sm btn-default' data-role='prev'>« Prev</button>
+          <button class='btn btn-sm btn-default' data-role='next'>Next »</button>
+        </div>
+        <button class='btn btn-sm btn-default' data-role='end'>End tour</button>
       </div>
     </div>`,
     steps: [
@@ -184,6 +187,11 @@ angular.module('mean.system')
         placement: 'bottom',
         element: '#player-1',
         content: 'The person who played the winning card gains a point, and a new round with a new Czar begins.'
+      },
+      {
+        placement: 'top',
+        element: '#chatbox',
+        content: 'You can chat with other players in the game here.'
       },
       {
         placement: 'bottom',

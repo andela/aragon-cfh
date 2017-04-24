@@ -22,12 +22,15 @@ module.exports = (req, res) => {
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
-      console.log(err);
-      res.json(err);
+      res.json({
+        success: false,
+        message: `Error sending email to ${req.body.inviteeName}`
+      });
     } else {
-      console.log('Message sent: ' + info.response);
-      res.status(200).send({
-        message: `Email sent to ${mailOptions.to}!`,
+      console.log(`Message sent: ${info.response}`);
+      res.json({
+        success: true,
+        message: `Email sent to ${req.body.inviteeName}!`
       });
     }
   });

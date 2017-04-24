@@ -13,14 +13,12 @@ module.exports = (req, res) => {
       const users = [];
       results.forEach((result) => {
         users.push({
-          _id: result._id,
           name: result.name,
-          email: result.email,
-          donations: result.donations
+          email: result.email
         });
       });
       res.json(users);
-    }).limit(10);
+    }).limit(20);
   } else {
     res.status(403).send({
       error: 'Please log in to search users!'
