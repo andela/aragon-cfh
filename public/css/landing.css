@@ -803,7 +803,7 @@ body {
 
 .chatbox .chat-content {
   padding: 15px 5px;
-  max-height: 350px;
+  max-height: 200px;
   overflow: auto;
   display: none;
 }
